@@ -50,6 +50,10 @@ app.get("/home",(request,response,next)=>{
     response.render("home/home");
 });
 
+app.get("/nuevo_proyecto",(request,response,next)=>{
+    response.render("home/nuevo_proyecto");
+});
+
 app.get("/menu_proyecto",(request,response,next)=>{
     response.render("proyecto/menu_proyecto");
 });
