@@ -25,8 +25,9 @@ app.get("/home",(request,response,next)=>{
     response.render("home/home");
 });
 
-app.get("/reporte_riesgos",(request,response,next)=>{
-    response.render("reporte_riesgos/reporte_riesgos");
+
+app.get("/info_proyecto",(request,response,next)=>{
+    response.render("proyecto/info_proyecto");
 });
 
 

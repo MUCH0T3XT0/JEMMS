@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Principal Appix</title>
+    <link rel="stylesheet" href="casoBase.css">
+    <link rel="stylesheet" href="diseno-menuPrincipal.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+</head>
+<body>
+    <style>        
+        .form-check-input {
+            border: 1px solid #000000;
+            border-radius: 4px;
+            padding: 0.5rem;
+        }
+        .form-control {
+            border: 1px solid #000000;
+        }
+    </style>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" >
+                <img src="./appix-logo.png" width="140" height="50">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarScroll">
+                <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Cerrar Sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="row justify-content-center mt-6">
+        <div class="col-md-2">
+            <div class="text-center">
+                <h3>Información Del</h3>
+                <h3>Proyecto</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="container py-4">
+        <form class=" row g-3">
+            <fieldset disabled="disabled">
+                <div class="mb-3 row">
+                    <label for="inputNombre" class="col-sm-2 col-form-label">Nombre de proyecto</label>
+                    <div class="col-sm-10">
+                    <input type=" text" class="form-control" id="inputNombre" placeholder="Nuevo Portal de Compras de Dormimundo">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="inputCliente" class="col-sm-2 col-form-label">Nombre de empresa</label>
+                    <div class="col-sm-10">
+                    <input type=" text" class="form-control" id="inputCliente" placeholder="Dormimundo">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="inputStartDate" class="col-sm-2 col-form-label">Fecha de inicio</label>
+                    <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputStartDate" placeholder="05/04/2024">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="inputEndDate" class="col-sm-2 col-form-label">Fecha de final</label>
+                    <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputEndDate" placeholder="13/06/2024">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="inputEncargado" class="col-sm-2 col-form-label">Encargado</label>
+                    <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputEncargado" placeholder="José Román Pérez Palacios">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="inputPresupuesto" class="col-sm-2 col-form-label">Presupuesto</label>
+                    <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPresupuesto" placeholder="$200,000">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="inputPresupuesto" class="col-sm-2 col-form-label">Descripcion de proyecto</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" id="inputProyecto" rows="4" placeholder="Se renovará el portal de compras de la página web de la empresa"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script>
+        var textarea = document.getElementById('inputProyecto');
+        var contadorCaracteres = document.getElementById('contadorCaracteres');
+        textarea.addEventListener('input', function() {
+            contadorCaracteres.textContent = textarea.value.length + '/500';
+            if (textarea.value.length > 500) {
+                textarea.value = textarea.value.slice(0, 500);
+                contadorCaracteres.textContent = '500/500';
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+            $('#inputStartDate').datepicker({
+                format: 'dd/mm/yyyy', 
+                autoclose: true 
+            });
+        });
+        $(document).ready(function(){
+            $('#inputEndDate').datepicker({
+                format: 'dd/mm/yyyy', 
+                autoclose: true 
+            });
+        });
+    </script>
+</body>
+</html>
