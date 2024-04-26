@@ -4,6 +4,31 @@ const path    = require('path');
 const fs      = require('fs');
 const app     = express();
 
+const mariadb = require("mariadb");
+
+const pool = mariadb.createPool({
+    host:"127.0.0.1",
+    user:"mikey",
+    password:"mikey",
+    database: "APPIX",
+    connectionLimit:5
+});
+
+app.get('/test_db', async(request, response, next) => {
+    let conn;
+
+    try{
+        conn = await pool.getConnection();
+        const rows = await conn.query("SELECT * FROM USUARIO")
+        console.log(rows);
+        const jsonS = JSON.stringify(rows);
+        response.writeHead(200, {'Content-type':'text/html'});
+        response.end(jsonS);
+    }catch(e){
+        console.log(e)
+    }
+});
+
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
