@@ -59,7 +59,7 @@ app.get("/info_proyecto",(request,response,next)=>{
 });
 
 app.get("/reporte",(request,response,next)=>{
-    response.send("proyecto/reporte");
+    response.render("proyecto/reporte");
 });
 
 //const rutasHome = require('./routes/home.routes');

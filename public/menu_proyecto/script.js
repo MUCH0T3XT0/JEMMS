@@ -1,10 +1,12 @@
 const botonInfo = document.getElementById("info_p");
-const botonReporte = document.getElementById("reporte");
+const botonAnadir = document.getElementById("anadir");
+
 
 botonInfo.addEventListener("click", ()=>{
     window.location.href="/info_proyecto";
 });
 
-botonReporte.addEventListener("click", ()=>{
+botonAnadir.addEventListener("click", ()=>{
     window.location.href="/reporte";
 });
+
