@@ -25,12 +25,17 @@ app.get("/home",(request,response,next)=>{
     response.render("home/home");
 });
 
+app.get("/menu_proyecto",(request,response,next)=>{
+    response.render("proyecto/menu_proyecto");
+});
 
 app.get("/info_proyecto",(request,response,next)=>{
     response.render("proyecto/info_proyecto");
 });
 
-
+app.get("/reporte",(request,response,next)=>{
+    response.send("proyecto/reporte");
+});
 
 //const rutasHome = require('./routes/home.routes');
 //app.use('/home', rutasHome);
