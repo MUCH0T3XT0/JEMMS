@@ -1,0 +1,16 @@
+{
+  "name": "jemms",
+  "version": "1.0.0",
+  "description": "Repositorio para el trabajo en equipo de la materia de Construccion de Software",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "\"MIKE\"",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2"
+  }
+}
