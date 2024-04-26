@@ -17,6 +17,10 @@ app.get('/', (request, response, next) => {
     response.end(); 
 });
 
+app.get("/login",(request,response,next)=>{
+    response.render("login/login");
+});
+
 app.get("/home",(request,response,next)=>{
     response.render("home/home");
 });
@@ -24,6 +28,8 @@ app.get("/home",(request,response,next)=>{
 app.get("/reporte_riesgos",(request,response,next)=>{
     response.render("reporte_riesgos/reporte_riesgos");
 });
+
+
 
 //const rutasHome = require('./routes/home.routes');
 //app.use('/home', rutasHome);

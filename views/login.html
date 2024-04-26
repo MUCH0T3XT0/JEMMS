@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión Appix</title>
+    <link rel="stylesheet" href="login.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" >
+                <img src="./appix-logo.png" width="140" height="50">
+            </a>
+        </div>
+    </nav>
+
+    <div class="conteiner px-4">
+        <div class="row g-0">
+            <div class="col-md-4 offset-md-2 g-5">
+                <div class="mb-3">
+                    <h1 >Inicio de Sesión</h1>
+                    <label for="exampleFormControlInput1" class="form-label">Dirección de correo electrónico</label>
+                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                </div>
+                    <form id="formaPassword">
+                        <div class="mb-4">
+                            <label for="inputPassword" id="passwordLabel">Password</label> 
+                            <div class="input-group">
+                                <input type="password" id="inputPassword" class="form-control" required> 
+                                <button class="btn btn-outline-secondary" type="button" id="mostrar">Show</button>
+                            </div>       
+                            <div class="mb-3">              
+                                <div id="errorPassword" class="error-message"></div>
+                            </div> 
+                        <div id="passwordSegura" class="form-text"></div>
+                        <!--SE MODIFICO EL ID DEL BOTON-->
+                        <button id ="botonL" type="submit" class="btn btn-dark mt-4">LOGIN</button>
+                    </form>
+                </div> 
+            </div>
+        </div>
+    </div>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>  
+</body>
+  <script src="login.js"></script>
+</html>
