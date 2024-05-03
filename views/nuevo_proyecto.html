@@ -19,6 +19,15 @@
         .form-control {
             border: 1px solid #000000;
         }
+        .table-responsive{
+            border: 1px solid #000000;
+        }
+        .align-middle{
+            border: 1px solid #000000;
+        }
+        .form-select {
+            width: 130px; /* Cambia este valor según tu preferencia */
+        }
     </style>
     <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
         <div class="container-fluid">
@@ -96,13 +105,241 @@
                 </div>
             </div>
             <div class="form-check">
-                <button type="submit" class="btn btn-primary mb-3">Enviar</button>
+                <div class="text-end">
+                    <button type="submit" class="btn btn-primary mb-3">Enviar</button>
+                </div>
             </div>
+            
         </form>
+    </div>
+    <div class="text-center">
+        <button onclick="toggleContent()" class= "btn btn-primary btn-lg mb-3">Riesgos del proyecto</button>
+    </div>
+    <div id="contenido">
+        <div class="container">
+            <div class="row justify-content-center mt-6">
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <h3>Crear un nuevo tipo de riesgo</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col">Descripcion</th>
+                            <th scope="col">Impacto</th>
+                            <th scope="col">Categoria</th>
+                            <th scope="col">Probabilidad</th>
+                            <th scope="col">Estrategia</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="mb-3">
+                                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Aqui va descripcion del riesgo">
+                                </div>
+                            </td>
+                            <td>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Seleccionar</option>
+                                    <option value="1">Alcance</option>
+                                    <option value="2">Tiempo</option>
+                                    <option value="3">Calidad</option>
+                                    <option value="4">Recursos</option>
+                                    <option value="5">Costo</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Seleccionar</option>
+                                    <option value="1">Baja</option>
+                                    <option value="2">Media</option>
+                                    <option value="3">Alta</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Seleccionar</option>
+                                    <option value="1">Bajo</option>
+                                    <option value="2">Medio</option>
+                                    <option value="3">Alto</option>
+                                </select>
+                            </td>
+                            <td>
+                                <div class="mb-3">
+                                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Aqui va descripcion de la estrategia">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-check">
+                                    <button type="submit" class="btn btn-primary mb-3">Crear</button>
+                                </div>
+                            </td>
+                        </tr>
+                        </tr>
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="container mt-4">
+                <h6>Filtrar por proyecto</h6>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Seleccionar</option>
+                    <option value="1">Proyecto1</option>
+                    <option value="2">Proyecto2</option>
+                    <option value="3">Proyecto3</option>
+                </select>
+            </div>
+            <div class="row justify-content-center mt-6">
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <h3>Añadir riesgo existente al proyecto</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col">Descripcion</th>
+                            <th scope="col">Impacto</th>
+                            <th scope="col">Categoria</th>
+                            <th scope="col">Probabilidad</th>
+                            <th scope="col">Estrategia</th>
+                            <th scope="col">Seleccionar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Aqui va descripcion de riesgo</td>
+                            <td>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Seleccionar</option>
+                                    <option value="1">Alcance</option>
+                                    <option value="2">Tiempo</option>
+                                    <option value="3">Calidad</option>
+                                    <option value="4">Recursos</option>
+                                    <option value="5">Costo</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Seleccionar</option>
+                                    <option value="1">Baja</option>
+                                    <option value="2">Media</option>
+                                    <option value="3">Alta</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Seleccionar</option>
+                                    <option value="1">Bajo</option>
+                                    <option value="2">Medio</option>
+                                    <option value="3">Alto</option>
+                                </select>
+                            </td>
+                            <td>Aqui va descripcion de la estrategia</td>
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="riesgo2">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="table align-middle">
+                            <td>Aqui va descripcion de riesgo</td>
+                            <td>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Seleccionar</option>
+                                    <option value="1">Alcance</option>
+                                    <option value="2">Tiempo</option>
+                                    <option value="3">Calidad</option>
+                                    <option value="4">Recursos</option>
+                                    <option value="5">Costo</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Seleccionar</option>
+                                    <option value="1">Baja</option>
+                                    <option value="2">Media</option>
+                                    <option value="3">Alta</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Seleccionar</option>
+                                    <option value="1">Bajo</option>
+                                    <option value="2">Medio</option>
+                                    <option value="3">Alto</option>
+                                </select>
+                            </td>
+                            <td>Aqui va descripcion de la estrategia</td>
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="riesgo2">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="table align-middle">
+                            <td>Aqui va descripcion de riesgo</td>
+                            <td>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Seleccionar</option>
+                                    <option value="1">Alcance</option>
+                                    <option value="2">Tiempo</option>
+                                    <option value="3">Calidad</option>
+                                    <option value="4">Recursos</option>
+                                    <option value="5">Costo</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Seleccionar</option>
+                                    <option value="1">Baja</option>
+                                    <option value="2">Media</option>
+                                    <option value="3">Alta</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Seleccionar</option>
+                                    <option value="1">Bajo</option>
+                                    <option value="2">Medio</option>
+                                    <option value="3">Alto</option>
+                                </select>
+                            </td>
+                            <td>Aqui va descripcion de la estrategia</td>
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="riesgo2">
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script>
+        function toggleContent() {
+            var contenido = document.getElementById("contenido");
+            if (contenido.style.display === "none") {
+                contenido.style.display = "block";
+            } else {
+                contenido.style.display = "none";
+            }
+        }
+    </script>
     <script>
         var textarea = document.getElementById('inputProyecto');
         var contadorCaracteres = document.getElementById('contadorCaracteres');
