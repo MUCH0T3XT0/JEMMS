@@ -66,6 +66,11 @@ app.get("/reporte",(request,response,next)=>{
     response.render("proyecto/reporte");
 });
 
+app.get("/reporte-riesgo", (request,response,next)=>{
+    response.render("proyecto/reporte-riesgo");
+});
+
+
 //const rutasHome = require('./routes/home.routes');
 //app.use('/home', rutasHome);
 
