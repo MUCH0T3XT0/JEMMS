@@ -10,7 +10,7 @@ module.exports.get_login = async(req,res) =>{
 module.exports.post_login = async(req, res) =>{
     try {
         console.log("Entrando");
-        const usuarios = await model.User.buscaUsuario(req.body.correo)
+        const usuarios = await model.Usuario.buscaUsuario(req.body.correo)
         //console.log(usuarios);
 
         if(usuarios.length < 1){
@@ -37,7 +37,7 @@ module.exports.post_login = async(req, res) =>{
 
         
 /*        // Se agrega método para obtener el permiso del usuario
-        const permiso = await model.User.getPermisos(usuario.username);
+        const permiso = await model.Usuario.getPermisos(usuario.username);
         if (permiso.length == 0) {
             req.session.error = "Usuario y/o contraseña incorrectos";
             res.render("usuario/login", {
@@ -54,7 +54,7 @@ module.exports.post_login = async(req, res) =>{
         console.log("todo bien");
         //res.render('home/home');
         
-        res.render("home/home");
+        res.redirect("/proyecto/home");
         
 
     }catch (error){
