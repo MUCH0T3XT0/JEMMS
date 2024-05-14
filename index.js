@@ -20,6 +20,9 @@ app.get('/', (request, response, next) => {
 const rutasUsuario = require('./routes/usuario.routes');
 app.use('/usuario', rutasUsuario);
 
+app.get("/login",(request,response,next)=>{
+    response.render("login/login");
+});
 
 app.get("/home",(request,response,next)=>{
     response.render("home/home");
