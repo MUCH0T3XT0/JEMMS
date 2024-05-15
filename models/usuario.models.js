@@ -11,7 +11,7 @@ exports.Usuario = class {
     static async buscaUsuario(correo) {
         try {
             const connexion = await db();
-            const resultado = await connexion.execute('Select * from USUARIO WHERE correo = ?', [correo]);
+            const resultado = await connexion.execute('Select id_usuario, correo, contrasena from USUARIO WHERE correo = ?', [correo]);
             console.log(resultado);
             
             await connexion.release();
@@ -20,15 +20,4 @@ exports.Usuario = class {
             throw error; 
         }
     }
-
-    static async getPermisos(username) {
-        try {
-            const connexion = await db();
-            const result = await connexion.execute('Select permiso FROM privilegio pr, posee po, rol r, asigna a, usuario u WHERE u.username = ? AND u.username = a.username AND a.idrol = r.id AND r.id = po.idrol AND po.idpermiso = pr.id', [username]);
-            await connexion.release();
-            return result;
-        } catch (error) {
-            throw error; 
-        }
-    }    
 }

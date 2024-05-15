@@ -42,7 +42,13 @@
                         <button type="submit" class="btn btn-dark mt-4">LOGIN</button>
                     </form>
                 </div> 
+                <div class="offset-md-2 g-5" >
+                    <% if (!registro){%>
+                        <h4 style="color: red;">Usuario o contraseña incorrecto</h4>
+                    <%}%>
+                </div>
             </div>
+            
         </div>
     </div>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>  

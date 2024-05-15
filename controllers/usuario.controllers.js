@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 
 module.exports.get_login = async(req,res) =>{
     res.render("login/login",{
-        loggeado: false
+        registro: true
     });
 }
 
