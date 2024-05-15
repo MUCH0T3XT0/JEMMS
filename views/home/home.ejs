@@ -38,50 +38,74 @@
         </div>
         <a href="/nuevo_proyecto" class="btn btn-primary">Crear nuevo proyecto</a>
     </nav>
-
-    <h1>Proyectos Activos</h1>
-
-    <div class="container py-4">
-        <div class="row row-cols-4 g-4">
-            <% for (var i = 0; i< proyecto.length ; i++){ %>
-                <% if(proyecto[i].estatus == true){%>
-                <div class="col">
-                    <div class="card"> 
-                    <img src="./ejemplo.jpg" class="card-img-top" alt="Imágen de ejemplo">
-                    <div class="card-body">
-                        <h5 class="card-title"><%= proyecto[i].nombre_proyecto %></h5>
-                        <p class="card-text"><%= proyecto[i].descripcion %></p>
-                        <a href="/MenuProyecto/<%= proyecto[i].id_proyecto%>" class="btn btn-primary" id="go">Ver más</a>
-                    </div>
-                    </div>
-                </div> 
-                <%}%>
-            <% } %>
+    <% if (error){%>
+        <br>
+        <br>
+        <div style="text-align: center;" >
+          <h2 style="color: gray;">No veo Proyectos recientes. Empecemos creando uno ;)</h2>
         </div>
-    </div> 
+    <%} else{%>
+        <h1>Proyectos Activos</h1>
 
-    <h1>Proyectos Pasados</h1>
-
-    <div class="container py-4">
-        <div class="row row-cols-4 g-4">
-            <% for (var i = 0; i< proyecto.length ; i++){ %>
-                <% if(proyecto[i].estatus == false){%>
-                <div class="col">
-                    <div class="card"> 
-                    <img src="./ejemplo.jpg" class="card-img-top" alt="Imágen de ejemplo">
-                    <div class="card-body">
-                        <h5 class="card-title"><%= proyecto[i].nombre_proyecto %></h5>
-                        <p class="card-text"><%= proyecto[i].descripcion %></p>
-                        <a href="/MenuProyecto/<%= proyecto[i].id_proyecto%>" class="btn btn-primary" id="go">Ver más</a>
-                    </div>
-                    </div>
-                </div> 
-                <%}%>
-            <% } %>
-       
+        <div class="container py-4">
+            <div class="row row-cols-4 g-4">
+                <%var flag = false%>
+                <% for (var i = 0; i< proyecto.length ; i++){ %>
+                    <% if(proyecto[i].estatus == true){%>
+                        <%flag = true%>
+                        <div class="col">
+                            <div class="card"> 
+                            <img src="./ejemplo.jpg" class="card-img-top" alt="Imágen de ejemplo">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= proyecto[i].nombre_proyecto %></h5>
+                                <p class="card-text"><%= proyecto[i].descripcion %></p>
+                                <a href="/MenuProyecto/<%= proyecto[i].id_proyecto%>" class="btn btn-primary" id="go">Ver más</a>
+                            </div>
+                            </div>
+                        </div> 
+                    <%}%>
+                <% } %>
+                
+            </div>
         </div> 
+        <%if (!flag){%>
+            <br>
+            <div style="text-align: center;" >
+                <h2 style="color: gray;">No veo Proyectos recientes. Empecemos creando uno ;)</h2>
+            </div>
+            <br>
+        <%}%>
+        <h1>Proyectos Pasados</h1>
+
+        <div class="container py-4">
+            <div class="row row-cols-4 g-4">
+                <%var flag = false%>
+                <% for (var i = 0; i< proyecto.length ; i++){ %>
+                    <% if(proyecto[i].estatus == false){%>
+                        <%flag = true%>
+                        <div class="col">
+                            <div class="card"> 
+                            <img src="./ejemplo.jpg" class="card-img-top" alt="Imágen de ejemplo">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= proyecto[i].nombre_proyecto %></h5>
+                                <p class="card-text"><%= proyecto[i].descripcion %></p>
+                                <a href="/MenuProyecto/<%= proyecto[i].id_proyecto%>" class="btn btn-primary" id="go">Ver más</a>
+                            </div>
+                            </div>
+                        </div> 
+                    <%}%>
+                <% } %>
+            </div> 
         </div>
+        <%if (!flag){%>
+            <br>
+            <div style="text-align: center;" >
+                <h2 style="color: gray;">Aun no hay proyectos concluidos</h2>
+            </div>
+            <br>
+        <%}%>
     </div>
+    <%}%>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
