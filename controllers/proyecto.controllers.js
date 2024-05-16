@@ -26,3 +26,7 @@ module.exports.get_home = async(req,res) =>{
     }
     
 }
+
+module.exports.get_nuevo_proyecto = async(req,res) =>{
+    res.render("nuevo_proyecto/nuevo_proyecto");
+}
