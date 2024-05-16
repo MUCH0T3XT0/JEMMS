@@ -2,10 +2,17 @@ const db = require('../utils/database.js');
 const bcrypt = require('bcryptjs');
 
 exports.Proyecto = class {
-    constructor(id, descripcion, nombre_proyecto, estatus){
+    constructor(id, id_manager, descripcion, empresa, nombre_proyecto, presupuesto, f_creacion, f_fin, encargado, departamento, estatus){
         this.id = id;
+        this.id_manager = id_manager;
         this.descripcion = descripcion;
+        this.empresa = empresa;
         this.nombre_proyecto = nombre_proyecto;
+        this.presupuesto = presupuesto;
+        this.f_creacion = f_creacion;
+        this.f_fin = f_fin;
+        this.encargado = encargado;
+        this.departamento = departamento;
         this.estatus = estatus;
     }
 
@@ -21,4 +28,5 @@ exports.Proyecto = class {
             throw error;
         }
     }
+
 }

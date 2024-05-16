@@ -18,6 +18,9 @@
 --
 -- Table structure for table `DEPARTAMENTO`
 --
+DROP DATABASE IF EXISTS APPIX;
+CREATE DATABASE APPIX;
+USE APPIX;
 
 DROP TABLE IF EXISTS `DEPARTAMENTO`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -85,11 +88,11 @@ DROP TABLE IF EXISTS `RIESGO`;
 CREATE TABLE `RIESGO` (
   `id_riesgo` int(11) NOT NULL AUTO_INCREMENT,
   `id_proyecto` int(11) NOT NULL,
-  `categoria` int(11) NOT NULL,
+  `categoria` varchar(11) NOT NULL,
   `impacto` int(11) NOT NULL,
   `probabilidad` int(11) NOT NULL,
   `estrategia_m` varchar(65) NOT NULL,
-  `description` varchar(65) NOT NULL,
+  `descripcion` varchar(65) NOT NULL,
   PRIMARY KEY (`id_riesgo`,`id_proyecto`),
   KEY `id_proyecto` (`id_proyecto`),
   CONSTRAINT `riesgo_ibfk_1` FOREIGN KEY (`id_proyecto`) REFERENCES `PROYECTO` (`id_proyecto`)

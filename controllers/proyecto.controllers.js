@@ -17,6 +17,7 @@ module.exports.get_home = async(req,res) =>{
             proyecto: proyectos,
             error: false
         });
+        
     }catch(error){
         console.log(error);
         res.render("home/home",{

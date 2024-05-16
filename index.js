@@ -11,12 +11,6 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', (request, response, next) => {
-    response.setHeader('Content-Type', 'text/plain');
-    response.send("Hola Mundo");
-    response.end(); 
-});
-
 const rutasUsuario = require('./routes/usuario.routes');
 app.use('/usuario', rutasUsuario);
 
