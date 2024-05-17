@@ -72,14 +72,89 @@ module.exports.get_mostrar_usuarios = async(req,res) =>{
         const lideres = await model.Usuario.getLideres();
         const colaboradores = await model.Usuario.getColaboradores();
 
-        res.render("vista_usuarios/vista_usuarios",{
+        res.render("mostrar_usuarios/mostrar_usuarios",{
             usuario1: lideres,
             usuario2: colaboradores //La variable usuario se ocupa en el html dinamico y lo de usuarios es el resultado de la consulta hecha
 
         });
     }catch(error){
         console.log(error);
-        res.render("vista_usuarios/vista_usuarios");
+        res.render("mostrar_usuarios/mostrar_usuarios");
     }
     
+}
+
+module.exports.cerrar_sesion = async(req,res) => {
+    res.render("login/login",{
+        loggeado: false
+    });
+}
+
+module.exports.get_agregar = async(req,res) =>{
+    res.render("agregar_usuario/agregar_usuario",{
+        usuario: false
+    });
+}
+
+module.exports.post_agregar_usuario = async(req, res) => {
+    try {
+        const nombre = req.body.nombre;
+        const apellido_p = req.body.apellido_p;
+        const apellido_m = req.body.apellido_m;
+        const correo = req.body.correo;
+        const contrasena = req.body.contrasena;
+        const rol = req.body.acceso;
+
+        
+        const usuario = new model.Usuario(correo, nombre, apellido_m, apellido_p, contrasena, rol);
+
+        console.log(usuario);
+
+        const usuarionuevo = await usuario.guardar_usuario();
+
+        res.status(201).redirect("/usuario/mostrar_usuarios");
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error registando usuario" }); // Idealmente se crea una plantilla de errores genérica
+    }
+}
+
+module.exports.get_editar_usuario = async(req,res) =>{
+    try {
+        const usuario = await model.Usuario.buscaUsuario("mikesquivel2004@gmail.com");
+        if(usuario.length < 1){
+            res.redirect("/usuario/mostrar_usuarios");
+            return;
+        }
+
+        console.log(usuario);
+
+        res.render("editar_usuario/editar_usuario",{
+            usuario:usuario
+        });
+    }catch (error){
+        res.redirect("/agregar_usuario/agregar_usuario");
+    }
+}
+
+module.exports.post_editar_usuario = async(req, res) => {
+    try {
+        const nombre = req.body.nombre;
+        const apellido_p = req.body.apellido_p;
+        const apellido_m = req.body.apellido_m;
+        const correo = req.body.correo;
+        const contrasena = req.body.contrasena;
+        const rol = req.body.acceso;
+        
+        const usuario = new model.Usuario(correo, nombre, apellido_m, apellido_p, contrasena, rol);
+        console.log(usuario);
+        const editado = await usuario.editar_usuario()
+    
+        res.status(201).redirect("/usuario/mostrar_usuarios");
+    
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error editando usuario" }); // Idealmente se crea una plantilla de errores genérica
+    }
 }
