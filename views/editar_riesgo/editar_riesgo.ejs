@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Principal Appix</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <%- include('editar_riesgo.style.ejs') %>
+    <%- include('./../barra_principal.ejs')%>
+    <nav class="boton" aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" href="/menu_proyecto" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+        </ul>
+      </nav>
+      <div class="row justify-content-center mt-6">
+        <div class="col-md-2">
+            <div class="text-center">
+                <h3 style="margin-bottom: 0px;">Editar Riesgo</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="container py-4">
+        <form class=" row g-3" action="/proyecto/editar_riesgo" method = "POST">
+            <div class="mb-3 row">
+                <label for="nombre" class="col-sm-2 col-form-label">Id: </label>
+                <div class="col-sm-10">
+                <input type= "text" class="form-control" id="id" name = "descripcion" value="<%= riesgo[0].id_riesgo %>" readonly>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="nombre" class="col-sm-2 col-form-label">Descripcion: </label>
+                <div class="col-sm-10">
+                <input type= "text" class="form-control" id="descripcion" name = "description" value="<%= riesgo[0].description %>">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="apellido_p" class="col-sm-2 col-form-label">Estrategia</label>
+                <div class="col-sm-10">
+                <input type=" text" class="form-control" id="estrategia" name = "apellido_p" value = "<%= riesgo[0].estrategia_m %>">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="rol" class="col-sm-2 col-form-label">Impacto</label>
+                <div class="col-sm-10">
+                    <select name="acceso" id="impacto" value = "<%= riesgo[0].impacto %>">
+                        <option value="0" selected>Seleccionar</option>
+                        <option value="1" >1</option>
+                        <option value="2" >2</option>
+                        <option value="3" >3</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="rol" class="col-sm-2 col-form-label">Categoria</label>
+                <div class="col-sm-10">
+                    <select name="acceso" id="categoria" value = "<%= riesgo[0].categoria %>">
+                        <option value="0" selected>Seleccionar</option>
+                        <option value="Tiempo">Tiempo</option>
+                        <option value="Dinero">Dinero</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="rol" class="col-sm-2 col-form-label">Probabilidad</label>
+                <div class="col-sm-10">
+                    <select name="acceso" id="probabilidad" value = "<%= riesgo[0].probabilidad %>">
+                        <option value="0" selected>Seleccionar</option>
+                        <option value="1" >1</option>
+                        <option value="2" >2</option>
+                        <option value="2" >3</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row g-3">
+                <button type="submit" class="btn btn-primary mb-3">Ingresar Datos</button>
+            </div>
+        </form>
+    </div>
+</body>
+<%- include('editar_riesgo.js.ejs')%>
+</html>

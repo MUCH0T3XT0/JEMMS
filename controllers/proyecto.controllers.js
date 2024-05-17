@@ -221,6 +221,7 @@ module.exports.get_editar_riesgo = async(req,res) =>{
 module.exports.post_nuevo_riesgo = async(req,res) =>{
     try{
         console.log("Agregando un riesgo(Riesgo especifico)");
+        
         const riesgoP = await model.Riesgo.agregarRiesgos(1, req.body.categoria, req.body.impacto, req.body.probabilidad, req.body.estrategia, req.body.descripcion); //En el primer parametro va el numero de proyecto. Esta parte debe ser modificada por el id del proyecto donde se esta actualmente
         const proyectos = await model.Proyecto.extraeProyectos();
         /*Aqui debe mandarte a la pagina de menu proyectos al agregar un proyecto exitosamente, como esta debajo

@@ -155,7 +155,7 @@ exports.Riesgo = class {
     static async agregarRiesgos(proyecto, categoria, impacto, probabilidad, estrategia, descripcion){
         try{
             const connexion = await db();
-            const resultado = await connexion.execute("INSERT INTO riesgo (id_proyecto, categoria, impacto, probabilidad, estrategia_m, descripcion) VALUES(?, ?, ?, ?, ?, ?);", [proyecto, categoria, impacto, probabilidad, estrategia, descripcion]);
+            const resultado = await connexion.execute("INSERT INTO riesgo (id_proyecto, categoria, impacto, probabilidad, estrategia_m, description) VALUES(?, ?, ?, ?, ?, ?);", [proyecto, categoria, impacto, probabilidad, estrategia, descripcion]);
             console.log(resultado);
 
             await connexion.release();
