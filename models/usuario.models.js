@@ -1,13 +1,12 @@
 const db = require('../utils/database.js');
 
 exports.Usuario = class {
-    constructor(correo, nombre, apellido_m, apellido_p, contrasena, id, rol) {
+    constructor(correo, nombre, apellido_m, apellido_p, contrasena, rol) {
         this.correo = correo;
         this.nombre = nombre;
         this.apellido_m = apellido_m;
         this.apellido_p = apellido_p;
-        this.contraseña = contrasena;
-        this.id = id;
+        this.contrasena = contrasena;
         this.rol = rol;
     }
    
@@ -35,12 +34,12 @@ exports.Usuario = class {
         }
     }    
 
-    static async guardar_usuario() {
+    async guardar_usuario() {
         try {
             const connection = await db();
             const result = await connection.execute(
             `INSERT INTO usuario (nombres, apellido_m, apellido_p, correo, contrasena, rol) VALUES (?, ?, ?, ?, ?, ?)`,
-            [this.nombre, this.apellido_m, this.apellido_p, this.correo, this.contraseña, this.rol]
+            [this.nombre, this.apellido_m, this.apellido_p, this.correo, this.contrasena, this.rol]
             );
             await connection.release();
             return result;
@@ -54,7 +53,7 @@ exports.Usuario = class {
             const connection = await db();
             const result = await connection.execute(
             `UPDATE usuario SET nombre = ?, apellido_m = ?, apellido_p = ?, contrasena = ?, rol = ? WHERE correo = ?`,
-            [this.nombre, this.apellido_m, this.apellido_p, this.contraseña, this.rol, this.correo]
+            [this.nombre, this.apellido_m, this.apellido_p, this.contrasena, this.rol, this.correo]
             );
             await connection.release();
             return result;
