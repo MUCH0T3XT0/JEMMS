@@ -7,6 +7,8 @@ router.post('/login', controller.post_login);
 router.get('/cerrar_sesion', controller.cerrar_sesion);
 router.get('/agregar_usuario', controller.get_agregar);
 router.post('/agregar_usuario', controller.post_agregar_usuario);
+router.get('/editar_usuario', controller.get_editar_usuario);
+router.post('/editar_usuario', controller.post_editar_usuario);
 
 
 module.exports = router;

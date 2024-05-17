@@ -48,12 +48,12 @@ exports.Usuario = class {
         }
     }
 
-    static async editar_usuario() {
+    async editar_usuario() {
         try {
             const connection = await db();
             const result = await connection.execute(
-            `UPDATE usuario SET nombre = ?, apellido_m = ?, apellido_p = ?, contrasena = ?, rol = ? WHERE correo = ?`,
-            [this.nombre, this.apellido_m, this.apellido_p, this.contrasena, this.rol, this.correo]
+            `UPDATE usuario SET nombres = ?, apellido_m = ?, apellido_p = ?, contrasena = ?, rol = ?, correo = ? WHERE correo = ?`,
+            [this.nombre, this.apellido_m, this.apellido_p, this.contrasena, this.rol, this.correo, this.correo]
             );
             await connection.release();
             return result;

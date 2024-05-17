@@ -79,21 +79,21 @@ module.exports.get_agregar = async(req,res) =>{
 
 module.exports.post_agregar_usuario = async(req, res) => {
     try {
-    const nombre = req.body.nombre;
-    const apellido_p = req.body.apellido_p;
-    const apellido_m = req.body.apellido_m;
-    const correo = req.body.correo;
-    const contrasena = req.body.contrasena;
-    const rol = req.body.acceso;
+        const nombre = req.body.nombre;
+        const apellido_p = req.body.apellido_p;
+        const apellido_m = req.body.apellido_m;
+        const correo = req.body.correo;
+        const contrasena = req.body.contrasena;
+        const rol = req.body.acceso;
 
-    
-    const usuario = new model.Usuario(correo, nombre, apellido_m, apellido_p, contrasena, rol);
+        
+        const usuario = new model.Usuario(correo, nombre, apellido_m, apellido_p, contrasena, rol);
 
-    console.log(usuario);
+        console.log(usuario);
 
-    const usuarionuevo = await usuario.guardar_usuario()
+        const usuarionuevo = await usuario.guardar_usuario();
 
-        res.status(201).redirect("/usuario/login");
+        res.status(201).redirect("/usuario/mostrar_usuarios");
 
     } catch (error) {
         console.error(error);
@@ -102,10 +102,21 @@ module.exports.post_agregar_usuario = async(req, res) => {
 }
 
 module.exports.get_editar_usuario = async(req,res) =>{
-    usuario = await model.Usuario.buscaUsuario(req.body.correo)
-    res.render("usuario/agregar",{
-        usuario: false
-    });
+    try {
+        const usuario = await model.Usuario.buscaUsuario("a01268758@tec.mx");
+        if(usuario.length < 1){
+            res.redirect("/usuario/agregar_usuario");
+            return;
+        }
+
+        console.log(usuario);
+
+        res.render("usuario/editar",{
+            usuario:usuario
+        });
+    }catch (error){
+        res.redirect("/usuario/agregar_usuario");
+    }
 }
 
 module.exports.post_editar_usuario = async(req, res) => {
@@ -115,15 +126,16 @@ module.exports.post_editar_usuario = async(req, res) => {
         const apellido_m = req.body.apellido_m;
         const correo = req.body.correo;
         const contrasena = req.body.contrasena;
-        const rol = req.body.rol;
+        const rol = req.body.acceso;
         
-        const usuario = new model.Usuario(nombre, apellido_p, apellido_m, correo, contrasena, rol);
+        const usuario = new model.Usuario(correo, nombre, apellido_m, apellido_p, contrasena, rol);
+        console.log(usuario);
         const editado = await usuario.editar_usuario()
     
-            res.status(201).redirect("/usuarios/mostrar_usuarios");
+        res.status(201).redirect("/usuario/mostrar_usuarios");
     
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: "Error registando usuario" }); // Idealmente se crea una plantilla de errores genérica
-        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error editando usuario" }); // Idealmente se crea una plantilla de errores genérica
+    }
 }
