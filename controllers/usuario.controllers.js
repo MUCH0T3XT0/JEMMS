@@ -64,3 +64,22 @@ module.exports.post_login = async(req, res) =>{
         });
     }        
 }
+
+//Se muestra la información de los usuarios 
+module.exports.get_mostrar_usuarios = async(req,res) =>{
+    try{
+        console.log("Recuperando información de los usuarios");
+        const lideres = await model.Usuario.getLideres();
+        const colaboradores = await model.Usuario.getColaboradores();
+
+        res.render("vista_usuarios/vista_usuarios",{
+            usuario1: lideres,
+            usuario2: colaboradores //La variable usuario se ocupa en el html dinamico y lo de usuarios es el resultado de la consulta hecha
+
+        });
+    }catch(error){
+        console.log(error);
+        res.render("vista_usuarios/vista_usuarios");
+    }
+    
+}

@@ -20,4 +20,26 @@ exports.Usuario = class {
             throw error; 
         }
     }
+    
+    static async getLideres() {
+        try {
+            const connexion = await db();
+            const result = await connexion.execute('SELECT id_usuario,nombres, apellido_m, nombre_proyecto FROM USUARIO JOIN PROYECTO ON id_usuario = id_manager ORDER BY id_usuario;');
+            await connexion.release();
+            return result;
+        } catch (error) {
+            throw error; 
+        }
+    }
+    
+    static async getColaboradores() {
+        try {
+            const connexion = await db();
+            const result = await connexion.execute('SELECT id_usuario,nombres, apellido_m, correo FROM USUARIO;');
+            await connexion.release();
+            return result;
+        } catch (error) {
+            throw error; 
+        }
+    } 
 }

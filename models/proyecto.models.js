@@ -29,4 +29,45 @@ exports.Proyecto = class {
         }
     }
 
+    static async cantidadRiesgo(idProyecto){
+        try{
+            console.log("ID: ");
+            console.log(idProyecto);
+            const connexion = await db();
+            const resultado = await connexion.execute('SELECT COUNT(id_proyecto) AS cuenta FROM RIESGO WHERE id_proyecto= ?;', [idProyecto]);
+            console.log(resultado);
+
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
+
+    static async informacionRestante(idProyecto){
+        try{
+            const connexion = await db();
+            const resultado = await connexion.execute('SELECT (DATEDIFF(PROYECTO.f_fin, PROYECTO.f_creacion) - DATEDIFF(CURRENT_DATE, PROYECTO.f_creacion)) AS duracion, estatus, DATEDIFF(PROYECTO.f_fin, PROYECTO.f_creacion) AS diasTotales FROM PROYECTO WHERE id_proyecto = ? ', [idProyecto]);
+            console.log(resultado);
+
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
+
+    static async informacionNumerica(idProyecto){
+        try{
+            const connexion = await db();
+            const resultado = await connexion.execute('SELECT SUM(impacto) AS total FROM RIESGO WHERE id_proyecto= ?', [idProyecto]);
+            console.log(resultado);
+
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
+
 }
