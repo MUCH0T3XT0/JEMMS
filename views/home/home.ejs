@@ -36,7 +36,7 @@
             </form>
         </div>
         </div>
-        <a href="/nuevo_proyecto" class="btn btn-primary">Crear nuevo proyecto</a>
+        <a href="/proyecto/nuevo_proyecto" class="btn btn-primary">Crear nuevo proyecto</a>
     </nav>
     <% if (error){%>
         <br>
@@ -89,7 +89,7 @@
                             <div class="card-body">
                                 <h5 class="card-title"><%= proyecto[i].nombre_proyecto %></h5>
                                 <p class="card-text"><%= proyecto[i].descripcion %></p>
-                                <a href="<%= proyecto[i].id_proyecto%>/menu_proyecto/" class="btn btn-primary" id="go">Ver más</a>
+                                <a href="<%= proyecto[i].id_proyecto%>/menu_proyecto" class="btn btn-primary" id="go">Ver más</a>
                             </div>
                             </div>
                         </div> 
