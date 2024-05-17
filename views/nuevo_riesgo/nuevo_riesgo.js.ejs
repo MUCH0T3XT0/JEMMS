@@ -1,0 +1,102 @@
+<script>
+//Lo siguiente de abajo es un intento de usar Ajax en el boton de crear un nuevo riesgo, como podras intuir, no quedo a la primera.
+const log = console.log
+log("Loading");
+
+window.addEventListener('load', function() {
+    log("DOM Loaded");
+    const myForm = document.getElementById('form_crear_riesgo');
+    const submitButton = document.getElementById('submitButton');
+    //const wrapper = document.getElementById('wrapper');
+
+    submitButton.addEventListener('click', function(event) {
+        event.preventDefault();
+        log("Aquí estoy");
+        var result = generarRiesgo();
+        guardarRiesgo(result.riesgo);
+        //loadProducts()
+    });
+    updateProductsButton.addEventListener('click', function(event) {
+        //loadProducts()
+    });
+    /*setInterval(() =>{
+        loadProducts()
+    }, 5000);*/
+    /*gridTable = new gridjs.Grid({
+        columns: ["Id", "Name", "Price"],
+        pagination: true,
+        search: true,
+        sort: true,
+        server:{
+            url: "/products",
+            then: data => data.products
+        }
+    }).render(wrapper);*/
+});
+
+class Riesgo {
+    constructor(id_proyecto, categoria, impacto, probabilidad, estrategia_m, descripcion){
+        //this.id = id; Esto se borra debido a que es autoincremental
+        this.id_proyecto = id_proyecto;
+        this.categoria = categoria;
+        this.impacto = impacto;
+        this.probabilidad = probabilidad;
+        this.estrategia_m = estrategia_m;
+        this.descripcion = descripcion;
+    }
+}
+function crearRiesgo() {
+    const descripcionInput = myForm.elements['descripcion'];
+    const impactoInput = myForm.elements['impacto'];
+    const categoriaInput = myForm.elements['categoria'];
+    const probabilidadInput = myForm.elements['probabilidad'];
+    const estrategiaInput = myForm.elements['estrategia'];
+    
+
+    const descripcionValue = descripcionInput.value;
+    const impactoValue = impactoInput.value;
+    const categoriaValue = categoriaInput.value;
+    const probabilidadValue = probabilidadInput.value;
+    const estrategiaValue = estrategiaInput.value;
+    
+    var nuevoRiesgo = null
+    var msg = "Riesgo creado y agregado"
+    if(!descripcionValue){
+        msg = "Campo de descripcion vacio"
+    }
+    if(!impactoValue){
+        msg = "Campo de impacto vacio"
+    }
+    if(!categoriaValue){
+        msg = "Campo de categoria vacio"
+    }
+    if(!probabilidadValue){
+        msg = "Campo de probabilidad vacio"
+    }
+    if(!estrategiaValue){
+        msg = "Campo de probabilidad vacio"
+    }
+
+    if(msg == "Riesgo creado y agregado"){
+        nuevoRiesgo = new Riesgo(1 ,categoriaValue, impactoValue, probabilidadValue, estrategiaValue, descripcionValue);//id_proyecto; Aqui debe ir el id del proyecto, a falta de recursos para asignar dicho id ponde por defecto el id 1
+    }
+
+    return {riesgo: nuevoRiesgo, msg: msg}
+}
+async function agregarRiesgo(product){
+    const url = '/nuevo_riesgo1';
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(riesgo)
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        log('Riesgo creado y añadido exitosamente:', data);
+        // Clear the form or display a success message
+    } else {
+    alert('Error al crear riesgo: ' + response.statusText);
+    }
+}
+</script>
