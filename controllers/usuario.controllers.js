@@ -66,9 +66,7 @@ module.exports.post_login = async(req, res) =>{
 }
 
 module.exports.cerrar_sesion = async(req,res) => {
-    res.render("login/login",{
-        loggeado: false
-    });
+    res.redirect("/usuario/login");
 }
 
 module.exports.get_agregar = async(req,res) =>{
