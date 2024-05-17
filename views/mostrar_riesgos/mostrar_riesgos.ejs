@@ -24,9 +24,8 @@
             </div>
         </div>
     </div>
-    <form id="form_crear_riesgo" method="POST" action="/proyecto/mostrar_riesgos">
-        <div class="container">
-            <div class="table-responsive">
+    <form id="form_mostrar_riesgo" method="POST" action="/proyecto/mostrar_riesgos">
+        <div class=" container">
                 <table class="table align-middle">
                     <thead>
                         <tr>
@@ -39,21 +38,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% for (var i = 0; i< riesgo.length ; i++){ %>
+                        <% for (var i = 0; i< riesgoP.length ; i++){ %>
                         <tr>
-                            <td><input type="text" class="form-control" name="descripcion" value="<%= riesgo[i].descripcion %>" readonly></td>
-                            <td><input type="number" class="form-control" name="impacto" value="<%= riesgo[i].impacto %>" readonly></td>
-                            <td><input type="text" class="form-control" name="categoria" value="<%= riesgo[i].categoria %>" readonly></td>
-                            <td><input type="number" class="form-control" name="probabilidad" value="<%= riesgo[i].probabilidad %>" readonly></td>
-                            <td><input type="text" class="form-control" name="estrategia" value="<%= riesgo[i].estrategia_m %>" readonly></td>
+                            <td><input type="text" class="form-control" name="descripcion" value="<%= riesgoP[i].descripcion %>" readonly></td>
+                            <td><input type="number" class="form-control" name="impacto" value="<%= riesgoP[i].impacto %>" readonly></td>
+                            <td><input type="text" class="form-control" name="categoria" value="<%= riesgoP[i].categoria %>" readonly></td>
+                            <td><input type="number" class="form-control" name="probabilidad" value="<%= riesgoP[i].probabilidad %>" readonly></td>
+                            <td><input type="text" class="form-control" name="estrategia" value="<%= riesgoP[i].estrategia_m %>" readonly></td>
+                            <!--Aqui el riesgo[i].id sera el id del proyecto seleccionado-->
+                            <td><button type="submit" class="btn btn-primary mb-3">Editar</button></td>
                         </tr>
                         <% } %>
                     </tbody>
                 </table>
-            </div>
-        </div>
-        <div class="container py-4">
-            <button type="submit" class="btn btn-primary mb-3">Editar</button>
         </div>
     </form>
 </body>

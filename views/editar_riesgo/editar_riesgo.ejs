@@ -30,32 +30,26 @@
             <div class="mb-3 row">
                 <label for="nombre" class="col-sm-2 col-form-label">Id: </label>
                 <div class="col-sm-10">
-                <input type= "text" class="form-control" id="id" name = "descripcion" value="<%= riesgo[0].id_riesgo %>" readonly>
+                <input type= "text" class="form-control" id="id" name = "id" value="<%= riesgoSelec[0].id_riesgo %>" readonly>
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="nombre" class="col-sm-2 col-form-label">Descripcion: </label>
                 <div class="col-sm-10">
-                <input type= "text" class="form-control" id="descripcion" name = "descripcion" value="<%= riesgo[0].descripcion %>">
+                <input type= "text" class="form-control" id="descripcion" name = "descripcion" value="<%= riesgoSelec[0].descripcion %>">
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="apellido_p" class="col-sm-2 col-form-label">Estrategia</label>
                 <div class="col-sm-10">
-                <input type=" text" class="form-control" id="estrategia" name = "apellido_p" value = "<%= riesgo[0].estrategia_m %>">
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label for="apellido_m" class="col-sm-2 col-form-label">Descripcion</label>
-                <div class="col-sm-10">
-                <input type="text" class="form-control" id="apellido_m" name = "apellido_m" value = "<%= riesgo[0].descripcion %>">
+                <input type=" text" class="form-control" id="estrategia" name = "estrategia" value = "<%= riesgoSelec[0].estrategia_m %>">
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="rol" class="col-sm-2 col-form-label">Impacto</label>
                 <div class="col-sm-10">
-                    <select name="acceso" id="impacto" value = "<%= riesgo[0].impacto %>">
-                        <option value="0" selected>Seleccionar</option>
+                    <select name="impacto" id="impacto">
+                        <option value="<%= riesgoSelec[0].impacto %>" selected>Seleccionar</option>
                         <option value="1" >1</option>
                         <option value="2" >2</option>
                         <option value="3" >3</option>
@@ -65,18 +59,21 @@
             <div class="mb-3 row">
                 <label for="rol" class="col-sm-2 col-form-label">Categoria</label>
                 <div class="col-sm-10">
-                    <select name="acceso" id="categoria" value = "<%= riesgo[0].categoria %>">
-                        <option value="0" selected>Seleccionar</option>
-                        <option value="Tiempo">Tiempo</option>
-                        <option value="Dinero">Dinero</option>
+                    <select name="categoria" id="categoria">
+                        <option value="<%= riesgoSelec[0].categoria %>" selected>Seleccionar</option>
+                        <option value="1">Alcance</option>
+                        <option value="2">Tiempo</option>
+                        <option value="3">Calidad</option>
+                        <option value="4">Costo</option>
+                        <option value="5">Recursos</option>
                     </select>
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="rol" class="col-sm-2 col-form-label">Probabilidad</label>
                 <div class="col-sm-10">
-                    <select name="acceso" id="probabilidad" value = "<%= riesgo[0].probabilidad %>">
-                        <option value="0" selected>Seleccionar</option>
+                    <select name="probabilidad" id="probabilidad">
+                        <option value="<%= riesgoSelec[0].probabilidad %>" selected>Seleccionar</option>
                         <option value="1" >1</option>
                         <option value="2" >2</option>
                         <option value="2" >3</option>
@@ -84,7 +81,7 @@
                 </div>
             </div>
             <div class="row g-3">
-                <button type="submit" class="btn btn-primary mb-3">Ingresar Datos</button>
+                <button type="submit" class="btn btn-primary mb-3">Editar</button>
             </div>
         </form>
     </div>

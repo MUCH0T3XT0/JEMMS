@@ -54,10 +54,10 @@ exports.Riesgo = class {
         }
     }
     //Funcion para extraer los riesgos del proyecto en el que se esta.
-    static async extraerRiesgosP(id_proyec){
+    static async extraerRiesgosP(id_proyect){
         try{
             const connexion = await db();
-            const resultado = await connexion.execute('Select * from PROYECTO NATURAL JOIN RIESGO WHERE ? = RIESGO.id_proyecto', [id_proyec]);
+            const resultado = await connexion.execute('Select * from RIESGO WHERE ? = RIESGO.id_proyecto', [id_proyect]);
             console.log(resultado);
 
             await connexion.release();
@@ -66,10 +66,22 @@ exports.Riesgo = class {
             throw error;
         }
     }
-    static async editarRiesgo(proyecto, categoria, impacto, probabilidad, estrategia, descripcion, id_riesgo, id_proyecto){
+    static async seleccionarRiesgo(id_riesgo, id_proyecto){
         try{
             const connexion = await db();
-            const resultado = await connexion.execute('UPDATE riesgo set id_proyecto= ?, categoria= ?, impacto=?, probabilidad= ?, estrategia_m= ? , descripcion = ? where id_riesgo= ? and id_proyecto= ?', [proyecto, categoria, impacto, probabilidad, estrategia, descripcion, 1, 1]);
+            const resultado = await connexion.execute('SELECT * from RIESGO WHERE ? = RIESGO.id_riesgo and ? = RIESGO.id_proyecto', [id_riesgo, id_proyecto]);
+            console.log(resultado);
+
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
+    static async editarRiesgo(proyecto, categoria, impacto, probabilidad, estrategia, descripcion, id_riesgo){
+        try{
+            const connexion = await db();
+            const resultado = await connexion.execute('UPDATE riesgo set id_proyecto= ?, categoria= ?, impacto=?, probabilidad= ?, estrategia_m= ? , descripcion = ? where id_riesgo= ?', [proyecto, categoria, impacto, probabilidad, estrategia, descripcion, id_riesgo]);
             console.log(resultado);
 
             await connexion.release();
