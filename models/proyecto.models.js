@@ -164,7 +164,7 @@ exports.Riesgo = class {
     static async editarRiesgo(proyecto, categoria, impacto, probabilidad, estrategia, descripcion, id_riesgo, id_proyecto){
         try{
             const connexion = await db();
-            const resultado = await connexion.execute('UPDATE riesgo set id_proyecto= ?, categoria= ?, impacto=?, probabilidad= ?, estrategia_m= ? , descripcion = ? where id_riesgo= ? and id_proyecto= ?', [proyecto, categoria, impacto, probabilidad, estrategia, descripcion, 1, 1]);
+            const resultado = await connexion.execute('UPDATE riesgo set id_proyecto= ?, categoria= ?, impacto= ?, probabilidad= ?, estrategia_m= ? , descripcion = ? where id_riesgo= ? and id_proyecto= ?', [proyecto, categoria, impacto, probabilidad, estrategia, descripcion, 1, 1]);
             console.log(resultado);
 
             await connexion.release();
