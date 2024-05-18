@@ -34,7 +34,7 @@
     </div>
 
     <div class="container py-4">
-        <form class=" row g-3" action="/proyecto/editar_proyecto" method="post">
+        <form class=" row g-3" action="/proyecto/<%=id_proyecto%>/editar_proyecto" method="post">
             <div class="mb-3 row">
                 <label for="inputNombre" class="col-sm-2 col-form-label">Nombre de proyecto</label>
                 <div class="col-sm-10">
@@ -83,7 +83,7 @@
         </form>
         
         <div class="row g-3">
-            <a  href="/proyecto/info_proyecto" type="submit" class="btn btn-primary mb-3">Regresar</a>
+            <a  href="/proyecto/<%=id_proyecto%>/info_proyecto" type="submit" class="btn btn-primary mb-3">Regresar</a>
         </div>
     </div>
 

@@ -74,8 +74,7 @@ exports.Proyecto = class {
         try{
             const connexion = await db();
             
-            const resultado = await connexion.execute('Select descripcion, empresa, nombre_proyecto, presupuesto, DATE_FORMAT(f_creacion, \'%Y-%m-%d\') AS fecha_creacion, DATE_FORMAT(f_fin, \'%Y-%m-%d\') AS fecha_fin, encargado, departamento from PROYECTO WHERE id_proyecto = 1', [id_proyecto]);
-            //console.log(resultado);
+            const resultado = await connexion.execute('Select descripcion, empresa, nombre_proyecto, presupuesto, DATE_FORMAT(f_creacion, \'%Y-%m-%d\') AS fecha_creacion, DATE_FORMAT(f_fin, \'%Y-%m-%d\') AS fecha_fin, encargado, departamento from PROYECTO WHERE id_proyecto = ?', [id_proyecto]);
 
             await connexion.release();
             return resultado;
@@ -84,14 +83,15 @@ exports.Proyecto = class {
         }
     }
 
-    async editar_proyecto(){
+    async editar_proyecto(id_proyecto){
         try{
             const connexion = await db();
             const resultado = await connexion.execute(
-                'Update proyecto set empresa = ?, nombre_proyecto = ?, f_creacion = ?, f_fin = ?, encargado = ?, presupuesto = ?, descripcion = ? Where id_proyecto = 1', 
-                [this.empresa, this.nombre_proyecto, this.f_creacion, this.f_fin, this.encargado, this.presupuesto, this.descripcion]);
+                'Update proyecto set empresa = ?, nombre_proyecto = ?, f_creacion = ?, f_fin = ?, encargado = ?, presupuesto = ?, descripcion = ? Where id_proyecto = ?', 
+                [this.empresa, this.nombre_proyecto, this.f_creacion, this.f_fin, this.encargado, this.presupuesto, this.descripcion, id_proyecto]);
             await connexion.release();
-            return;
+            
+            return resultado;
         }catch(error){
             console.log("error");
             throw error;
@@ -99,6 +99,28 @@ exports.Proyecto = class {
         }
     }
 
+    async nuevoProyecto(){
+        try{
+            const connexion = await db();
+            const resultado = connexion.execute('Insert into proyecto (id_manager, descripcion, empresa, nombre_proyecto, presupuesto, f_creacion, f_fin, encargado, departamento, estatus) Values ( ?, ?, ?, ?, ?, \'2024-07-02\', \'2024-07-09\', ?, ?, ?)',
+            [this.id_manager,
+            this.descripcion,
+            this.empresa,
+            this.nombre_proyecto,
+            this.presupuesto,
+            this.encargado,
+            this.departamento,
+            this.estatus
+            ]);
+
+
+            await connexion.release();
+            return;
+        }catch(error){
+            console.log(error);
+            throw error;
+        }
+    }
 }
 
 //Objeto que guarda los datos de los riesgos
@@ -114,10 +136,10 @@ exports.Riesgo = class {
     }
     
     //Funcion para extraer los riesgos que se encuentran registrados en la base de datos.
-    static async extraerRiesgosG(){
+    static async extraerRiesgosG(id_proyecto){
         try{
             const connexion = await db();
-            const resultado = await connexion.execute('Select * from RIESGO');
+            const resultado = await connexion.execute('Select * from RIESGO where id_proyecto = ?', [id_proyecto]);
             console.log(resultado);
 
             await connexion.release();
@@ -152,6 +174,8 @@ exports.Riesgo = class {
         }
     }
     
+    
+
     static async agregarRiesgos(proyecto, categoria, impacto, probabilidad, estrategia, descripcion){
         try{
             const connexion = await db();
