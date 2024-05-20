@@ -2,7 +2,7 @@ const model = require("../models/usuario.models.js");
 const bcrypt = require('bcryptjs');
 
 module.exports.get_login = async(req,res) =>{
-    res.status(201).render("login/login",{
+    res.status(200).render("login/login",{
         registro: true
     });
 }
@@ -15,7 +15,7 @@ module.exports.post_login = async(req, res) =>{
 
         if(usuarios.length < 1){
             
-            res.status(400).render("login/login",{
+            res.status(404).render("login/login",{
                 registro: false
             });
             return;
@@ -51,7 +51,7 @@ module.exports.post_login = async(req, res) =>{
         //req.session.permisos = permiso;
         //req.session.isLoggedIn = true;
 
-        res.status(201).redirect("/proyecto/home");
+        res.status(200).redirect("/proyecto/home");
         
 
     }catch (error){
