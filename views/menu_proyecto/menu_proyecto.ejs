@@ -35,13 +35,14 @@
                         <p>Cantidad de riesgos: <br> <span class="risk-points"><%= proyectoRiesgo[0].cuenta %></span></p>
                         <% if(proyectoNum[0].total < 10){%>
                             <p>Nivel de Riesgo: <br> <span style="color: #28a213; font-weight: bold;">Bajo</span></p>
-                        <%}%>
-                        <% if(proyectoNum[0].total > 10 && proyectoNum[0].total < 20){%>
+                       
+                        <%} else if(proyectoNum[0].total >= 10 && proyectoNum[0].total <= 20){%>
                             <p>Nivel de Riesgo: <br> <span style="color: #bfbf1b; font-weight: bold;">Promedio</span></p>
-                        <%}%>
 
-                        <% if(proyectoNum[0].total > 30){%>
+                        <%} else if(proyectoNum[0].total > 20){%>
                             <p>Nivel de Riesgo: <br> <span style="color: #d52b15; font-weight: bold;">Alto</span></p>
+                        <%} else {%>
+                            <p>Nivel de Riesgo: <br> <span style="color: gray; font-weight: bold;">Nulo</span></p>
                         <%}%>
                     </div>
                 </div>
@@ -51,15 +52,11 @@
                     <div class="progress" style="--i:85; --clr: #43c617;">
                         <h3> <%=Math.floor((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales) %> <span> % </span></h3>
                     </div>
-                <%}%>
-
-                <% if(proyectoNum[0].total > 10 && proyectoNum[0].total < 20){%>
+                <%} else if(proyectoNum[0].total >= 10 && proyectoNum[0].total <= 20){%>
                     <div class="progress" style="--i:85; --clr: #d8b91b;">
                         <h3> <%=Math.floor(((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales)) %> <span> % </span></h3>
                     </div>
-                <%}%>
-
-                <% if(proyectoNum[0].total > 30) { %>
+                <%} else if(proyectoNum[0].total > 20){%>
                     <div class="progress" style="--i:85; --clr: #d8211b;">
                         <h3> <%= Math.floor(proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales %> <span> % </span></h3>
                     </div>

@@ -54,7 +54,10 @@ module.exports.get_proyecto = async(req,res) =>{
         const infoGeneral= await model.Proyecto.informacionRestante(id);
         const infoNum= await model.Proyecto.informacionNumerica(id);
 
-        res.status(201).render("menu_proyecto/menu_proyecto",{
+
+        res.status(200).render("menu_proyecto/menu_proyecto",{
+            code: 200,
+            msg: "Ok",
             proyectoRiesgo: numRiesgo,
             proyectoGeneral: infoGeneral,
             proyectoNum: infoNum,
@@ -63,7 +66,10 @@ module.exports.get_proyecto = async(req,res) =>{
 
     }catch(error){
         console.log(error);
-        res.status(400).redirect("menu_proyecto/menu_proyecto");
+        res.status(500).redirect("menu_proyecto/menu_proyecto",{
+            code: 500,
+            msg: "No se encontró información del proyecto",
+        });
     }
 }
 
@@ -155,26 +161,85 @@ module.exports.post_editar_proyecto = async(req, res)=>{
 module.exports.get_nuevo_riesgo = async(req,res) =>{
     try{
         console.log("Recuperando riesgos de la base de datos")
+
+        //Extrae todos los riesgos existentes en la BD
         const riesgosG = await model.Riesgo.extraerRiesgosG();
 
-        console.log(riesgosG);
-        res.render("nuevo_riesgo/nuevo_riesgo", {riesgo:riesgosG});
+        //console.log(riesgosG);
+
+        //Renderiza la pagina con los riesgos obtenidos
+        res.status(200).render("nuevo_riesgo/nuevo_riesgo", {
+            code: 200,
+            msg: "Ok",
+            riesgo:riesgosG
+        });
     }catch(error){
         console.log(error);
-        res.render("nuevo_riesgo/nuevo_riesgo");
+        res.status(500).render("nuevo_riesgo/nuevo_riesgo",{
+            code:500,
+            msg: "Error en la BD",
+            riesgo: []
+        });
     }
 }
+
+module.exports.post_nuevo_riesgo = async(req,res) =>{
+    try{
+        console.log("Agregando un riesgo(Riesgo especifico)");
+
+        //En el primer parametro va el numero de proyecto. Esta parte debe ser modificada por el id del proyecto donde se esta actualmente
+        const riesgoP = await model.Riesgo.agregarRiesgos(1, req.body.categoria, req.body.impacto, req.body.probabilidad, req.body.estrategia, req.body.descripcion);
+        
+        const proyectos = await model.Proyecto.extraeProyectos();
+        /*Aqui debe mandarte a la pagina de menu proyectos al agregar un proyecto exitosamente, como esta debajo
+        res.render("menu_proyecto/menu_proyecto",{
+            riesgo: riesgos
+        });
+        */
+        //Como aun no tengo dicha interfaz(debido a que de eso se encarga Mari) dejo lo de abajo
+        console.log(riesgoP);
+        res.status(201).redirect("/proyecto/nuevo_riesgo");
+    }catch(error){
+        console.log(error);
+        res.render("nuevo_riesgo/nuevo_riesgo", {msj: error});
+    }
+}
+
 module.exports.get_mostrar_riesgos = async(req,res) =>{
     try{
         console.log("Recuperando riesgos de la base de datos")
         const id_proyecto = req.params.id;
-        const riesgosG = await model.Riesgo.extraerRiesgosG(id_proyecto);
+        const riesgosG = await model.Riesgo.extraerRiesgosP(id_proyecto);
 
-        console.log(riesgosG);
-        res.render("mostrar_riesgos/mostrar_riesgos", {riesgo:riesgosG});
+        const alcance = await model.Riesgo.cuentaRiesgo(id_proyecto, 1);
+        
+        const tiempo = await model.Riesgo.cuentaRiesgo(id_proyecto, 2);
+        const calidad = await model.Riesgo.cuentaRiesgo(id_proyecto, 3);
+        const costo = await model.Riesgo.cuentaRiesgo(id_proyecto, 4);
+        const recursos = await model.Riesgo.cuentaRiesgo(id_proyecto, 5);
+
+       
+        const total = alcance[0].suma + tiempo[0].suma + calidad[0].suma + costo[0].suma + recursos[0].suma;
+        
+        console.log(total);
+        //console.log(riesgosG);
+        res.status(200).render("mostrar_riesgos/mostrar_riesgos", {
+            code:200,
+            msg: "Ok",
+            riesgo:riesgosG,
+            alcance: alcance,
+            tiempo:tiempo,
+            calidad:calidad,
+            costo:costo,
+            recursos:recursos,
+            total: Number(total)
+        });
     }catch(error){
         console.log(error);
-        res.render("mostrar_riesgos/mostrar_riesgos");
+        res.status(200).render("mostrar_riesgos/mostrar_riesgos",{
+            code: 200,
+            msg: "No se encontro ningun riesgo"
+        });
     }
 }
 
@@ -184,10 +249,17 @@ module.exports.get_editar_riesgo = async(req,res) =>{
         const riesgosG = await model.Riesgo.extraerRiesgosG();
 
         console.log(riesgosG);
-        res.render("editar_riesgo/editar_riesgo", {riesgo:riesgosG});
+        res.status(200).render("editar_riesgo/editar_riesgo", {
+            code: 200,
+            msg: "Ok",
+            riesgo:riesgosG
+        });
     }catch(error){
         console.log(error);
-        res.render("editar_riesgo/editar_riesgo");
+        res.status(400).redirect("home",{
+            code: 400,
+            msg: "Riesgo no encontrado"
+        });
     }
 }
 
@@ -205,25 +277,7 @@ module.exports.post_nuevo_proyecto = async(req,res)=>{
     }
 }
 
-module.exports.post_nuevo_riesgo = async(req,res) =>{
-    try{
-        console.log("Agregando un riesgo(Riesgo especifico)");
-        
-        const riesgoP = await model.Riesgo.agregarRiesgos(1, req.body.categoria, req.body.impacto, req.body.probabilidad, req.body.estrategia, req.body.descripcion); //En el primer parametro va el numero de proyecto. Esta parte debe ser modificada por el id del proyecto donde se esta actualmente
-        const proyectos = await model.Proyecto.extraeProyectos();
-        /*Aqui debe mandarte a la pagina de menu proyectos al agregar un proyecto exitosamente, como esta debajo
-        res.render("menu_proyecto/menu_proyecto",{
-            riesgo: riesgos
-        });
-        */
-        //Como aun no tengo dicha interfaz(debido a que de eso se encarga Mari) dejo lo de abajo
-        console.log(riesgoP);
-        res.status(201).redirect("/proyecto/nuevo_riesgo");
-    }catch(error){
-        console.log(error);
-        res.render("nuevo_riesgo/nuevo_riesgo", {msj: error});
-    }
-}
+
 
 module.exports.post_mostrar_riesgos = async(req,res) =>{
     try{
@@ -240,9 +294,15 @@ module.exports.post_editar_riesgo = async(req,res) =>{
         console.log("Agregando un riesgo(Riesgo especifico)");
         const riesgoP = await model.Riesgo.editarRiesgo(1, req.body.categoria, req.body.impacto, req.body.probabilidad, req.body.estrategia, req.body.descripcion); //En el primer parametro va el numero de proyecto. Esta parte debe ser modificada por el id del proyecto donde se esta actualmente
         console.log("Riesgo editado correctamente")
-        res.status(201).redirect("/proyecto/mostrar_riesgos");
+        res.status(201).redirect("/proyecto/mostrar_riesgos",{
+            code:201,
+            msg: "Ok"
+        });
     }catch(error){
         console.log(error);
-        res.render("mostrar_riesgos/mostrar_riesgos", {msj: error});
+        res.status(500).render("mostrar_riesgos/mostrar_riesgos", {
+            code: 500,
+            msj: "Error en la BD"
+        });
     }
 }

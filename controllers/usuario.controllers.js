@@ -69,14 +69,19 @@ module.exports.get_mostrar_usuarios = async(req,res) =>{
         const lideres = await model.Usuario.getLideres();
         const colaboradores = await model.Usuario.getColaboradores();
 
-        res.render("mostrar_usuarios/mostrar_usuarios",{
+        res.status(200).render("mostrar_usuarios/mostrar_usuarios",{
+            code: 200,
+            msg: "Ok",
             usuario1: lideres,
             usuario2: colaboradores //La variable usuario se ocupa en el html dinamico y lo de usuarios es el resultado de la consulta hecha
 
         });
     }catch(error){
         console.log(error);
-        res.render("mostrar_usuarios/mostrar_usuarios");
+        res.status(500).render("mostrar_usuarios/mostrar_usuarios",{
+            code: 500,
+            msg:"Error base de datos"
+        });
     }
     
 }
@@ -87,9 +92,10 @@ module.exports.cerrar_sesion = async(req,res) => {
     });
 }
 
-module.exports.get_agregar = async(req,res) =>{
-    res.render("agregar_usuario/agregar_usuario",{
-        usuario: false
+module.exports.get_agregar_usuario = async(req,res) =>{
+    res.status(200).render("agregar_usuario/agregar_usuario",{
+        code:200,
+        msg: "Ok"
     });
 }
 
@@ -105,29 +111,52 @@ module.exports.post_agregar_usuario = async(req, res) => {
         
         const usuario = new model.Usuario(correo, nombre, apellido_m, apellido_p, contrasena, rol);
 
-        console.log(usuario);
+        const verificacion = await model.Usuario.buscaUsuario(correo);
 
-        const usuarionuevo = await usuario.guardar_usuario();
+        if(verificacion < 1){
+            console.log(usuario);
 
-        res.status(201).redirect("/usuario/mostrar_usuarios");
+            const usuarionuevo = await usuario.guardar_usuario();
+
+            res.status(201).redirect("/usuario/mostrar_usuarios",{
+                code:201,
+                msg: "Ok"
+            });
+        }else{
+            res.redirect("/usuario/mostrar_usuarios",{
+                code:403,
+                msg: "Usuario ya existente"
+            });
+        }
+
+        
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Error registando usuario" }); // Idealmente se crea una plantilla de errores genérica
+        res.status(500).redirect("/usuario/mostrar_usuarios",{
+            code: 500,
+            message: "Error registando usuario"
+        }); // Idealmente se crea una plantilla de errores genérica
     }
 }
 
 module.exports.get_editar_usuario = async(req,res) =>{
     try {
+        //Busca el usuario en la BD
         const usuario = await model.Usuario.buscaUsuario("mikesquivel2004@gmail.com");
+
+        //Verifica la que exista el Usuario de la BD, si es menor a 1 significa que es un array vacio
         if(usuario.length < 1){
             res.redirect("/usuario/mostrar_usuarios");
             return;
         }
 
-        console.log(usuario);
+        //console.log(usuario);
 
-        res.render("editar_usuario/editar_usuario",{
+        //Se lleva a la pagina para editar info del usuario seleccionado
+        res.status(200).render("editar_usuario/editar_usuario",{
+            code: 200,
+            msg: "Ok",
             usuario:usuario
         });
     }catch (error){
@@ -137,6 +166,7 @@ module.exports.get_editar_usuario = async(req,res) =>{
 
 module.exports.post_editar_usuario = async(req, res) => {
     try {
+        //Se guarda la info del body en constantes
         const nombre = req.body.nombre;
         const apellido_p = req.body.apellido_p;
         const apellido_m = req.body.apellido_m;
@@ -144,11 +174,17 @@ module.exports.post_editar_usuario = async(req, res) => {
         const contrasena = req.body.contrasena;
         const rol = req.body.acceso;
         
+        //Se crea el constructor
         const usuario = new model.Usuario(correo, nombre, apellido_m, apellido_p, contrasena, rol);
-        console.log(usuario);
+        //console.log(usuario);
+        
+        //Se edita el usuario en la BD
         const editado = await usuario.editar_usuario()
     
-        res.status(201).redirect("/usuario/mostrar_usuarios");
+        res.status(200).redirect("/usuario/mostrar_usuarios",{
+            code: 200,
+            msg: "Ok"
+        });
     
     } catch (error) {
         console.error(error);

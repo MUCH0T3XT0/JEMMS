@@ -70,6 +70,8 @@ exports.Proyecto = class {
         }
     }
 
+   
+
     static async ver_proyecto(id_proyecto){
         try{
             const connexion = await db();
@@ -134,13 +136,26 @@ exports.Riesgo = class {
         this.estrategia_m = estrategia_m;
         this.descripcion = descripcion;
     }
-    
-    //Funcion para extraer los riesgos que se encuentran registrados en la base de datos.
-    static async extraerRiesgosG(id_proyecto){
+
+    static async cuentaRiesgo(idProyecto,categoria){
         try{
             const connexion = await db();
-            const resultado = await connexion.execute('Select * from RIESGO where id_proyecto = ?', [id_proyecto]);
+            const resultado = await connexion.execute('SELECT COUNT(r.categoria) AS suma FROM RIESGO r natural join PROYECTO p where r.id_proyecto = ? AND r.categoria = ?', [idProyecto, categoria]);
             console.log(resultado);
+
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
+    
+    //Funcion para extraer los riesgos que se encuentran registrados en la base de datos.
+    static async extraerRiesgosG(){
+        try{
+            const connexion = await db();
+            const resultado = await connexion.execute('Select * from RIESGO');
+            //console.log(resultado);
 
             await connexion.release();
             return resultado;
@@ -152,8 +167,8 @@ exports.Riesgo = class {
     static async extraerRiesgosP(id_proyec){
         try{
             const connexion = await db();
-            const resultado = await connexion.execute('Select * from PROYECTO NATURAL JOIN RIESGO WHERE ? = RIESGO.id_proyecto', [id_proyec]);
-            console.log(resultado);
+            const resultado = await connexion.execute('Select * from RIESGO NATURAL JOIN PROYECTO WHERE RIESGO.id_proyecto = ?', [id_proyec]);
+            //console.log(resultado);
 
             await connexion.release();
             return resultado;
