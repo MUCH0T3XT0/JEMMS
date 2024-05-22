@@ -31,7 +31,7 @@
     </div>
 
     <div class="container py-4">
-        <form class=" row g-3" action="/usuario/editar_usuario" method = "POST">
+        <form class=" row g-3" action="/usuario/<%=usuario[0].id_usuario%>/editar_usuario" method = "POST">
             <div class="mb-3 row">
                 <label for="nombre" class="col-sm-2 col-form-label">Nombre(s): </label>
                 <div class="col-sm-10">

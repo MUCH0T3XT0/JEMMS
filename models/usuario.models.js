@@ -1,7 +1,8 @@
 const db = require('../utils/database.js');
 
 exports.Usuario = class {
-    constructor(correo, nombre, apellido_m, apellido_p, contrasena, rol) {
+    constructor(id, correo, nombre, apellido_m, apellido_p, contrasena, rol) {
+        this.id = id;
         this.correo = correo;
         this.nombre = nombre;
         this.apellido_m = apellido_m;
@@ -14,6 +15,19 @@ exports.Usuario = class {
         try {
             const connexion = await db();
             const resultado = await connexion.execute('Select id_usuario, correo, contrasena from USUARIO WHERE correo = ?', [correo]);
+            console.log(resultado);
+            
+            await connexion.release();
+            return resultado;
+        } catch (error) {
+            throw error; 
+        }
+    }
+
+    static async buscaUsuarioPorId(id) {
+        try {
+            const connexion = await db();
+            const resultado = await connexion.execute('Select * from USUARIO WHERE id_usuario = ?', [id]);
             console.log(resultado);
             
             await connexion.release();
@@ -63,8 +77,8 @@ exports.Usuario = class {
         try {
             const connection = await db();
             const result = await connection.execute(
-            `UPDATE usuario SET nombres = ?, apellido_m = ?, apellido_p = ?, contrasena = ?, rol = ?, correo = ? WHERE correo = ?`,
-            [this.nombre, this.apellido_m, this.apellido_p, this.contrasena, this.rol, this.correo, this.correo]
+            `UPDATE usuario SET nombres = ?, apellido_m = ?, apellido_p = ?, contrasena = ?, rol = ?, correo = ? WHERE id_usuario = ?`,
+            [this.nombre, this.apellido_m, this.apellido_p, this.contrasena, this.rol, this.correo, this.id]
             );
             await connection.release();
             return result;

@@ -143,15 +143,13 @@ module.exports.post_agregar_usuario = async(req, res) => {
 module.exports.get_editar_usuario = async(req,res) =>{
     try {
         //Busca el usuario en la BD
-        const usuario = await model.Usuario.buscaUsuario("mikesquivel2004@gmail.com");
+        const usuario = await model.Usuario.buscaUsuarioPorId(req.params.id);
 
         //Verifica la que exista el Usuario de la BD, si es menor a 1 significa que es un array vacio
         if(usuario.length < 1){
             res.redirect("/usuario/mostrar_usuarios");
             return;
         }
-
-        //console.log(usuario);
 
         //Se lleva a la pagina para editar info del usuario seleccionado
         res.status(200).render("editar_usuario/editar_usuario",{
@@ -167,6 +165,7 @@ module.exports.get_editar_usuario = async(req,res) =>{
 module.exports.post_editar_usuario = async(req, res) => {
     try {
         //Se guarda la info del body en constantes
+        const id = req.params.id;
         const nombre = req.body.nombre;
         const apellido_p = req.body.apellido_p;
         const apellido_m = req.body.apellido_m;
@@ -175,16 +174,13 @@ module.exports.post_editar_usuario = async(req, res) => {
         const rol = req.body.acceso;
         
         //Se crea el constructor
-        const usuario = new model.Usuario(correo, nombre, apellido_m, apellido_p, contrasena, rol);
+        const usuario = new model.Usuario(id, correo, nombre, apellido_m, apellido_p, contrasena, rol);
         //console.log(usuario);
         
         //Se edita el usuario en la BD
         const editado = await usuario.editar_usuario()
     
-        res.status(200).redirect("/usuario/mostrar_usuarios",{
-            code: 200,
-            msg: "Ok"
-        });
+        res.redirect("/usuario/mostrar_usuarios");
     
     } catch (error) {
         console.error(error);

@@ -67,6 +67,7 @@
                         <th>Nombre</th>
                         <th>Apellido Materno</th>
                         <th>Correo</th>
+                        <th>Editar</th>
                     </tr>
                 </thead>
                 <% for (var i = 0; i< usuario2.length ; i++){ %>
@@ -76,6 +77,7 @@
                         <td><%= usuario2[i].nombres%></td>
                         <td><%= usuario2[i].apellido_m%></td>
                         <td><%= usuario2[i].correo%></td>
+                        <td><a href="/usuario/<%= usuario2[i].id_usuario%>/editar_usuario">Editar</a></td>
                     </tr>
                 </tbody>
             <% } %>
