@@ -6,6 +6,74 @@
     background-attachment: fixed;
 }
 
+
+@property --progress{
+    syntax: '<number>';
+    initial-value: 0;
+    inherits: false;
+
+}
+
+h1 {
+    text-align: center;
+    min-height: 20vh;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.circular_progress {
+    position: relative;
+    width: 360px;
+    height: 360px;
+    background: conic-gradient(
+        var(--clr) calc(var(--progress) * 3.6deg), #4f4f4f 0deg);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    animation: progressAnim 2s forwards;
+}
+
+.circular_progress::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    height: 300px;
+    background-color: #2e2e2e;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+
+}
+
+.circular_progress span{
+    font-size: 2rem;
+    color: #4e80d7;
+    z-index: 1;
+}
+
+.progress_label {
+    font-size: 1.5rem;
+    z-index: 1;
+}
+
+@keyframes progressAnim {
+    0%{
+        --progress: 0;
+    }
+    100%{
+        --progress: var(--value);
+    }
+}
+
+
 * {
     margin: 0;
     padding: 0;
@@ -13,13 +81,7 @@
     border: none; /* Asegura que no se apliquen bordes globalmente */
     background: none; /* Elimina fondos globales si es necesario */
 }
-.circle-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: transparent;
-}
+
 
 .container {
     display: flex;
@@ -32,85 +94,6 @@
     padding: 0px;
     background: transparent; /* Establece el fondo a transparente */
     box-shadow: none; /* Elimina cualquier sombra */
-}
-.progress {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    background: #444 linear-gradient(to right, transparent 50%, var(--clr) 0); /* Crea un efecto de progreso */
-    color: #fff; /* Texto blanco */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.progress h3 {
-    font-size: 2.5em;
-    z-index: 1;
-    font-weight: 500;
-}
-
-.progress h3 span {
-    font-size: 0.65em;
-    font-weight: 400;
-}
-
-.progress::after {
-    content: '';
-    position: absolute;
-    inset: 20px;
-    border-radius: 50%;
-    background: #222; /* Fondo oscuro para el círculo interior */
-}
-
-.d-flex {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
-.progress-container {
-    flex-grow: 1; /* Permite que el contenedor de la gráfica crezca y se acerque a los botones */
-    display: flex;
-    justify-content: flex-end; /* Alinea la gráfica hacia el final del contenedor (hacia los botones) */
-    margin-right: 150px;
-}
-
-.progress {
-    position: relative;
-    width: 270px; /* Aumentado de 150px a 200px */
-    height: 270px; /* Aumentado de 150px a 200px */
-    border-radius: 50%;
-    color: #fff;
-    background: #444 linear-gradient(to right, transparent 50%, var(--clr) 0);
-}
-
-.progress h3 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 3em; /* Aumentado para ajustarse al nuevo tamaño */
-    z-index: 1;
-    font-weight: 500;
-}
-
-.progress h3 span {
-    font-size: 0.75em; /* Ajustado proporcionalmente */
-}
-.info-container {
-    text-align: left;
-    margin-right: 20px; /* Ajuste para acercar a la gráfica */
-}
-
-.info-container span, .info-container p {
-    font-size: 18px; /* Ajusta este valor según necesites */
-}
-
-.info-container .risk-points {
-    font-size: 20px; /* Hace que los números sean un poco más grandes si lo deseas */
 }
 
 .status-text {

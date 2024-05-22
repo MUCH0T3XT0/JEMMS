@@ -49,16 +49,16 @@
             </div>
             <div class="progress-container">
                 <% if(proyectoNum[0].total < 10){%>
-                    <div class="progress" style="--i:85; --clr: #43c617;">
-                        <h3> <%=Math.floor((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales) %> <span> % </span></h3>
+                    <div class="circular_progress" style="--i:85; --clr: #43c617; --value:<%=Math.round((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales)%> ">
+                        <span style="color: white;"><%=Math.round((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales)%>%</span>
                     </div>
                 <%} else if(proyectoNum[0].total >= 10 && proyectoNum[0].total <= 20){%>
-                    <div class="progress" style="--i:85; --clr: #d8b91b;">
-                        <h3> <%=Math.floor(((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales)) %> <span> % </span></h3>
+                    <div class="circular_progress" style="--i:85; --clr: #d8b91b; --value:<%=Math.round((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales)%> ">
+                        <span style="color: white;"><%=Math.round((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales)%>%</span>
                     </div>
                 <%} else if(proyectoNum[0].total > 20){%>
-                    <div class="progress" style="--i:85; --clr: #d8211b;">
-                        <h3> <%= Math.floor(proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales %> <span> % </span></h3>
+                    <div class="circular_progress" style="--i:85; --clr: #d8211b; --value:<%=Math.round((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales)%> ">
+                        <span style="color: white;"><%=Math.round((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales)%>%</span>
                     </div>
                 <% } %>
                 

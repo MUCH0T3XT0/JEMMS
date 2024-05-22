@@ -141,7 +141,7 @@ exports.Riesgo = class {
         try{
             const connexion = await db();
             const resultado = await connexion.execute('SELECT COUNT(r.categoria) AS suma FROM RIESGO r natural join PROYECTO p where r.id_proyecto = ? AND r.categoria = ?', [idProyecto, categoria]);
-            console.log(resultado);
+            //console.log(resultado);
 
             await connexion.release();
             return resultado;
@@ -164,11 +164,11 @@ exports.Riesgo = class {
         }
     }
     //Funcion para extraer los riesgos del proyecto en el que se esta.
-    static async extraerRiesgosP(id_proyec){
+    static async extraerRiesgosPorProyecto(id_proyec){
         try{
             const connexion = await db();
             const resultado = await connexion.execute('Select * from RIESGO NATURAL JOIN PROYECTO WHERE RIESGO.id_proyecto = ?', [id_proyec]);
-            //console.log(resultado);
+            
 
             await connexion.release();
             return resultado;
@@ -176,14 +176,36 @@ exports.Riesgo = class {
             throw error;
         }
     }
-    static async editarRiesgo(proyecto, categoria, impacto, probabilidad, estrategia, descripcion, id_riesgo, id_proyecto){
+
+    static async extraerRiesgosPorId(id_riesgo){
         try{
             const connexion = await db();
-            const resultado = await connexion.execute('UPDATE riesgo set id_proyecto= ?, categoria= ?, impacto= ?, probabilidad= ?, estrategia_m= ? , descripcion = ? where id_riesgo= ? and id_proyecto= ?', [proyecto, categoria, impacto, probabilidad, estrategia, descripcion, 1, 1]);
-            console.log(resultado);
+            const resultado = await connexion.execute('Select * from RIESGO WHERE RIESGO.id_riesgo = ?', [id_riesgo]);
+            
 
             await connexion.release();
             return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
+
+    static async editarRiesgo(id_riesgo, categoria, impacto, probabilidad, estrategia, descripcion){
+        try{
+            const connexion = await db();
+            console.log(id_riesgo);
+            console.log(categoria);
+            console.log(impacto);
+            console.log(probabilidad);
+            console.log(estrategia);
+            console.log(descripcion);
+            
+            const resultado = await connexion.execute('UPDATE riesgo set categoria= ?, impacto=?, probabilidad= ?, estrategia_m= ? , description = ? where id_riesgo= ?', [categoria, impacto, probabilidad, estrategia, descripcion, id_riesgo]);
+            console.log(resultado);
+
+
+            await connexion.release();
+            return;
         }catch(error){
             throw error;
         }

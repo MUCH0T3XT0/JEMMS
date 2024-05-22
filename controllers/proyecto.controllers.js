@@ -110,7 +110,6 @@ module.exports.get_editar_proyecto = async(req,res) => {
         const proyectos = await model.Proyecto.ver_proyecto(id);
 
         if(proyectos.length < 1){
-            
             res.status(400).render("editar_proyecto/editar_proyecto",{
                 error: true
             });
@@ -209,10 +208,9 @@ module.exports.get_mostrar_riesgos = async(req,res) =>{
     try{
         console.log("Recuperando riesgos de la base de datos")
         const id_proyecto = req.params.id;
-        const riesgosG = await model.Riesgo.extraerRiesgosP(id_proyecto);
+        const riesgosG = await model.Riesgo.extraerRiesgosPorProyecto(id_proyecto);
 
         const alcance = await model.Riesgo.cuentaRiesgo(id_proyecto, 1);
-        
         const tiempo = await model.Riesgo.cuentaRiesgo(id_proyecto, 2);
         const calidad = await model.Riesgo.cuentaRiesgo(id_proyecto, 3);
         const costo = await model.Riesgo.cuentaRiesgo(id_proyecto, 4);
@@ -221,7 +219,7 @@ module.exports.get_mostrar_riesgos = async(req,res) =>{
        
         const total = alcance[0].suma + tiempo[0].suma + calidad[0].suma + costo[0].suma + recursos[0].suma;
         
-        console.log(total);
+        //console.log(total);
         //console.log(riesgosG);
         res.status(200).render("mostrar_riesgos/mostrar_riesgos", {
             code:200,
@@ -232,7 +230,8 @@ module.exports.get_mostrar_riesgos = async(req,res) =>{
             calidad:calidad,
             costo:costo,
             recursos:recursos,
-            total: Number(total)
+            total: Number(total),
+            id_proyecto: id_proyecto
         });
     }catch(error){
         console.log(error);
@@ -245,20 +244,45 @@ module.exports.get_mostrar_riesgos = async(req,res) =>{
 
 module.exports.get_editar_riesgo = async(req,res) =>{
     try{
-        console.log("Recuperando riesgos de la base de datos")
-        const riesgosG = await model.Riesgo.extraerRiesgosG();
+        console.log("get_editar_riesgo Recuperando riesgos de la base de datos")
+
+        const id_riesgo = req.params.id_riesgo;
+        
+        console.log(id_riesgo);
+        const riesgosG = await model.Riesgo.extraerRiesgosPorId(id_riesgo);
 
         console.log(riesgosG);
+
         res.status(200).render("editar_riesgo/editar_riesgo", {
             code: 200,
             msg: "Ok",
-            riesgo:riesgosG
+            id_riesgo: id_riesgo,
+            id_proyecto: req.params.id_proyecto,
+            riesgoSelec:riesgosG
         });
     }catch(error){
         console.log(error);
         res.status(400).redirect("home",{
             code: 400,
             msg: "Riesgo no encontrado"
+        });
+    }
+}
+
+module.exports.post_editar_riesgo = async(req,res) =>{
+    try{
+        console.log("Agregando un riesgo(Riesgo especifico)");
+        console.log(req.params.id)
+        const riesgoModificado = await model.Riesgo.editarRiesgo(req.body.id, req.body.categoria, req.body.impacto, req.body.probabilidad, req.body.estrategia, req.body.descripcion); 
+        console.log("Se añade el riesgo");
+        
+        
+        res.status(201).redirect("/proyecto/"+req.params.id_proyecto+"/mostrar_riesgos");
+    }catch(error){
+        console.log(error);
+        res.status(500).render("mostrar_riesgos/mostrar_riesgos", {
+            code: 500,
+            msj: "Error en la BD"
         });
     }
 }
@@ -289,20 +313,4 @@ module.exports.post_mostrar_riesgos = async(req,res) =>{
         res.render("mostrar_riesgos/mostrar_riesgos", {msj: error});
     }
 }
-module.exports.post_editar_riesgo = async(req,res) =>{
-    try{
-        console.log("Agregando un riesgo(Riesgo especifico)");
-        const riesgoP = await model.Riesgo.editarRiesgo(1, req.body.categoria, req.body.impacto, req.body.probabilidad, req.body.estrategia, req.body.descripcion); //En el primer parametro va el numero de proyecto. Esta parte debe ser modificada por el id del proyecto donde se esta actualmente
-        console.log("Riesgo editado correctamente")
-        res.status(201).redirect("/proyecto/mostrar_riesgos",{
-            code:201,
-            msg: "Ok"
-        });
-    }catch(error){
-        console.log(error);
-        res.status(500).render("mostrar_riesgos/mostrar_riesgos", {
-            code: 500,
-            msj: "Error en la BD"
-        });
-    }
-}
+
