@@ -23,8 +23,8 @@ module.exports.post_login = async(req, res) =>{
 
         const usuario = usuarios[0];
         
-        const doMatch = await bcrypt.compare(req.body.contrasena, usuario.contrasena);
-        //const doMatch = (req.body.contrasena == usuario.contrasena) ? true : false
+        //const doMatch = await bcrypt.compare(req.body.contrasena, usuario.contrasena);
+        const doMatch = (req.body.contrasena == usuario.contrasena) ? true : false
        
         
 
@@ -118,7 +118,10 @@ module.exports.post_agregar_usuario = async(req, res) => {
 
             const usuarionuevo = await usuario.guardar_usuario();
 
-            res.status(201).redirect("/usuario/mostrar_usuarios");
+            res.status(201).redirect("/usuario/mostrar_usuarios",{
+                code:201,
+                msg: "Ok"
+            });
         }else{
             res.redirect("/usuario/mostrar_usuarios",{
                 code:403,
