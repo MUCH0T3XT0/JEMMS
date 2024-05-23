@@ -1,4 +1,5 @@
 const db = require('../utils/database.js');
+const bcrypt = require('bcryptjs');
 
 exports.Usuario = class {
     constructor(id, correo, nombre, apellido_m, apellido_p, contrasena, rol) {
@@ -62,9 +63,11 @@ exports.Usuario = class {
     async guardar_usuario() {
         try {
             const connection = await db();
+            const hashedPass = await bcrypt.hash(this.contrasena, 12)
+            console.log("Aqui");
             const result = await connection.execute(
             `INSERT INTO usuario (nombres, apellido_m, apellido_p, correo, contrasena, rol) VALUES (?, ?, ?, ?, ?, ?)`,
-            [this.nombre, this.apellido_m, this.apellido_p, this.correo, this.contrasena, this.rol]
+            [this.nombre, this.apellido_m, this.apellido_p, this.correo, hashedPass, this.rol]
             );
             await connection.release();
             return result;
