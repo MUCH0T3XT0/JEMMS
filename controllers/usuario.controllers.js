@@ -23,8 +23,8 @@ module.exports.post_login = async(req, res) =>{
 
         const usuario = usuarios[0];
         
-        //const doMatch = await bcrypt.compare(req.body.contrasena, usuario.contrasena);
-        const doMatch = (req.body.contrasena == usuario.contrasena) ? true : false
+        const doMatch = await bcrypt.compare(req.body.contrasena, usuario.contrasena);
+        //const doMatch = (req.body.contrasena == usuario.contrasena) ? true : false
        
         
 
