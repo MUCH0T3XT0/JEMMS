@@ -12,7 +12,8 @@ module.exports.post_login = async(req, res) =>{
         console.log("Entrando");
         const usuarios = await model.Usuario.buscaUsuario(req.body.correo)
         //console.log(usuarios);
-
+        console.log("aca");
+        console.log(usuarios);
         if(usuarios.length < 1){
             
             res.status(404).render("login/login",{
@@ -23,12 +24,13 @@ module.exports.post_login = async(req, res) =>{
 
         const usuario = usuarios[0];
         
-        //const doMatch = await bcrypt.compare(req.body.contrasena, usuario.contrasena);
-        const doMatch = (req.body.contrasena == usuario.contrasena) ? true : false
+        const doMatch = await bcrypt.compare(req.body.contrasena, usuario.contrasena);
+        //const doMatch = (req.body.contrasena == usuario.contrasena) ? true : false
        
         
 
         if(!doMatch) {
+            req.session.estatusLogeado = false;
             res.status(400).render("login/login",{
                 registro: false
             });
@@ -49,13 +51,15 @@ module.exports.post_login = async(req, res) =>{
 
         //req.session.nombre = usuario.nombre;
         //req.session.permisos = permiso;
-        //req.session.isLoggedIn = true;
+        req.session.estatusLogeado = true;
 
+        console.log(req.session.estatusLogeado);
         res.status(200).redirect("/proyecto/home");
         
 
     }catch (error){
         console.log(error);
+        req.session.estatusLogeado = false;
         res.render("login/login",{
             registro: false
         });
