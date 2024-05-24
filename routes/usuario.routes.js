@@ -9,6 +9,8 @@ router.get('/:id/editar_usuario', controller.get_editar_usuario);
 
 router.post('/login', controller.post_login);
 router.get('/mostrar_usuarios', controller.get_mostrar_usuarios);
+router.get('/mostrar_usuarios_lideres', controller.get_mostrar_usuarios_lideres);
+router.get('/mostrar_usuarios_colaboradores', controller.get_mostrar_usuarios_colaboradores);
 router.post('/agregar_usuario', controller.post_agregar_usuario);
 router.post('/:id/editar_usuario', controller.post_editar_usuario);
 

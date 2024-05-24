@@ -41,7 +41,7 @@ exports.Usuario = class {
     static async getLideres() {
         try {
             const connexion = await db();
-            const result = await connexion.execute('SELECT id_usuario,nombres, apellido_m, nombre_proyecto FROM USUARIO JOIN PROYECTO ON id_usuario = id_manager ORDER BY id_usuario;');
+            const result = await connexion.execute('SELECT id_usuario ,nombres, apellido_p, nombre_proyecto FROM USUARIO JOIN PROYECTO ON id_usuario = id_manager ORDER BY id_usuario;');
             await connexion.release();
             return result;
         } catch (error) {
