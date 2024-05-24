@@ -11,9 +11,7 @@ module.exports.post_login = async(req, res) =>{
     try {
         console.log("Entrando");
         const usuarios = await model.Usuario.buscaUsuario(req.body.correo)
-        //console.log(usuarios);
-        console.log("aca");
-        console.log(usuarios);
+        
         if(usuarios.length < 1){
             
             res.status(404).render("login/login",{
@@ -53,8 +51,7 @@ module.exports.post_login = async(req, res) =>{
         //req.session.permisos = permiso;
         req.session.estatusLogeado = true;
 
-        console.log(req.session.estatusLogeado);
-        res.status(200).redirect("/proyecto/home");
+        res.status(201).json({code: 201, msg: "Ok"});
         
 
     }catch (error){
@@ -91,9 +88,9 @@ module.exports.get_mostrar_usuarios = async(req,res) =>{
 }
 
 module.exports.cerrar_sesion = async(req,res) => {
-    res.render("login/login",{
-        loggeado: false
-    });
+    req.session.estatusLogeado = false;
+
+    res.redirect("login");
 }
 
 module.exports.get_agregar_usuario = async(req,res) =>{
