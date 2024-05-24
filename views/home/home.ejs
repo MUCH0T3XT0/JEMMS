@@ -56,6 +56,13 @@
                         <div class="col">
                             <div class="card"> 
                             <img src="./ejemplo.jpg" class="card-img-top" alt="Imágen de ejemplo">
+                            
+                            <% if(termometro[i].riesgo_total == 20){%>
+                                <p>Nivel de Riesgo: <br> <span style="color: #28a213; font-weight: bold;">Bajo</span></p>
+                            <%}%>
+
+                            <p>Nivel Riesgo: <%= termometro[i].riesgo_total %></p>
+                            <p>Departamento: <%= proyecto[i].departamento %></p>
                             <div class="card-body">
                                 <h5 class="card-title"><%= proyecto[i].nombre_proyecto %></h5>
                                 <p class="card-text"><%= proyecto[i].descripcion %></p>

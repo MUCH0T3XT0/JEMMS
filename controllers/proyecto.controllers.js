@@ -4,6 +4,7 @@ module.exports.get_home = async(req,res) =>{
     try{
         console.log("Recuperando proyectos");
         const proyectos = await model.Proyecto.extraeProyectos();
+        const termo = await model.Proyecto.informacionNumericaG();
 
         if(proyectos.length < 1){
             
@@ -15,6 +16,7 @@ module.exports.get_home = async(req,res) =>{
 
         res.status(201).render("home/home",{
             proyecto: proyectos,
+            termometro: termo,
             error: false
         });
         
