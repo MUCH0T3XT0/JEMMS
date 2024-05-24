@@ -17,7 +17,7 @@ window.addEventListener('load', function() {
     }).render(wrapper);
 
     gridTable1 = new gridjs.Grid({
-        columns: ["ID", "nombres", "apellido_m", "correo"],
+        columns: ["ID", "nombres", "apellido_p", "correo"],
         pagination: true,
         search: true,
         sort: true,

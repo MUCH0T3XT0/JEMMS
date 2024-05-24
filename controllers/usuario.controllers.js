@@ -62,13 +62,13 @@ module.exports.post_login = async(req, res) =>{
     }        
 }
 
-//Se muestra la interfaz de mostrar los usuarios
+//Se modificó la función para mostrar la interfaz de mostrar los usuarios
 module.exports.get_mostrar_usuarios = async(req,res) =>{
     console.log("Recuperando información de los usuarios");   
     res.render("mostrar_usuarios/mostrar_usuarios");
 }
 
-//Se muestra la información de los líderes
+//Se agregó la función para mostrar la información de los líderes
 module.exports.get_mostrar_usuarios_lideres = async(req,res) =>{
     try{
         console.log("Recuperando información de los lideres");
@@ -87,7 +87,7 @@ module.exports.get_mostrar_usuarios_lideres = async(req,res) =>{
     
 }
 
-//Se muestra la información de los colaboradres
+//Se agregó la función para mostrar la información de los colaboradres
 module.exports.get_mostrar_usuarios_colaboradores = async(req,res) =>{
     try{
         console.log("Recuperando información de los colaboradores");
