@@ -93,7 +93,6 @@ module.exports.cerrar_sesion = async(req,res) => {
 module.exports.get_agregar_usuario = async(req,res) =>{
     const valido = req.query.valido === 'false' ? false : true;
     const correov = req.query.correov === 'false' ? false : true;
-    console.log(valido);
     res.status(200).render("agregar_usuario/agregar_usuario",{
         code:200,
         msg: "Ok",
@@ -116,7 +115,8 @@ module.exports.post_agregar_usuario = async(req, res) => {
             return;
         }
 
-        if(correo != /([A-Z]|[a-z]|[0-9])+@appix\.mx/){
+        const correovalido = /([A-Z]|[a-z]|[0-9])+@appix\.mx/;
+        if(!correovalido.test(correo)){
             res.status(403).redirect("/usuario/agregar_usuario?correov=false");
             return;
         }
@@ -153,6 +153,7 @@ module.exports.get_editar_usuario = async(req,res) =>{
     try {
         //Busca el usuario en la BD
         const usuario = await model.Usuario.buscaUsuarioPorId(req.params.id);
+        const valido = req.query.valido === 'false' ? false : true;
 
         //Verifica la que exista el Usuario de la BD, si es menor a 1 significa que es un array vacio
         if(usuario.length < 1){
@@ -164,7 +165,8 @@ module.exports.get_editar_usuario = async(req,res) =>{
         res.status(200).render("editar_usuario/editar_usuario",{
             code: 200,
             msg: "Ok",
-            usuario:usuario
+            usuario:usuario,
+            valido:valido
         });
     }catch (error){
         res.redirect("/agregar_usuario/agregar_usuario");
@@ -181,6 +183,11 @@ module.exports.post_editar_usuario = async(req, res) => {
         const correo = req.body.correo;
         const contrasena = req.body.contrasena;
         const rol = req.body.acceso;
+
+        if(nombre == ''||apellido_p == ''||correo == ''|| contrasena == ''){
+            res.status(400).redirect("/usuario/:id/editar_usuario?valido=false");
+            return;
+        }
         
         //Se crea el constructor
         const usuario = new model.Usuario(id, correo, nombre, apellido_m, apellido_p, contrasena, rol);
