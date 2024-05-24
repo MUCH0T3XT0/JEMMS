@@ -13,10 +13,7 @@ module.exports.post_login = async(req, res) =>{
         const usuarios = await model.Usuario.buscaUsuario(req.body.correo)
         
         if(usuarios.length < 1){
-            
-            res.status(404).render("login/login",{
-                registro: false
-            });
+            res.status(400).json({code: 400, msg: "Usuario no encontrado"});
             return;
         }
 
@@ -29,9 +26,7 @@ module.exports.post_login = async(req, res) =>{
 
         if(!doMatch) {
             req.session.estatusLogeado = false;
-            res.status(400).render("login/login",{
-                registro: false
-            });
+            res.status(400).json({code: 400, msg: "Contraseña incorrecta"});
             return;
         }
 
@@ -57,9 +52,7 @@ module.exports.post_login = async(req, res) =>{
     }catch (error){
         console.log(error);
         req.session.estatusLogeado = false;
-        res.render("login/login",{
-            registro: false
-        });
+        res.status(400).json({code: 400, msg: "Contraseña incorrecta"});
     }        
 }
 
