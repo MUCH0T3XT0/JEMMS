@@ -23,8 +23,8 @@ module.exports.post_login = async(req, res) =>{
 
         const usuario = usuarios[0];
         
-        //const doMatch = await bcrypt.compare(req.body.contrasena, usuario.contrasena);
-        const doMatch = (req.body.contrasena == usuario.contrasena) ? true : false
+        const doMatch = await bcrypt.compare(req.body.contrasena, usuario.contrasena);
+        //const doMatch = (req.body.contrasena == usuario.contrasena) ? true : false
        
         
 
@@ -87,15 +87,18 @@ module.exports.get_mostrar_usuarios = async(req,res) =>{
 }
 
 module.exports.cerrar_sesion = async(req,res) => {
-    res.render("login/login",{
-        loggeado: false
-    });
+    res.status(200).redirect("/usuario/login");
 }
 
 module.exports.get_agregar_usuario = async(req,res) =>{
+    const valido = req.query.valido === 'false' ? false : true;
+    const correov = req.query.correov === 'false' ? false : true;
+    console.log(valido);
     res.status(200).render("agregar_usuario/agregar_usuario",{
         code:200,
-        msg: "Ok"
+        msg: "Ok",
+        valido: valido,
+        correov:correov
     });
 }
 
@@ -108,7 +111,16 @@ module.exports.post_agregar_usuario = async(req, res) => {
         const contrasena = req.body.contrasena;
         const rol = req.body.acceso;
 
-        
+        if(nombre == ''||apellido_p == ''||correo == ''|| contrasena == ''){
+            res.status(400).redirect("/usuario/agregar_usuario?valido=false");
+            return;
+        }
+
+        if(correo != /([A-Z]|[a-z]|[0-9])+@appix\.mx/){
+            res.status(403).redirect("/usuario/agregar_usuario?correov=false");
+            return;
+        }
+
         const usuario = new model.Usuario(null, correo, nombre, apellido_m, apellido_p, contrasena, rol);
 
         const verificacion = await model.Usuario.buscaUsuario(correo);
@@ -118,10 +130,7 @@ module.exports.post_agregar_usuario = async(req, res) => {
 
             const usuarionuevo = await usuario.guardar_usuario();
 
-            res.status(201).redirect("/usuario/mostrar_usuarios",{
-                code:201,
-                msg: "Ok"
-            });
+            res.status(201).redirect("/usuario/mostrar_usuarios?code=201&msg=Ok");
         }else{
             res.redirect("/usuario/mostrar_usuarios",{
                 code:403,
