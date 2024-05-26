@@ -112,15 +112,9 @@ module.exports.post_agregar_usuario = async(req, res) => {
 
             const usuarionuevo = await usuario.guardar_usuario();
 
-            res.status(201).redirect("/usuario/mostrar_usuarios",{
-                code:201,
-                msg: "Ok"
-            });
+            res.status(201).redirect("/usuario/mostrar_usuarios");
         }else{
-            res.redirect("/usuario/mostrar_usuarios",{
-                code:403,
-                msg: "Usuario ya existente"
-            });
+            res.status(400).redirect("/usuario/mostrar_usuarios");
         }
 
         

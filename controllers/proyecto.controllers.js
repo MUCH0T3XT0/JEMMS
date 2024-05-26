@@ -1,4 +1,5 @@
 const model = require("../models/proyecto.models.js");
+const modelU = require("../models/usuario.models.js")
 
 module.exports.get_home = async(req,res) =>{
     try{
@@ -29,13 +30,20 @@ module.exports.get_home = async(req,res) =>{
 
 module.exports.get_nuevo_proyecto = async(req,res) =>{
     try{
-        console.log("Recuperando riesgos de la base de datos")
+        console.log("Recuperando riesgos de la base de datos");
         const riesgosG = await model.Riesgo.extraerRiesgosG();
 
-        console.log(riesgosG);
+        console.log("Recuperando usuarios de la BD de datos");
+        const usuarios = await modelU.Usuario.getColaboradores();
+
+        console.log("Recuperando los departamentos de la BD");
+        const departamentos = await model.Proyecto.obtenerDepartamentos();
+
         res.status(201).render("nuevo_proyecto/nuevo_proyecto",{
             error:false,
-            riesgo: riesgosG
+            riesgo: riesgosG,
+            usuarios: usuarios,
+            departamentos: departamentos
         });
     }catch(error){
         console.log(error);
@@ -44,6 +52,21 @@ module.exports.get_nuevo_proyecto = async(req,res) =>{
         });
     }
     
+}
+
+module.exports.post_nuevo_proyecto = async(req,res)=>{
+    try{
+        console.log("Agregando un proyecto");
+        console.log(req.body.check);
+        const nuevoP = new  model.Proyecto(null, 1, req.body.descripcion, req.body.empresa, req.body.nombre_proyecto, req.body.presupuesto, req.body.f_creacion, req.body.f_fin, req.body.encargado, req.body.departamento, 1);
+        console.log(nuevoP);
+
+        const resultado = nuevoP.nuevoProyecto();
+        res.redirect('home');
+    }catch(error){
+        console.log(error);
+        res.render('nuevo_proyecto/nuevo_proyecto');
+    }
 }
 
 module.exports.get_proyecto = async(req,res) =>{
@@ -284,20 +307,6 @@ module.exports.post_editar_riesgo = async(req,res) =>{
             code: 500,
             msj: "Error en la BD"
         });
-    }
-}
-
-module.exports.post_nuevo_proyecto = async(req,res)=>{
-    try{
-        console.log("Agregando un proyecto");
-        const nuevoP = new  model.Proyecto(null, 1, req.body.descripcion, req.body.empresa, req.body.nombre_proyecto, req.body.presupuesto, req.body.f_creacion, req.body.f_fin, req.body.encargado, req.body.departamento, 1);
-        console.log(nuevoP);
-
-        const resultado = nuevoP.nuevoProyecto();
-        res.redirect('home');
-    }catch(error){
-        console.log(error);
-        res.render('nuevo_proyecto/nuevo_proyecto');
     }
 }
 

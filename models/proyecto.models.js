@@ -20,7 +20,7 @@ exports.Proyecto = class {
         try{
             const connexion = await db();
             const resultado = await connexion.execute('Select id_proyecto, descripcion, nombre_proyecto, estatus from PROYECTO');
-            console.log(resultado);
+            //console.log(resultado);
 
             await connexion.release();
             return resultado;
@@ -123,6 +123,19 @@ exports.Proyecto = class {
             throw error;
         }
     }
+
+    static async obtenerDepartamentos(){
+        try{
+            const connexion = await db();
+
+            const resultado = await connexion.execute('SELECT * FROM DEPARTAMENTO');
+            
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
 }
 
 //Objeto que guarda los datos de los riesgos
@@ -210,7 +223,6 @@ exports.Riesgo = class {
             throw error;
         }
     }
-    
     
 
     static async agregarRiesgos(proyecto, categoria, impacto, probabilidad, estrategia, descripcion){

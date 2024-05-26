@@ -3,47 +3,40 @@ console.log("aqui");
 
 window.addEventListener('load', function() {
     console.log("aqui no");
-
-    
-   
-    
+    let msg = document.getElementById('msg');
+    let correo = document.getElementById('correo');
+    let contrasena = document.getElementById('contrasena');
 });
 
 
 const boton = document.getElementById('iniciar');
-console.log(boton);
+//console.log(boton);
 
 boton.addEventListener('click', function(event){
-    let msg = document.getElementById('msg');
     msg.textContent = "";
 
     console.log("entro");
-    let correo = document.getElementById('correo').value;
-    let contrasena = document.getElementById('contrasena').value;
-    if(!correo || !contrasena){
+    //console.log(correo.value);
+    //console.log(contrasena.value);
+    
+    if(!correo.value || !contrasena.value){
         msg.textContent = "Llene todos los campos";
     }else{
-        let resultado = /([A-Z]|[a-z]|[0-9])+@appix\.mx/.test(correo);
-
-        login(resultado, correo, contrasena);
+        let resultado = /([A-Z]|[a-z]|[0-9])+@appix\.mx/.test(correo.value);
+        console.log(resultado);
+        login(resultado, correo.value, contrasena.value);
     }
-    
-
-   
-    
 })
 
 async function login(resultado, correo, contrasena){
-    let msg = document.getElementById('msg');
     msg.textContent = "";
 
     if(!resultado){
         msg.textContent="Correo Invalido";
     }else{
-        console.log(correo);
-        console.log(contrasena);
-        console.log(JSON.stringify({correo: correo, contrasena:contrasena}));
-        console.log(JSON.stringify({'correo': correo, 'contrasena':contrasena}))
+        //console.log(correo);
+        //console.log(contrasena);
+
         const url = '/usuario/login';
         const response = await fetch(url, {
             method: 'POST',

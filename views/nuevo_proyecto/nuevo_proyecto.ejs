@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menú Principal Appix</title>
-    <link rel="stylesheet" href="casoBase.css">
-    <link rel="stylesheet" href="diseno-menuPrincipal.css">
+    <title>Crear nuevo proyecto</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
 </head>
@@ -41,8 +39,7 @@
             <div class="text-center">
                 <br>
                 <br>
-                <h3>Crear Nuevo</h3>
-                <h3>Proyecto</h3>
+                <h3>Crear Nuevo Proyecto</h3>
                 <br>
             </div>
         </div>
@@ -52,135 +49,79 @@
             <div class="mb-3 row">
                 <label for="inputNombre" class="col-sm-2 col-form-label">Nombre de proyecto</label>
                 <div class="col-sm-10">
-                  <input name = "nombre_proyecto" type=" text" class="form-control" id="inputNombre">
+                  <input name = "nombre_proyecto" type=" text" class="form-control" id="nombre_proyecto">
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="inputCliente" class="col-sm-2 col-form-label">Nombre de empresa</label>
                 <div class="col-sm-10">
-                  <input name = "empresa" type=" text" class="form-control" id="inputCliente">
+                  <input name = "empresa" type=" text" class="form-control" id="empresa">
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="inputCliente" class="col-sm-2 col-form-label">Departamento</label>
                 <div class="col-sm-10">
-                  <input name = "departamento" type=" text" class="form-control" id="inputCliente">
+                    <select id="departamento" >
+                        <%for (var i = 0; i < departamentos.length; i++){%>
+                            <option value="<%=departamentos[i].nombre%>"><%=departamentos[i].nombre%></option>
+                        <%}%>
+                    </select>
+                  <!--<input name = "departamento" type=" text" class="form-control" >-->
                 </div>
             </div>
             <div class="mb-3 row">
                 <label  for="inputStartDate" class="col-sm-2 col-form-label">Fecha de inicio</label>
                 <div class="col-sm-10">
-                  <input name = "f_creacion" type="text" class="form-control" id="inputStartDate" placeholder="Selecciona una fecha">
+                  <input name = "f_creacion" type="text" class="form-control" id="f_creacion" placeholder="Selecciona una fecha de inicio">
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="inputEndDate" class="col-sm-2 col-form-label">Fecha de final</label>
                 <div class="col-sm-10">
-                  <input name = "f_fin" type="text" class="form-control" id="inputEndDate" placeholder="Selecciona una fecha">
+                  <input name = "f_fin" type="text" class="form-control" id="f_fin" placeholder="Selecciona una fecha de fin">
                 </div>
             </div>
             <div class="mb-3 row">
                 <label  for="inputEncargado" class="col-sm-2 col-form-label">Encargado</label>
                 <div class="col-sm-10">
-                  <input name = "encargado" type="text" class="form-control" id="inputEncargado">
+                  <input name = "encargado" type="text" class="form-control" id="encargado">
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="inputPresupuesto" class="col-sm-2 col-form-label">Presupuesto</label>
                 <div class="col-sm-10">
-                  <input name = "presupuesto" type="text" class="form-control" id="inputPresupuesto">
+                  <input name = "presupuesto" type="text" class="form-control" id="presupuesto">
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="inputPresupuesto" class="col-sm-2 col-form-label">Descripcion de proyecto</label>
                 <div class="col-sm-10">
-                    <textarea name = "descripcion" class="form-control" id="inputProyecto" rows="4"></textarea>
+                    <textarea name = "descripcion" class="form-control" id="descripcion" rows="4"></textarea>
                     <span id="contadorCaracteres">0/500</span>
                 </div>
             </div>
             <div class="form-check">
                 <div class="text-end">
-                    <button type="submit" class="btn btn-primary mb-3">Enviar</button>
+                    <button id="boton-enviar" type="button" class="btn btn-primary mb-3">Enviar</button>
                 </div>
             </div>
-            
-        </form>
-    </div>
-
-        <div class="text-center">
-            <button class= "btn btn-primary" onclick="toggleContentRiesgos()">Añadir Riesgos</button>
-            <button class= "btn btn-primary" onclick="toggleContentUsuarios()">Añadir Usuarios</button>
-        </div>
-        
-        <div id = "riesgos">
-            <div class="row justify-content-center mt-6">
+            <div class="row justify-content-center mb-3">
                 <div class="col-md-4">
                     <div class="text-center">
-                        <h3>Crear un nuevo tipo de riesgo</h3>
+                        <h4 id="msg" style="color: red; background-color: #ffffff;"></h4>
                     </div>
                 </div>
             </div>
-        <form id="form_crear_riesgo" method="POST">
-            <div class="container">
-                <div class="table-responsive">
-                    <table class="table align-middle">
-                    <thead>
-                        <tr>
-                            <th scope="col">Descripcion</th>
-                            <th scope="col">Impacto</th>
-                            <th scope="col">Categoria</th>
-                            <th scope="col">Probabilidad</th>
-                            <th scope="col">Estrategia</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control" id="descripcion" name= "descripcion"placeholder="Aqui va descripcion del riesgo">
-                                </div>
-                            </td>
-                            <td>
-                                <select class="form-select" id= "impacto" name= "impacto" aria-label="Default select example">
-                                    <option value="0" selected>Seleccionar</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                </select>
-                            </td>
-                            <td>
-                                <select class="form-select" id= "categoria" name= "categoria" aria-label="Default select example">
-                                    <option value="Vacio" selected>Seleccionar</option>
-                                    <option value="1">Alcance</option>
-                                    <option value="2">Tiempo</option>
-                                    <option value="3">Calidad</option>
-                                    <option value="4">Costo</option>
-                                    <option value="5">Recursos</option>
-                                </select>
-                            </td>
-                            <td>
-                                <select class="form-select" id= "probabilidad" name= "probabilidad" aria-label="Default select example">
-                                    <option value="0" selected>Seleccionar</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                </select>
-                            </td>
-                            <td>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control" id="estrategia" name="estrategia" placeholder="Aqui va descripcion de la estrategia">
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="container py-4">
-                <button type="submit" action="/proyecto/nuevo_riesgo" class="btn btn-primary mb-3">Crear</button><!--Aqui debe ir en un futuro lun boton con id "submitButton" para usar Ajax-->
-            </div>
         </form>
+    </div>
+
+    <div class="text-center">
+        <button id="boton_riesgos" class= "btn btn-primary" onclick="toggleContentRiesgos()">Añadir Riesgos</button>
+        <button id="boton_lider" class= "btn btn-primary" onclick="toggleContentUsuarios()">Añadir Lider</button>
+    </div>
+        
+    <div id="riesgos" style="display: none;" >
+        <br><br>
         <div class="row justify-content-center mt-6">
             <div class="col-md-4">
                 <div class="text-center">
@@ -188,73 +129,70 @@
                 </div>
             </div>
         </div>
-        <form id="form_crear_riesgo" method="POST" action="/proyecto/nuevo_riesgo" >
-            <div class="container">
-                <div class="table-responsive">
-                    <table class="table align-middle">
-                        <thead>
-                            <tr>
-                                <th scope="col">Descripcion</th>
-                                
-                                <th scope="col">Categoria</th>
-                                <th scope="col">Impacto</th>
-                                <th scope="col">Probabilidad</th>
-                                <th scope="col">Estrategia</th>
-                                <th scope="col">Seleccionar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% for (var i = 0; i< riesgo.length ; i++){ %>
-                            <tr>
-                                <td><p name="descripcion" ><%= riesgo[i].description %></p></td>
-                        
-                               
-    
-                                <%if (riesgo[i].categoria == 1){%>
-                                    <td><p style="color: #4ed0d7;">Alcance</p></td>
-                                <%}else if (riesgo[i].categoria == 2){%>
-                                    <td><p style="color: #4e80d7;">Tiempo</p></td>
-                                <%}else if (riesgo[i].categoria == 3){%>
-                                    <td><p style="color: orange;">Calidad</p></td>
-                                <%}else if (riesgo[i].categoria == 4){%>
-                                    <td><p style="color: #4ef73c;">Costo</p></td>
-                                <%}else if (riesgo[i].categoria == 5){%>
-                                    <td><p style="color: #ffdd1f;">Recursos</p></td>
-                                <%}%>
-                                <td><p><%= riesgo[i].impacto %></p></td>
-                                <td><p><%= riesgo[i].probabilidad %></p></td>
-                                <td><p><%= riesgo[i].estrategia_m %><p></td>
-                                <td>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="<%= riesgo[i].id %>" value="<%= riesgo[i].id %>">
-                                    </div>
-                                </td>
-                            </tr>
-                            <% } %>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="container py-4">
-                <button type="submit" class="btn btn-primary mb-3">Enviar</button>
-            </div>
-            </div>
-    
-            
-    </form>    
-</div>
-    <div id="usuarios">
+        <br>
+        
         <div class="container">
-            <div class="row justify-content-center mt-6">
-                <div class="col-md-4">
-                    <div class="text-center">
-                        <div class="padding"> 
-                            <h3>Añadir Líder</h3>
-                        </div>
-                    </div>
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col">Descripcion</th>
+                            
+                            <th scope="col">Categoria</th>
+                            <th scope="col">Impacto</th>
+                            <th scope="col">Probabilidad</th>
+                            <th scope="col">Estrategia</th>
+                            <th scope="col">Seleccionar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (var i = 0; i< riesgo.length ; i++){ %>
+                        <tr>
+                            <td><p name="descripcion" ><%= riesgo[i].description %></p></td>
+                    
+                        
+
+                            <%if (riesgo[i].categoria == 1){%>
+                                <td><p style="color: #4ed0d7;">Alcance</p></td>
+                            <%}else if (riesgo[i].categoria == 2){%>
+                                <td><p style="color: #4e80d7;">Tiempo</p></td>
+                            <%}else if (riesgo[i].categoria == 3){%>
+                                <td><p style="color: orange;">Calidad</p></td>
+                            <%}else if (riesgo[i].categoria == 4){%>
+                                <td><p style="color: #4ef73c;">Costo</p></td>
+                            <%}else if (riesgo[i].categoria == 5){%>
+                                <td><p style="color: #ffdd1f;">Recursos</p></td>
+                            <%}%>
+                            <td><p><%= riesgo[i].impacto %></p></td>
+                            <td><p><%= riesgo[i].probabilidad %></p></td>
+                            <td><p><%= riesgo[i].estrategia_m %><p></td>
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="<%= riesgo[i].id %>" value="<%= riesgo[i].id %>">
+                                </div>
+                            </td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="container py-4">
+            <button type="submit" class="btn btn-primary mb-3">Enviar</button>
+        </div>  
+    </div>
+    
+    <div id="usuarios" style="display: none;">
+        <br><br>
+        <div class="row justify-content-center mt-6">
+            <div class="col-md-4">
+                <div class="text-center">
+                        <h3>Añadir Líder</h3>
                 </div>
             </div>
-            <div class="container">
+        </div>
+        <br>
+        <div class="container">
                 <div class="table-responsive">
                     <table class="table align-middle">
                     <thead>
@@ -266,78 +204,47 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Miguel Ángel</td>
-                            <td>mguribe@gmail.com</td>
-                            <td>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                                    <label class="form-check-label" for="exampleRadios1">
-                                    </label>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="table align-middle">
-                            <td>2</td>
-                            <td>Emiliano</td>
-                            <td>evaldivial@gmail.com</td>
-                            <td>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-                                    <label class="form-check-label" for="exampleRadios2">
-                                    </label>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="table align-middle">
-                            <td>3</td>
-                            <td>Jaime</td>
-                            <td>jtrujillor@gmail.com </td>
-                            <td>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3">
-                                    <label class="form-check-label" for="exampleRadios3">
-                                    </label>
-                                  </div>
-                            </td>
-                        </tr>
+                        <% for (var i = 0; i < usuarios.length; i++) { %>
+                            <tr>
+                                <td><%= usuarios[i].id_usuario %></td>
+                                <td><%= usuarios[i].nombres %></td>
+                                <td><%= usuarios[i].correo %></td>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="check" id="usuario<%=usuarios[i].id_usuario%>">
+                                        <label class="form-check-label" for="usuario<%=usuarios[i].id_usuario%>">
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                        <%}%>
                     </tbody>
                     </table>
                 </div>
             </div>
-        </div>
     </div>
 
     <br><br><br><br>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    
     <%- include('nuevo_proyecto.js.ejs')%>
     <script>
-        var textarea = document.getElementById('inputProyecto');
-        var contadorCaracteres = document.getElementById('contadorCaracteres');
-        textarea.addEventListener('input', function() {
-            contadorCaracteres.textContent = textarea.value.length + '/500';
-            if (textarea.value.length > 500) {
-                textarea.value = textarea.value.slice(0, 500);
-                contadorCaracteres.textContent = '500/500';
-            }
-        });
-    </script>
-    <script>
         $(document).ready(function(){
-            $('#inputStartDate').datepicker({
+            $('#f_creacion').datepicker({
                 format: 'dd/mm/yyyy', 
                 autoclose: true 
             });
         });
         $(document).ready(function(){
-            $('#inputEndDate').datepicker({
+            $('#f_fin').datepicker({
                 format: 'dd/mm/yyyy', 
                 autoclose: true 
             });
         });
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
+    <script src="/proyecto/nuevo_proyecto.js"></script>
 </body>
 </html>
