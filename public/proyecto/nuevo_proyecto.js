@@ -61,7 +61,7 @@ boton_enviar.addEventListener('click', function(event){
 
         //LA VERIFICACION DE TODOS LOS INPUTS FUE CORRECTA
         if(r_proyecto && r_empresa && r_empresa && r_presupuesto && r_descripcion){
-            nuevo_proyecto(nombre_proyecto.value, empresa.value, departamento.value, f_creacion.value, f_fin.value, encargado.value, presupuesto.value, descripcion.value);
+            nuevo_proyecto(nombre_proyecto.value, empresa.value, departamento.value, moment(f_creacion.value, "DD-MM-YYYY").format(moment.HTML5_FMT.DATE), moment(f_fin.value,  "DD-MM-YYYY").format(moment.HTML5_FMT.DATE), encargado.value, presupuesto.value, descripcion.value);
 
         }else{
             //ERROR EN PROYECTO
@@ -92,6 +92,8 @@ boton_enviar.addEventListener('click', function(event){
 
 async function nuevo_proyecto(nombre_proyecto, empresa, departamento, f_inicio, f_fin, encargado, presupuesto, descripcion){
     const url = "/proyecto/nuevo_proyecto";
+    
+
     const response = await fetch(url, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},

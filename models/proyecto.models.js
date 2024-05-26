@@ -104,12 +104,14 @@ exports.Proyecto = class {
     async nuevoProyecto(){
         try{
             const connexion = await db();
-            const resultado = connexion.execute('Insert into proyecto (id_manager, descripcion, empresa, nombre_proyecto, presupuesto, f_creacion, f_fin, encargado, departamento, estatus) Values ( ?, ?, ?, ?, ?, \'2024-07-02\', \'2024-07-09\', ?, ?, ?)',
+            const resultado = connexion.execute('Insert into proyecto (id_manager, descripcion, empresa, nombre_proyecto, presupuesto, f_creacion, f_fin, encargado, departamento, estatus) Values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
             [this.id_manager,
             this.descripcion,
             this.empresa,
             this.nombre_proyecto,
             this.presupuesto,
+            this.f_creacion,
+            this.f_fin,
             this.encargado,
             this.departamento,
             this.estatus
