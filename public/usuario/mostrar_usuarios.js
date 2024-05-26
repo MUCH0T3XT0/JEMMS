@@ -21,7 +21,7 @@ window.addEventListener('load', function() {
                 {
                     id: 'apellido_p',
                     name: 'Apellido Paterno'
-                }
+                },
             ],
         pagination: true,
         search: true,
@@ -54,6 +54,15 @@ window.addEventListener('load', function() {
             {
                 id: 'correo',
                 name: 'Correo Electrónico'
+            },
+            {
+                name: "Editar",
+              formatter: (_, row) => {
+                return gridjs.h('button', {
+                    className: ' btn btn-link',
+                    onClick: () => alert(`Editing "${row.cells[0].data}" "${row.cells[1].data}"`)
+                  }, 'Editar');
+              }
             }
         ],
         pagination: true,
