@@ -7,6 +7,10 @@ window.addEventListener('load', function() {
         gridTable = new gridjs.Grid({
             columns: [
                 {
+                    id: 'nombre_proyecto',
+                    name: 'Nombre del Proyecto'
+                },
+                {
                     id: 'id_usuario',
                     name: 'ID Usuario'
                 },
@@ -17,10 +21,6 @@ window.addEventListener('load', function() {
                 {
                     id: 'apellido_p',
                     name: 'Apellido Paterno'
-                },
-                {
-                    id: 'nombre_proyecto',
-                    name: 'Nombre del Proyecto'
                 }
             ],
         pagination: true,
@@ -29,10 +29,10 @@ window.addEventListener('load', function() {
         server:{
             url: "/usuario/mostrar_usuarios_lideres",
             then: data => data.usuario1.map(usuario => [
+                usuario.nombre_proyecto,
                 usuario.id_usuario,
                 usuario.nombres,
-                usuario.apellido_p,
-                usuario.nombre_proyecto
+                usuario.apellido_p
             ])
         }
     }).render(wrapper);
