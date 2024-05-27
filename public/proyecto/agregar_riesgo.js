@@ -1,12 +1,19 @@
 
 window.addEventListener('load', function() {
-    console.log("Comprobacion 1");   
     const wrapper = document.getElementById('tablaMostar_Riesgos_Globales');
+    const variable = wrapper.getAttribute('id_proyecto');
+    //const variableEnviada = document.getElementById('id_proyecto').value;
+    //const id_proyecto = document.getElementById('id');
+    //const domAttributeValue = sourceElement.getAttribute(id_proyecto);
     //const wrapper1 = document.getElementById('tablaMostar_colaboradores');
-    console.log("Comprobacion 2");
 
         gridTable = new gridjs.Grid({
             columns: [
+                {
+                    id: 'select',
+                    name: 'Seleccionar',
+                    formatter: (_, row) => gridjs.html(`<input type="checkbox" class="select-row" data-id="${variable}" data-description="${row.cells[1].data}" data-categoria="${row.cells[2].data}" data-impacto="${row.cells[3].data}" data-probabilidad="${row.cells[4].data}" data-estrategia_m="${row.cells[5].data}"/>`)
+                },
                 {
                     id: 'description',
                     name: 'Descripcion del riesgo'
@@ -32,8 +39,9 @@ window.addEventListener('load', function() {
         search: true,
         sort: true,
         server:{
-            url: "/proyecto/agregar_riesgos",
+            url: "/proyecto/:id_proyecto/agregar_riesgos",
             then: data => data.riesgo.map(riesgo => [
+                "",
                 riesgo.description,
                 riesgo.categoria,
                 riesgo.impacto,
@@ -42,6 +50,48 @@ window.addEventListener('load', function() {
             ])
         }
     }).render(wrapper);
+
+    const selectedItems = [];
+
+    
+    wrapper.addEventListener('change', function(event) {
+        if (event.target.classList.contains('select-row')) {
+            const checkbox = event.target;
+            const id = checkbox.getAttribute('data-id');
+            const D_categoria = checkbox.getAttribute('data-categoria');
+            const D_impacto = checkbox.getAttribute('data-impacto');
+            const D_probabilidad = checkbox.getAttribute('data-probabilidad');
+            const D_estrategia = checkbox.getAttribute('data-estrategia_m');
+            const D_description = checkbox.getAttribute('data-description');
+            if (checkbox.checked) {
+                selectedItems.push({id, D_categoria, D_impacto, D_probabilidad, D_estrategia, D_description});
+                alert('Se selecciono los siguientes riesgos en el proyecto ' + variable);
+                alert(JSON.stringify(selectedItems, null, 2));
+            } else {
+                const index = selectedItems.findIndex(item => item.id === id);
+                if (index > -1) {
+                    selectedItems.splice(index, 1);
+                }
+            }
+        }
+    });
+    const Buton = document.getElementById('AgregarRiesgoBoton');
+    Buton.addEventListener('submit', function() {
+        event.preventDefault();
+        if (selectedItems.length > 0) {
+            
+            const selectedItem = selectedItems[0];  // Change as needed for multiple selections
+            const id = selectedItem.id;
+            const description = encodeURIComponent(selectedItem.D_description);
+            alert('Se selecciono el riesgo ' + description);  // Encode to handle special characters
+
+            const url = `/proyecto/detalles_riesgo/${id}?description=${description}`;
+            window.location.href = url;
+            
+        } else {
+            alert('Por favor, selecciona al menos un riesgo.');
+        }
+    });
 /*
     gridTable1 = new gridjs.Grid({
         columns: [

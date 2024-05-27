@@ -62,8 +62,7 @@ module.exports.get_proyecto = async(req,res) =>{
             msg: "Ok",
             proyectoRiesgo: numRiesgo,
             proyectoGeneral: infoGeneral,
-            proyectoNum: infoNum,
-            id_proyecto: id
+            proyectoNum: infoNum
         });
 
     }catch(error){
@@ -170,7 +169,8 @@ module.exports.get_nuevo_riesgo = async(req,res) =>{
         //Renderiza la pagina con los riesgos obtenidos
         res.status(200).render("nuevo_riesgo/nuevo_riesgo", {
             code: 200,
-            msg: "Ok"
+            msg: "Ok",
+            id_proyecto: req.params.id_proyecto
             /*, riesgo:riesgosG*/
         });
     }catch(error){
@@ -228,6 +228,32 @@ module.exports.post_nuevo_riesgo = async(req,res) =>{
     }catch(error){
         console.log(error);
         res.render("nuevo_riesgo/nuevo_riesgo", {msj: error});
+    }
+}
+
+
+module.exports.post_agregar_riesgos = async(req,res) =>{
+    try{
+        console.log("Agregando riesgos al proyecto")
+
+        const riesgoP = await model.Riesgo.agregarRiesgos(req.params.id_proyecto, req.body.categoria, req.body.impacto, req.body.probabilidad, req.body.estrategia, req.body.descripcion);
+        
+        console.log(riesgoP)
+
+        res.status(201).redirect("/proyecto/"+req.params.id_proyecto+"/menu_proyecto", {code:200, msg: "Riesgos agregados exitosamente"});
+        /*res.status(200).render("nuevo_riesgo/nuevo_riesgo", {
+            code: 200,
+            msg: "Riesgos agregados exitosamente"
+            , riesgo:riesgosG
+        });
+        */
+    }catch(error){
+        console.log(error);
+        res.status(500).render("nuevo_riesgo/nuevo_riesgo",{
+            code:500,
+            msg: "Error al agregar riesgos"
+            /*, riesgo: []*/
+        });
     }
 }
 
