@@ -4,6 +4,7 @@
         <%- include('./../head.ejs') %>
         <%- include('./../style.ejs') %>
         <title>Menú Principal Appix</title>
+        
     </head>
 <body>
     <%- include('./../barra_principal.ejs')%>
@@ -45,8 +46,9 @@
           <h2 style="color: gray;">No veo Proyectos recientes. Empecemos creando uno ;)</h2>
         </div>
     <%} else{%>
-        <h1>Proyectos Activos</h1>
-
+        <div class="container">
+            <h1>Proyectos Activos</h1>
+        </div>
         <div class="container py-4">
             <div class="row row-cols-4 g-4">
                 <%var flag = false%>
@@ -54,25 +56,37 @@
                     <% if(proyecto[i].estatus == true){%>
                         <%flag = true%>
                         <div class="col">
-                            <div class="card"> 
-                            <img src="./ejemplo.jpg" class="card-img-top" alt="Imágen de ejemplo">
+                            <% if(termometro[i].riesgo_total <= 0){ %>
+                            <div class="card">
+                            <img src="./none_risk.png" class="card-img-top" alt="Imágen de ejemplo">
+                            <p>Nivel de riesgo <span style="color: #000000; font-weight: bold;">Nulo</span></p>
                             
-                            <% if(termometro[i].riesgo_total == 20){%>
-                                <p>Nivel de Riesgo: <br> <span style="color: #28a213; font-weight: bold;">Bajo</span></p>
-                            <%}%>
-
-                            <p>Nivel Riesgo: <%= termometro[i].riesgo_total %></p>
-                            <p>Departamento: <%= proyecto[i].departamento %></p>
+                            <%} else if(termometro[i].riesgo_total < 10){ %>
+                            <div class="card">
+                            <img src="./low_risk.png" class="card-img-top" alt="Imágen de ejemplo">
+                            <p>Nivel de riesgo <span style="color: #000000; font-weight: bold;">Bajo</span></p>
+                            
+                            <%} else if(termometro[i].riesgo_total < 20){ %>
+                            <div class="card">
+                            <img src="./medium_risk.png" class="card-img-top" alt="Imágen de ejemplo">
+                            <p>Nivel de riesgo <span style="color: #000000; font-weight: bold;">Medio</span></p>
+                            
+                            <%} else { %>
+                            <div class="card">
+                            <img src="./high_risk.png" class="card-img-top" alt="Imágen de ejemplo">
+                            <p>Nivel de riesgo <span style="color: #000000; font-weight: bold;">Alto</span></p>
+                            
+                            <% } %>
                             <div class="card-body">
-                                <h5 class="card-title"><%= proyecto[i].nombre_proyecto %></h5>
-                                <p class="card-text"><%= proyecto[i].descripcion %></p>
+                                <h5 class="card-title"><%= proyecto[i].nombre_proyecto %><br></h5>
+                                <p><%= proyecto[i].descripcion %></p>
+                                <p>Departamento: <%= proyecto[i].departamento %></p>
                                 <a href="<%= proyecto[i].id_proyecto%>/menu_proyecto/" class="btn btn-primary" id="go">Ver más</a>
                             </div>
+                        </div>
                             </div>
-                        </div> 
-                    <%}%>
+                        <%}%>
                 <% } %>
-                
             </div>
         </div> 
         <%if (!flag){%>
@@ -82,7 +96,9 @@
             </div>
             <br>
         <%}%>
-        <h1>Proyectos Pasados</h1>
+        <div class="container">
+            <h1>Proyectos Pasados</h1>
+        </div>
 
         <div class="container py-4">
             <div class="row row-cols-4 g-4">
@@ -91,15 +107,35 @@
                     <% if(proyecto[i].estatus == false){%>
                         <%flag = true%>
                         <div class="col">
-                            <div class="card"> 
-                            <img src="./ejemplo.jpg" class="card-img-top" alt="Imágen de ejemplo">
+                            <% if(termometro[i].riesgo_total <= 0){ %>
+                            <div class="card">
+                            <img src="./none_risk.png" class="card-img-top" alt="Imágen de ejemplo">
+                            <p>Nivel de riesgo <span style="color: #000000; font-weight: bold;">Nulo</span></p>
+                            
+                            <%} else if(termometro[i].riesgo_total < 10){ %>
+                            <div class="card">
+                            <img src="./low_risk.png" class="card-img-top" alt="Imágen de ejemplo">
+                            <p>Nivel de riesgo <span style="color: #000000; font-weight: bold;">Bajo</span></p>
+                            
+                            <%} else if(termometro[i].riesgo_total < 20){ %>
+                            <div class="card">
+                            <img src="./medium_risk.png" class="card-img-top" alt="Imágen de ejemplo">
+                            <p>Nivel de riesgo <span style="color: #000000; font-weight: bold;">Medio</span></p>
+                            
+                            <%} else { %>
+                            <div class="card">
+                            <img src="./high_risk.png" class="card-img-top" alt="Imágen de ejemplo">
+                            <p>Nivel de riesgo <span style="color: #000000; font-weight: bold;">Alto</span></p>
+                            
+                            <% } %>
                             <div class="card-body">
-                                <h5 class="card-title"><%= proyecto[i].nombre_proyecto %></h5>
-                                <p class="card-text"><%= proyecto[i].descripcion %></p>
-                                <a href="<%= proyecto[i].id_proyecto%>/menu_proyecto" class="btn btn-primary" id="go">Ver más</a>
+                                <h5 class="card-title"><%= proyecto[i].nombre_proyecto %><br></h5>
+                                <p><%= proyecto[i].descripcion %></p>
+                                <p>Departamento: <%= proyecto[i].departamento %></p>
+                                <a href="<%= proyecto[i].id_proyecto%>/menu_proyecto/" class="btn btn-primary" id="go">Ver más</a>
                             </div>
+                        </div>
                             </div>
-                        </div> 
                     <%}%>
                 <% } %>
             </div> 
