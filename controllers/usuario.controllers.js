@@ -115,7 +115,7 @@ module.exports.post_agregar_usuario = async(req, res) => {
             return;
         }
 
-        const correovalido = /([A-Z]|[a-z]|[0-9])+@appix\.mx/;
+        const correovalido = /(\w|\d|\.|_)+@appix\.mx/;
         if(!correovalido.test(correo)){
             res.status(403).redirect("/usuario/agregar_usuario?correov=false");
             return;
@@ -185,7 +185,7 @@ module.exports.post_editar_usuario = async(req, res) => {
         const rol = req.body.acceso;
 
         if(nombre == ''||apellido_p == ''||correo == ''|| contrasena == ''){
-            res.status(400).redirect("/usuario/:id/editar_usuario?valido=false");
+            res.status(400).redirect(`/usuario/${id}/editar_usuario?valido=false`);
             return;
         }
         
