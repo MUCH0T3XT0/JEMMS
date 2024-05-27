@@ -158,27 +158,52 @@ module.exports.post_editar_proyecto = async(req, res)=>{
         })
     }
 }
-
 module.exports.get_nuevo_riesgo = async(req,res) =>{
     try{
         console.log("Recuperando riesgos de la base de datos")
 
         //Extrae todos los riesgos existentes en la BD
-        const riesgosG = await model.Riesgo.extraerRiesgosG();
+        //const riesgosG = await model.Riesgo.extraerRiesgosG();
 
         //console.log(riesgosG);
 
         //Renderiza la pagina con los riesgos obtenidos
         res.status(200).render("nuevo_riesgo/nuevo_riesgo", {
             code: 200,
-            msg: "Ok",
-            riesgo:riesgosG
+            msg: "Ok"
+            /*, riesgo:riesgosG*/
         });
     }catch(error){
         console.log(error);
         res.status(500).render("nuevo_riesgo/nuevo_riesgo",{
             code:500,
-            msg: "Error en la BD",
+            msg: "Error en la BD"
+            /*, riesgo: []*/
+        });
+    }
+}
+module.exports.get_agregar_riesgos = async(req,res) =>{
+    try{
+        console.log("Recuperando1 riesgos de la base de datos");
+        console.log("Primera comprobacion");
+        //Extrae todos los riesgos existentes en la BD
+        console.log("Primera comprobacion");
+        const riesgosG = await model.Riesgo.extraerRiesgosG();
+        console.log("Primera comprobacion");
+        console.log(riesgosG);
+        console.log("Primera comprobacion");
+
+        //Renderiza la pagina con los riesgos obtenidos
+        res.status(200).json({
+            code: 200,
+            msg: "Riesgos cargados exitosamente",
+            riesgo:riesgosG
+        });
+    }catch(error){
+        console.log(error);
+        res.status(500).json({
+            code:500,
+            msg: "Error al cargar los riesgos",
             riesgo: []
         });
     }
