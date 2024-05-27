@@ -4,7 +4,7 @@ const controller = require("../controllers/proyecto.controllers.js");
 const estatusLogeado = require("../utils/estatusLogeado.js");
 const rol = require("../utils/rol.js");
 
-router.get('/home', estatusLogeado,controller.get_home);
+router.get('/home',controller.get_home);
 router.get('/nuevo_proyecto', estatusLogeado, rol, controller.get_nuevo_proyecto);
 router.get('/:id/menu_proyecto', estatusLogeado, controller.get_proyecto); 
 router.get('/:id/info_proyecto', estatusLogeado, controller.get_info_proyecto);
