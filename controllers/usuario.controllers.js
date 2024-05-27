@@ -48,7 +48,7 @@ module.exports.post_login = async(req, res) =>{
         req.session.idUsuario = usuarios[0].id_usuario;
         req.session.rol = (usuarios[0].rol == false) ? false : true;
 
-        console.log(req.session.rol);
+        
         res.status(201).json({code: 201, msg: "Ok"});
         
 
