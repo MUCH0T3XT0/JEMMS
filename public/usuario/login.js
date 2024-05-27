@@ -22,7 +22,7 @@ boton.addEventListener('click', function(event){
     if(!correo.value || !contrasena.value){
         msg.textContent = "Llene todos los campos";
     }else{
-        let resultado = /([A-Z]|[a-z]|[0-9])+@appix\.mx/.test(correo.value);
+        let resultado = /(\w|\d|\.|_)+@appix\.mx/.test(correo.value);
         console.log(resultado);
         login(resultado, correo.value, contrasena.value);
     }

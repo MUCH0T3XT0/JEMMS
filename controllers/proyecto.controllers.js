@@ -5,24 +5,28 @@ module.exports.get_home = async(req,res) =>{
     try{
         console.log("Recuperando proyectos");
         const proyectos = await model.Proyecto.extraeProyectos();
+        const rol = req.session.rol;
 
         if(proyectos.length < 1){
             
             res.status(400).render("home/home",{
-                error: true
+                error: true,
+                rol: rol
             });
             return;
         }
 
         res.status(201).render("home/home",{
             proyecto: proyectos,
-            error: false
+            error: false,
+            rol: rol
         });
         
     }catch(error){
         console.log(error);
         res.status(400).render("home/home",{
-            error: true
+            error: true,
+            rol: rol
         });
     }
     
@@ -72,11 +76,15 @@ module.exports.post_nuevo_proyecto = async(req,res)=>{
 module.exports.get_proyecto = async(req,res) =>{
     try{
         var id = req.params.id;
+
         console.log("Recuperando proyectos");
         const numRiesgo= await model.Proyecto.cantidadRiesgo(id);
         const infoGeneral= await model.Proyecto.informacionRestante(id);
         const infoNum= await model.Proyecto.informacionNumerica(id);
 
+        const liderResultado = await model.Proyecto.idLider(id);
+
+        const lider = (liderResultado[0].id_lider == req.session.idUsuario) ? true : false;
 
         res.status(200).render("menu_proyecto/menu_proyecto",{
             code: 200,
@@ -84,15 +92,14 @@ module.exports.get_proyecto = async(req,res) =>{
             proyectoRiesgo: numRiesgo,
             proyectoGeneral: infoGeneral,
             proyectoNum: infoNum,
-            id_proyecto: id
+            id_proyecto: id,
+            rol: req.session.rol,
+            lider: lider
         });
 
     }catch(error){
         console.log(error);
-        res.status(500).redirect("menu_proyecto/menu_proyecto",{
-            code: 500,
-            msg: "No se encontró información del proyecto",
-        });
+        res.status(500).redirect("proyecto/home");
     }
 }
 
@@ -103,24 +110,25 @@ module.exports.get_info_proyecto = async(req,res) => {
         const proyectos = await model.Proyecto.ver_proyecto(id);
 
         if(proyectos.length < 1){
-            
-            res.status(400).render("info_proyecto/info_proyecto",{
-                error: true
-            });
+            res.status(400).redirect("/proyecto/home");
             return;
         }
+
+        const liderResultado = await model.Proyecto.idLider(id);
+
+        const lider = (liderResultado[0].id_lider == req.session.idUsuario) ? true : false;
 
         res.status(201).render("info_proyecto/info_proyecto",{
             proyecto: proyectos,
             error: false,
-            id_proyecto: id
+            id_proyecto: id,
+            rol: req.session.rol,
+            lider: lider
         });
 
     } catch(error){
         console.log(error);
-        res.status(400).render("info_proyecto/info_proyecto",{
-            error: true
-        });
+        res.status(400).redirect("/proyecto/home");
     }
 }
 

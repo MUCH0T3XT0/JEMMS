@@ -2,9 +2,9 @@ const db = require('../utils/database.js');
 const bcrypt = require('bcryptjs');
 
 exports.Proyecto = class {
-    constructor(id, id_manager, descripcion, empresa, nombre_proyecto, presupuesto, f_creacion, f_fin, encargado, departamento, estatus){
+    constructor(id, id_lider, descripcion, empresa, nombre_proyecto, presupuesto, f_creacion, f_fin, encargado, departamento, estatus){
         this.id = id;
-        this.id_manager = id_manager;
+        this.id_lider = id_lider;
         this.descripcion = descripcion;
         this.empresa = empresa;
         this.nombre_proyecto = nombre_proyecto;
@@ -104,8 +104,8 @@ exports.Proyecto = class {
     async nuevoProyecto(){
         try{
             const connexion = await db();
-            const resultado = connexion.execute('Insert into proyecto (id_manager, descripcion, empresa, nombre_proyecto, presupuesto, f_creacion, f_fin, encargado, departamento, estatus) Values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-            [this.id_manager,
+            const resultado = connexion.execute('Insert into proyecto (id_lider, descripcion, empresa, nombre_proyecto, presupuesto, f_creacion, f_fin, encargado, departamento, estatus) Values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [this.id_lider,
             this.descripcion,
             this.empresa,
             this.nombre_proyecto,
@@ -132,6 +132,19 @@ exports.Proyecto = class {
 
             const resultado = await connexion.execute('SELECT * FROM DEPARTAMENTO');
             
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
+
+    static async idLider(id_proyecto){
+        try{
+            const connexion = await db();
+
+            const resultado = await connexion.execute('SELECT id_lider FROM PROYECTO WHERE id_proyecto = ?', [id_proyecto]);
+
             await connexion.release();
             return resultado;
         }catch(error){
