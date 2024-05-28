@@ -49,13 +49,20 @@
             <div class="mb-3 row">
                 <label for="inputNombre" class="col-sm-2 col-form-label">Nombre de proyecto</label>
                 <div class="col-sm-10">
-                  <input name = "nombre_proyecto" type=" text" class="form-control" id="nombre_proyecto"  pattern="^(\w|\.|%|-|\$|@|\s|ñ|á|é|í|ó|ú){1,30}$" title="Nombre de proyecto incorrecto" required>
+                    <input name = "nombre_proyecto" type=" text" class="form-control" id="nombre_proyecto">
+                    <div id="msg_nombre_proyecto" style="display: none;">
+                        <p style="color: red;">Nombre de proyecto incorrecto</p>
+                    </div>
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="inputCliente" class="col-sm-2 col-form-label">Nombre de empresa</label>
                 <div class="col-sm-10">
-                  <input name = "empresa" type=" text" class="form-control" id="empresa" pattern="^(\w|\.|%|-|\$|@|\s|ñ|á|é|í|ó|ú){1,15}$" title="Nombre de empresa incorrecto" required>
+                    <input name = "empresa" type=" text" class="form-control" id="empresa">
+                    <div id="msg_empresa" style="display: none;">
+                        <p style="color: red;">Nombre de empresa incorrecto</p>
+                    </div>
+                    
                 </div>
             </div>
             <div class="mb-3 row">
@@ -72,37 +79,53 @@
             <div class="mb-3 row">
                 <label  for="inputStartDate" class="col-sm-2 col-form-label">Fecha de inicio</label>
                 <div class="col-sm-10">
-                  <input name = "f_creacion" type="text" class="form-control" id="f_creacion" placeholder="Selecciona una fecha de inicio">
+                    <input name = "f_creacion" type="text" class="form-control" id="f_creacion" placeholder="Selecciona una fecha de inicio">
+                    <div id="msg_f_fin" style="display: none;">
+                        <p style="color: red;">La fecha de inicio no puede ser posterior a la fecha de fin. Introduzca una fecha de inicio y fin coherentes</p>
+                    </div>
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="inputEndDate" class="col-sm-2 col-form-label">Fecha de final</label>
                 <div class="col-sm-10">
-                  <input name = "f_fin" type="text" class="form-control" id="f_fin" placeholder="Selecciona una fecha de fin">
+                    <input name = "f_fin" type="text" class="form-control" id="f_fin" placeholder="Selecciona una fecha de fin">
+                    <div id="msg_f_creacion" style="display: none;">
+                        <p style="color: red;">Introduza una fecha de termino posterior al dia de hoy</p>
+                    </div>
+                    
                 </div>
             </div>
             <div class="mb-3 row">
                 <label  for="inputEncargado" class="col-sm-2 col-form-label">Encargado</label>
                 <div class="col-sm-10">
-                  <input name = "encargado" type="text" class="form-control" id="encargado" pattern="^(\w|\.|\s|ñ|á|é|í|ó|ú){1,30}$" title="Nombre de encargado incorrecto" required>
+                    <input name = "encargado" type="text" class="form-control" id="encargado">
+                    <div id="msg_encargado" style="display: none;">
+                        <p style="color: red;">Nombre del encargado incorrecto</p>
+                    </div>
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="inputPresupuesto" class="col-sm-2 col-form-label">Presupuesto</label>
                 <div class="col-sm-10">
-                  <input name = "presupuesto" type="text" class="form-control" id="presupuesto" pattern="\d" title="Presupuesto incorrecto. Introduza solo digitos" required>
+                    <input name = "presupuesto" type="text" class="form-control" id="presupuesto">
+                    <div id="msg_presupuesto" style="display: none;">
+                        <p style="color: red;">Presupuesto incorrecto. Introduza solo digitos</p>
+                    </div>
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="inputPresupuesto" class="col-sm-2 col-form-label">Descripcion de proyecto</label>
                 <div class="col-sm-10">
-                    <textarea name = "descripcion" class="form-control" id="descripcion" rows="4" pattern="^(\w|\.|%|-|\$|@|\s|ñ|á|é|í|ó|ú){1,500}$" title="Descripcion incorrecta" required></textarea>
+                    <textarea name = "descripcion" class="form-control" id="descripcion" rows="4"></textarea>
                     <span id="contadorCaracteres">0/500</span>
+                    <div id="msg_descripcion" style="display: none;">
+                        <p style="color: red;">Descripcion incorrecta</p>
+                    </div>
                 </div>
             </div>
             <div class="form-check">
                 <div class="text-end">
-                    <input id="boton-enviar" type="submit" class="btn btn-primary mb-3">Enviar</button>
+                    <button id="boton-enviar" type="button" class="btn btn-primary mb-3">Enviar</button>
                 </div>
             </div>
             <div class="row justify-content-center mb-3">
