@@ -218,7 +218,7 @@ module.exports.post_nuevo_riesgo = async (req, res) => {
             await model.Riesgo.agregarRiesgos(id_proyecto, D_categoria, D_impacto, D_probabilidad, D_estrategia, D_description);
         }
         console.log("Riesgos agregados:");
-        res.status(201).redirect("/proyecto/nuevo_riesgo");
+        res.status(201).render("/nuevo_riesgo/nuevo_riesgo");
     } catch (error) {
         console.log(error);
         res.status(500).render("nuevo_riesgo/nuevo_riesgo", { msj: error.message });
