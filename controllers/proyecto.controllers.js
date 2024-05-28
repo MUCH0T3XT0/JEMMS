@@ -210,8 +210,7 @@ module.exports.post_nuevo_riesgo = async (req, res) => {
         }
 
         for (const item of selectedItems) {
-            const { D_categoria, D_impacto, D_probabilidad, D_estrategia, D_description } = item;
-            const id_proyecto= req.params.id_proyecto;
+            const { id_proyecto, D_categoria, D_impacto, D_probabilidad, D_estrategia, D_description } = item;
             
             // Agregar cada riesgo
             await model.Riesgo.agregarRiesgos(id_proyecto, D_categoria, D_impacto, D_probabilidad, D_estrategia, D_description);
