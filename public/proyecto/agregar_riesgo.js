@@ -53,7 +53,7 @@ window.addEventListener('load', function() {
 
     const selectedItems = [];
     const numselectedItems= 0;
-    
+
     wrapper.addEventListener('change', function(event) {
         if (event.target.classList.contains('select-row')) {
             const checkbox = event.target;
@@ -64,7 +64,7 @@ window.addEventListener('load', function() {
             const D_estrategia = checkbox.getAttribute('data-estrategia_m');
             const D_description = checkbox.getAttribute('data-description');
             if (checkbox.checked) {
-                selectedItems.push({D_categoria, D_impacto, D_probabilidad, D_estrategia, D_description});
+                selectedItems.push({D_categoria: D_categoria, D_impacto: D_impacto, D_probabilidad: D_probabilidad, D_estrategia: D_estrategia, D_description: D_description});
                 alert('Se selecciono los siguientes riesgos en el proyecto ' + variable);
                 alert(JSON.stringify(selectedItems, null, 2));
                 numselectedItems +=1;
@@ -77,35 +77,18 @@ window.addEventListener('load', function() {
             }
         }
     });
+
     const Buton = document.getElementById('AgregarRiesgoBoton');
+
     Buton.addEventListener('click', function(event) {
         event.preventDefault();
-        if (selectedItems.length > 0) {
-            alert('Cantidad de riesgos seleccionados: ' + selectedItems.length);
-            const url = `/proyecto/${variable}/nuevo_riesgo`;
-            console.log(url);
+        console.log(selectedItems);
+        console.log(typeof(selectedItems[0].D_categoria));
 
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ selectedItems })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                alert('Riesgo(s) agregado(s) con éxito');
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                alert('Hubo un error al agregar el/los riesgo(s).');
-            });
-
-        } else {
-            alert('Por favor, selecciona al menos un riesgo.');
-        }
+        miFuncion(selectedItems, variable);
+        
     });
+    
 /*
     gridTable1 = new gridjs.Grid({
         columns: [
@@ -150,3 +133,37 @@ window.addEventListener('load', function() {
     }).render(wrapper1);
     */
 });
+
+
+
+async function miFuncion(selectedItems, variable){
+    if (selectedItems.length > 0) {
+        alert('Cantidad de riesgos seleccionados: ' + selectedItems.length);
+        const url = '/proyecto/'+variable+'/nuevo_riesgo';
+        console.log(url);
+
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({selectedItems: selectedItems})
+        })
+        .then(response => {
+            if(!response.ok){
+                throw new Error("HTTP error " + response.status);;
+            }
+        })
+        .then(data => {
+            console.log('Success:', data);
+            alert('Riesgo(s) agregado(s) con éxito');
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert('Hubo un error al agregar el/los riesgo(s).');
+        });
+
+        console.log(response);
+
+    } else {
+        alert('Por favor, selecciona al menos un riesgo.');
+    }
+}

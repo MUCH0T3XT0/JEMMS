@@ -204,8 +204,9 @@ module.exports.post_nuevo_riesgo = async (req, res) => {
         console.log("Agregando un riesgo (Riesgo especifico)");
 
         const selectedItems = req.body.selectedItems; // Obtener los riesgos seleccionados del cuerpo de la solicitud
+        console.log(req.body);
 
-        if (!Array.isArray(selectedItems) || selectedItems.length === 0) {
+        if (!Array.isArray(selectedItems) || selectedItems.length == 0) {
             throw new Error("No se han proporcionado riesgos para agregar");
         }
 
