@@ -233,12 +233,31 @@ module.exports.get_mostrar_riesgos = async(req,res) =>{
             total: Number(total),
             id_proyecto: id_proyecto
         });
+
     }catch(error){
         console.log(error);
         res.status(200).render("mostrar_riesgos/mostrar_riesgos",{
             code: 200,
             msg: "No se encontro ningun riesgo"
         });
+    }
+}
+
+module.exports.get_mostrar_tabla_riesgos = async(req, res) => {
+    try{
+        console.log("Recuperando información de riesgos");
+        const id_proyecto = req.params.id;
+        const riesgos = await model.Riesgo.extraerRiesgosPorProyecto(id_proyecto);      
+        
+        res.status(200).json({
+            riesgo: riesgos 
+        });
+    }catch(error){
+        console.log(error);
+        res.status(400).json({
+            riesgo: []
+        });
+
     }
 }
 

@@ -41,7 +41,7 @@ exports.Usuario = class {
     static async getLideres() {
         try {
             const connexion = await db();                               //Se modifico el dato solictado de apellido_m a apellido_p
-            const result = await connexion.execute('SELECT id_usuario ,nombres, apellido_p, nombre_proyecto FROM USUARIO JOIN PROYECTO ON id_usuario = id_manager ORDER BY id_usuario;');
+            const result = await connexion.execute('SELECT id_usuario ,nombres, apellido_p, nombre_proyecto FROM USUARIO JOIN PROYECTO ON id_usuario = id_lider ORDER BY id_usuario;');
             await connexion.release();
             return result;
         } catch (error) {
@@ -52,7 +52,7 @@ exports.Usuario = class {
     static async getColaboradores() {
         try {
             const connexion = await db();                              //Se modifico el dato solictado de apellido_m a apellido_p         
-            const result = await connexion.execute('SELECT id_usuario,nombres, apellido_p, correo FROM USUARIO;');
+            const result = await connexion.execute('SELECT id_usuario,nombres, rol, apellido_p, correo FROM USUARIO;');
             await connexion.release();
             return result;
         } catch (error) {

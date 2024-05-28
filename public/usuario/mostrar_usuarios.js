@@ -52,6 +52,13 @@ window.addEventListener('load', function() {
                 name: 'Apellido Paterno'
             },
             {
+                id: 'rol',
+                name: 'Rol del Usuario',
+                formatter: (cell) => {
+                    return cell === 1 ? 'Administrador' : 'Colaborador';
+                }
+            },
+            {
                 id: 'correo',
                 name: 'Correo Electrónico'
             },
@@ -74,6 +81,7 @@ window.addEventListener('load', function() {
                 usuario.id_usuario,
                 usuario.nombres,
                 usuario.apellido_p,
+                usuario.rol,
                 usuario.correo
             ])
         }

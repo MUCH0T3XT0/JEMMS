@@ -9,6 +9,7 @@ router.get('/:id/info_proyecto', controller.get_info_proyecto);
 router.get('/:id/editar_proyecto', controller.get_editar_proyecto);
 router.get('/:id_proyecto/:id_riesgo/editar_riesgo', controller.get_editar_riesgo);
 router.get('/:id/mostrar_riesgos', controller.get_mostrar_riesgos);
+router.get('/:id/mostrar_tabla_riesgos', controller.get_mostrar_tabla_riesgos); //Se crea la ruta para mostrar la tabla de riesgos
 router.get('/nuevo_riesgo', controller.get_nuevo_riesgo);
 
 router.post('/:id/editar_proyecto', controller.post_editar_proyecto);
