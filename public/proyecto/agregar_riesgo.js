@@ -2,17 +2,13 @@
 window.addEventListener('load', function() {
     const wrapper = document.getElementById('tablaMostar_Riesgos_Globales');
     const variable = wrapper.getAttribute('value');
-    //const variableEnviada = document.getElementById('id_proyecto').value;
-    //const id_proyecto = document.getElementById('id');
-    //const domAttributeValue = sourceElement.getAttribute(id_proyecto);
-    //const wrapper1 = document.getElementById('tablaMostar_colaboradores');
 
         gridTable = new gridjs.Grid({
             columns: [
                 {
                     id: 'select',
                     name: 'Seleccionar',
-                    formatter: (_, row) => gridjs.html(`<input type="checkbox" class="select-row" data-id="${variable}" data-description="${row.cells[1].data}" data-categoria="${row.cells[2].data}" data-impacto="${row.cells[3].data}" data-probabilidad="${row.cells[4].data}" data-estrategia_m="${row.cells[5].data}"/>`)
+                    formatter: (_, row) => gridjs.html(`<input type="checkbox" class="select-row" data-id="${row.cells[0].data}" data-description="${row.cells[1].data}" data-categoria="${row.cells[2].data}" data-impacto="${row.cells[3].data}" data-probabilidad="${row.cells[4].data}" data-estrategia_m="${row.cells[5].data}"/>`)
                 },
                 {
                     id: 'description',
@@ -41,7 +37,7 @@ window.addEventListener('load', function() {
         server:{
             url: "/proyecto/:${variable}/agregar_riesgos",
             then: data => data.riesgo.map(riesgo => [
-                "",
+                riesgo.id_riesgo,
                 riesgo.description,
                 riesgo.categoria,
                 riesgo.impacto,
@@ -52,7 +48,7 @@ window.addEventListener('load', function() {
     }).render(wrapper);
 
     const selectedItems = [];
-    const numselectedItems= 0;
+    var numselectedItems= 0;
 
     wrapper.addEventListener('change', function(event) {
         if (event.target.classList.contains('select-row')) {
@@ -70,10 +66,9 @@ window.addEventListener('load', function() {
                 numselectedItems +=1;
             } else {
                 const index = selectedItems.findIndex(item => item.id === id);
-                if (index > -1) {
-                    selectedItems.splice(index, 1);
-                    numselectedItems -=1;
-                }
+                selectedItems.splice(index, 1);
+                numselectedItems= numselectedItems - 1;
+                alert("Se deseleciona");
             }
         }
     });
@@ -88,54 +83,7 @@ window.addEventListener('load', function() {
         miFuncion(selectedItems, variable);
         
     });
-    
-/*
-    gridTable1 = new gridjs.Grid({
-        columns: [
-            {
-                id: 'id_usuario',
-                name: 'ID Usuario'
-            },
-            {
-                id: 'nombres',
-                name: 'Nombres'
-            },
-            {
-                id: 'apellido_p',
-                name: 'Apellido Paterno'
-            },
-            {
-                id: 'correo',
-                name: 'Correo Electrónico'
-            },
-            {
-                name: "Editar",
-              formatter: (_, row) => {
-                return gridjs.h('button', {
-                    className: ' btn btn-link',
-                    onClick: () => alert(`Editing "${row.cells[0].data}" "${row.cells[1].data}"`)
-                  }, 'Editar');
-              }
-            }
-        ],
-        pagination: true,
-        search: true,
-        sort: true,
-        server:{
-            url: "/usuario/mostrar_usuarios_colaboradores",
-            then: data => data.usuario2.map(usuario => [
-                usuario.id_usuario,
-                usuario.nombres,
-                usuario.apellido_p,
-                usuario.correo
-            ])
-        }
-    }).render(wrapper1);
-    */
 });
-
-
-
 async function miFuncion(selectedItems, variable){
     if (selectedItems.length > 0) {
         alert('Cantidad de riesgos seleccionados: ' + selectedItems.length);

@@ -204,6 +204,7 @@ module.exports.post_nuevo_riesgo = async (req, res) => {
         console.log("Agregando un riesgo (Riesgo especifico)");
 
         const selectedItems = req.body.selectedItems; // Obtener los riesgos seleccionados del cuerpo de la solicitud
+        const id_proyecto = req.params.id_proyecto;
         console.log(req.body);
 
         if (!Array.isArray(selectedItems) || selectedItems.length == 0) {
@@ -211,14 +212,12 @@ module.exports.post_nuevo_riesgo = async (req, res) => {
         }
 
         for (const item of selectedItems) {
-            const { id_proyecto, D_categoria, D_impacto, D_probabilidad, D_estrategia, D_description } = item;
-            
+            console.log(item);
+            const { D_categoria, D_impacto, D_probabilidad, D_estrategia, D_description } = item;
             // Agregar cada riesgo
             await model.Riesgo.agregarRiesgos(id_proyecto, D_categoria, D_impacto, D_probabilidad, D_estrategia, D_description);
         }
-
-        const proyectos = await model.Proyecto.extraeProyectos();
-        console.log("Riesgos agregados:", selectedItems);
+        console.log("Riesgos agregados:");
         res.status(201).redirect("/proyecto/nuevo_riesgo");
     } catch (error) {
         console.log(error);
