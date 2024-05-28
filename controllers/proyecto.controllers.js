@@ -1,5 +1,6 @@
 const model = require("../models/proyecto.models.js");
 const modelU = require("../models/usuario.models.js")
+const moment = require("moment");
 
 module.exports.get_home = async(req,res) =>{
     try{
@@ -137,11 +138,13 @@ module.exports.get_info_proyecto = async(req,res) => {
 
 module.exports.get_editar_proyecto = async(req,res) => {
     try {
-        //console.log("Get editar proyecto");
+        console.log("Get editar proyecto");
         const id = req.params.id_proyecto;
         //console.log(id);
 
-        const proyectos = await model.Proyecto.ver_proyecto(id);
+        var proyectos = await model.Proyecto.ver_proyecto(id);
+        proyectos[0].fecha_creacion = moment(proyectos[0].fecha_creacion, "DD/MM/YYYY").format("DD/MM/YYYY");
+        proyectos[0].fecha_fin = moment(proyectos[0].fecha_fin, "DD/MM/YYYY").format("DD/MM/YYYY");
 
         if(proyectos.length < 1){
             res.status(400).render("editar_proyecto/editar_proyecto",{

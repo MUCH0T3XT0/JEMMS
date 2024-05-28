@@ -87,7 +87,7 @@ exports.Proyecto = class {
         try{
             const connexion = await db();
             
-            const resultado = await connexion.execute('Select descripcion, empresa, nombre_proyecto, presupuesto, DATE_FORMAT(f_creacion, \'%Y-%m-%d\') AS fecha_creacion, DATE_FORMAT(f_fin, \'%Y-%m-%d\') AS fecha_fin, encargado, departamento from PROYECTO WHERE id_proyecto = ?', [id_proyecto]);
+            const resultado = await connexion.execute('Select descripcion, empresa, nombre_proyecto, presupuesto, DATE_FORMAT(f_creacion, \'%d/%m/%y\') AS fecha_creacion, DATE_FORMAT(f_fin, \'%d/%m/%y\') AS fecha_fin, encargado, departamento from PROYECTO WHERE id_proyecto = ?', [id_proyecto]);
 
             await connexion.release();
             return resultado;
