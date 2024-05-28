@@ -1,7 +1,7 @@
 
 window.addEventListener('load', function() {
     const wrapper = document.getElementById('tablaMostar_Riesgos_Globales');
-    const variable = wrapper.getAttribute('id_proyecto');
+    const variable = wrapper.getAttribute('value');
     //const variableEnviada = document.getElementById('id_proyecto').value;
     //const id_proyecto = document.getElementById('id');
     //const domAttributeValue = sourceElement.getAttribute(id_proyecto);
@@ -82,7 +82,8 @@ window.addEventListener('load', function() {
         event.preventDefault();
         if (selectedItems.length > 0) {
             alert('Cantidad de riesgos seleccionados: ' + selectedItems.length);
-            const url = `/proyecto/:${variable}/nuevo_riesgo`;
+            const url = `/proyecto/${variable}/nuevo_riesgo`;
+            console.log(url);
 
             fetch(url, {
                 method: 'POST',
