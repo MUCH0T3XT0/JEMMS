@@ -196,8 +196,8 @@ module.exports.post_editar_usuario = async(req, res) => {
         const correo = req.body.correo;
         const contrasena = req.body.contrasena;
         const rol = req.body.acceso;
-
-        if(nombre == ''||apellido_p == ''||correo == ''|| contrasena == ''){
+        
+        if(nombre == ''||apellido_p == ''||correo == ''){
             res.status(400).redirect(`/usuario/${id}/editar_usuario?valido=false`);
             return;
         }
@@ -212,12 +212,17 @@ module.exports.post_editar_usuario = async(req, res) => {
             return;
         }
         
-        //Se crea el constructor
-        const usuario = new model.Usuario(id, correo, nombre, apellido_m, apellido_p, contrasena, rol);
-        //console.log(usuario);
-        
-        //Se edita el usuario en la BD
-        const editado = await usuario.editar_usuario()
+        if(!contrasena == ''){
+            //Se crea el constructor
+            const usuario = new model.Usuario(id, correo, nombre, apellido_m, apellido_p, contrasena, rol);
+            //Se edita el usuario en la BD
+            const editado = await usuario.editar_usuario();
+        }else{
+            //Se crea el constructor
+            const usuario = new model.Usuario(id, correo, nombre, apellido_m, apellido_p, contrasena, rol);
+            //Se edita el usuario en la BD
+            const editado = await usuario.editar_usuario_nocon();
+        }
     
         res.redirect("/usuario/mostrar_usuarios");
     
