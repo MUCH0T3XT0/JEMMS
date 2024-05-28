@@ -86,7 +86,12 @@
             </div>
             <div class="offset-md-2 g-5" >
                 <% if (!correov){%>
-                    <h4 style="color: red;">Correo inválido</h4>
+                    <h4 style="color: red;">Correo inválido, no se permiten acentos</h4>
+                <%}%>
+            </div>
+            <div class="offset-md-2 g-5" >
+                <% if (!nombre){%>
+                    <h4 style="color: red;">Nombre o apellido inválido, no introduzca números o símbolos</h4>
                 <%}%>
             </div>
         </form>
