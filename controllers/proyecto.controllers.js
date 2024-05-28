@@ -62,7 +62,8 @@ module.exports.get_proyecto = async(req,res) =>{
             msg: "Ok",
             proyectoRiesgo: numRiesgo,
             proyectoGeneral: infoGeneral,
-            proyectoNum: infoNum
+            proyectoNum: infoNum,
+            id_proyecto: id,
         });
 
     }catch(error){
