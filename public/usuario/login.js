@@ -32,7 +32,7 @@ async function login(resultado, correo, contrasena){
     msg.textContent = "";
 
     if(!resultado){
-        msg.textContent="Correo Invalido";
+        msg.textContent="Correo Inválido";
     }else{
         //console.log(correo);
         //console.log(contrasena);

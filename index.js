@@ -20,6 +20,12 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('/', (request, response, next) => {
+  response.setHeader('Content-Type', 'text/html');
+  response.redirect('usuario/login');
+  response.end; 
+});
+
 const rutasUsuario = require('./routes/usuario.routes');
 app.use('/usuario', rutasUsuario);
 

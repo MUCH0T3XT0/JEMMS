@@ -78,7 +78,7 @@ module.exports.post_nuevo_proyecto = async(req,res)=>{
 
 module.exports.get_proyecto = async(req,res) =>{
     try{
-        var id = req.params.id;
+        var id = req.params.id_proyecto;
 
         console.log("Recuperando proyectos");
         const numRiesgo= await model.Proyecto.cantidadRiesgo(id);
@@ -108,7 +108,7 @@ module.exports.get_proyecto = async(req,res) =>{
 
 module.exports.get_info_proyecto = async(req,res) => {
     try {
-        const id = req.params.id;
+        const id = req.params.id_proyecto;
 
         const proyectos = await model.Proyecto.ver_proyecto(id);
 
@@ -138,7 +138,7 @@ module.exports.get_info_proyecto = async(req,res) => {
 module.exports.get_editar_proyecto = async(req,res) => {
     try {
         //console.log("Get editar proyecto");
-        const id = req.params.id;
+        const id = req.params.id_proyecto;
         //console.log(id);
 
         const proyectos = await model.Proyecto.ver_proyecto(id);
@@ -167,7 +167,7 @@ module.exports.get_editar_proyecto = async(req,res) => {
 module.exports.post_editar_proyecto = async(req, res)=>{
     try{
         //console.log("post crear ");
-        const id = req.params.id;
+        const id = req.params.id_proyecto;
 
         const nombre_proyecto = req.body.nombre_proyecto;
         const empresa = req.body.empresa;
@@ -241,7 +241,7 @@ module.exports.post_nuevo_riesgo = async(req,res) =>{
 module.exports.get_mostrar_riesgos = async(req,res) =>{
     try{
         console.log("Recuperando riesgos de la base de datos")
-        const id_proyecto = req.params.id;
+        const id_proyecto = req.params.id_proyecto;
         const riesgosG = await model.Riesgo.extraerRiesgosPorProyecto(id_proyecto);
 
         const alcance = await model.Riesgo.cuentaRiesgo(id_proyecto, 1);
@@ -320,17 +320,3 @@ module.exports.post_editar_riesgo = async(req,res) =>{
         });
     }
 }
-
-
-
-module.exports.post_mostrar_riesgos = async(req,res) =>{
-    try{
-        const riesgosP = await model.Riesgo.agregarRiesgos(1, req.body.categoria, req.body.impacto, req.body.probabilidad, req.body.estrategia, req.body.descripcion);
-        //Aqui re redirije a la pagina de editar riesgo
-        res.status(201).redirect("/proyecto/editar_riesgo", {riesgo: riesgosP});
-    }catch(error){
-        console.log(error);
-        res.render("mostrar_riesgos/mostrar_riesgos", {msj: error});
-    }
-}
-

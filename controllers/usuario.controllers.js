@@ -30,20 +30,6 @@ module.exports.post_login = async(req, res) =>{
             return;
         }
 
-        
-/*        // Se agrega método para obtener el permiso del usuario
-        const permiso = await model.Usuario.getPermisos(usuario.username);
-        if (permiso.length == 0) {
-            req.session.error = "Usuario y/o contraseña incorrectos";
-            res.render("usuario/login", {
-                registro: false
-            });
-            return;
-        }*/
-
-
-        //req.session.nombre = usuario.nombre;
-        //req.session.permisos = permiso;
         req.session.estatusLogeado = true;
         req.session.idUsuario = usuarios[0].id_usuario;
         req.session.rol = (usuarios[0].rol == false) ? false : true;
