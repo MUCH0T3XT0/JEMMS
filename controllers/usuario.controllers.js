@@ -72,7 +72,7 @@ module.exports.get_mostrar_usuarios = async(req,res) =>{
         res.status(200).render("mostrar_usuarios/mostrar_usuarios",{
             code: 200,
             msg: "Ok",
-            usuario1: lideres,
+            usuario1: [],
             usuario2: colaboradores //La variable usuario se ocupa en el html dinamico y lo de usuarios es el resultado de la consulta hecha
 
         });

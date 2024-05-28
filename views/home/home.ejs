@@ -5,6 +5,12 @@
         <%- include('./../style.ejs') %>
         <title>Menú Principal Appix</title>
     </head>
+
+    <style>
+        .pagination {
+            padding: 20px ;
+        }
+    </style>
 <body>
     <%- include('./../barra_principal.ejs')%>
 
@@ -45,8 +51,11 @@
           <h2 style="color: gray;">No veo Proyectos recientes. Empecemos creando uno ;)</h2>
         </div>
     <%} else{%>
-        <h1>Proyectos Activos</h1>
+        <div class="text-center">
+            <h1>Proyectos Activos</h1>
+        </div>
 
+        <!-- PAGINACION -->
         <div class="container py-4">
             <div class="row row-cols-4 g-4">
                 <%var flag = false%>
@@ -75,8 +84,34 @@
             </div>
             <br>
         <%}%>
-        <h1>Proyectos Pasados</h1>
 
+        <div id="grid">
+
+        </div>
+
+        <div class="pagination">
+            <nav aria-label="...">
+                <ul class="pagination">
+                  <li class="page-item disabled">
+                    <span class="page-link">Previous</span>
+                  </li>
+                  <li class="page-item"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item active" aria-current="page">
+                    <span class="page-link">2</span>
+                  </li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                  </li>
+                </ul>
+              </nav>
+        </div>
+
+        <div class="text-center">
+            <h1>Proyectos Pasados</h1>
+        </div>
+
+        <!-- PAGINACION -->
         <div class="container py-4">
             <div class="row row-cols-4 g-4">
                 <%var flag = false%>
@@ -97,6 +132,25 @@
                 <% } %>
             </div> 
         </div>
+
+        <div class="pagination">
+            <nav aria-label="...">
+                <ul class="pagination">
+                  <li class="page-item disabled">
+                    <span class="page-link">Previous</span>
+                  </li>
+                  <li class="page-item"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item active" aria-current="page">
+                    <span class="page-link">2</span>
+                  </li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                  </li>
+                </ul>
+              </nav>
+        </div>
+        
         <%if (!flag){%>
             <br>
             <div style="text-align: center;" >
