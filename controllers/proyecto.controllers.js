@@ -160,14 +160,8 @@ module.exports.post_editar_proyecto = async(req, res)=>{
 }
 module.exports.get_nuevo_riesgo = async(req,res) =>{
     try{
-        console.log("Recuperando riesgos de la base de datos")
+        console.log("Recuperando riesgos de la base de datos");
 
-        //Extrae todos los riesgos existentes en la BD
-        //const riesgosG = await model.Riesgo.extraerRiesgosG();
-
-        //console.log(riesgosG);
-
-        //Renderiza la pagina con los riesgos obtenidos
         res.status(200).render("nuevo_riesgo/nuevo_riesgo", {
             code: 200,
             msg: "Ok",
@@ -186,13 +180,9 @@ module.exports.get_nuevo_riesgo = async(req,res) =>{
 module.exports.get_agregar_riesgos = async(req,res) =>{
     try{
         console.log("Recuperando1 riesgos de la base de datos");
-        console.log("Primera comprobacion");
         //Extrae todos los riesgos existentes en la BD
-        console.log("Primera comprobacion");
         const riesgosG = await model.Riesgo.extraerRiesgosG();
-        console.log("Primera comprobacion");
         console.log(riesgosG);
-        console.log("Primera comprobacion");
 
         //Renderiza la pagina con los riesgos obtenidos
         res.status(200).json({
@@ -209,21 +199,42 @@ module.exports.get_agregar_riesgos = async(req,res) =>{
         });
     }
 }
+module.exports.post_nuevo_riesgo = async (req, res) => {
+    try {
+        console.log("Agregando un riesgo (Riesgo especifico)");
 
+        const selectedItems = req.body.selectedItems; // Obtener los riesgos seleccionados del cuerpo de la solicitud
+
+        if (!Array.isArray(selectedItems) || selectedItems.length === 0) {
+            throw new Error("No se han proporcionado riesgos para agregar");
+        }
+
+        for (const item of selectedItems) {
+            const { D_categoria, D_impacto, D_probabilidad, D_estrategia, D_description } = item;
+            const id_proyecto= req.params.id_proyecto;
+            
+            // Agregar cada riesgo
+            await model.Riesgo.agregarRiesgos(id_proyecto, D_categoria, D_impacto, D_probabilidad, D_estrategia, D_description);
+        }
+
+        const proyectos = await model.Proyecto.extraeProyectos();
+        console.log("Riesgos agregados:", selectedItems);
+        res.status(201).redirect("/proyecto/nuevo_riesgo");
+    } catch (error) {
+        console.log(error);
+        res.status(500).render("nuevo_riesgo/nuevo_riesgo", { msj: error.message });
+    }
+};
+
+/*
 module.exports.post_nuevo_riesgo = async(req,res) =>{
     try{
         console.log("Agregando un riesgo(Riesgo especifico)");
 
         //En el primer parametro va el numero de proyecto. Esta parte debe ser modificada por el id del proyecto donde se esta actualmente
-        const riesgoP = await model.Riesgo.agregarRiesgos(1, req.body.categoria, req.body.impacto, req.body.probabilidad, req.body.estrategia, req.body.descripcion);
+        const riesgoP = await model.Riesgo.agregarRiesgos(req.body.id_proyecto, req.body.categoria, req.body.impacto, req.body.probabilidad, req.body.estrategia, req.body.descripcion);
         
         const proyectos = await model.Proyecto.extraeProyectos();
-        /*Aqui debe mandarte a la pagina de menu proyectos al agregar un proyecto exitosamente, como esta debajo
-        res.render("menu_proyecto/menu_proyecto",{
-            riesgo: riesgos
-        });
-        */
-        //Como aun no tengo dicha interfaz(debido a que de eso se encarga Mari) dejo lo de abajo
         console.log(riesgoP);
         res.status(201).redirect("/proyecto/nuevo_riesgo");
     }catch(error){
@@ -231,6 +242,7 @@ module.exports.post_nuevo_riesgo = async(req,res) =>{
         res.render("nuevo_riesgo/nuevo_riesgo", {msj: error});
     }
 }
+*/
 
 
 module.exports.post_agregar_riesgos = async(req,res) =>{

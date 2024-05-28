@@ -39,7 +39,7 @@ window.addEventListener('load', function() {
         search: true,
         sort: true,
         server:{
-            url: "/proyecto/:id_proyecto/agregar_riesgos",
+            url: "/proyecto/:${variable}/agregar_riesgos",
             then: data => data.riesgo.map(riesgo => [
                 "",
                 riesgo.description,
@@ -52,7 +52,7 @@ window.addEventListener('load', function() {
     }).render(wrapper);
 
     const selectedItems = [];
-
+    const numselectedItems= 0;
     
     wrapper.addEventListener('change', function(event) {
         if (event.target.classList.contains('select-row')) {
@@ -64,30 +64,43 @@ window.addEventListener('load', function() {
             const D_estrategia = checkbox.getAttribute('data-estrategia_m');
             const D_description = checkbox.getAttribute('data-description');
             if (checkbox.checked) {
-                selectedItems.push({id, D_categoria, D_impacto, D_probabilidad, D_estrategia, D_description});
+                selectedItems.push({D_categoria, D_impacto, D_probabilidad, D_estrategia, D_description});
                 alert('Se selecciono los siguientes riesgos en el proyecto ' + variable);
                 alert(JSON.stringify(selectedItems, null, 2));
+                numselectedItems +=1;
             } else {
                 const index = selectedItems.findIndex(item => item.id === id);
                 if (index > -1) {
                     selectedItems.splice(index, 1);
+                    numselectedItems -=1;
                 }
             }
         }
     });
     const Buton = document.getElementById('AgregarRiesgoBoton');
-    Buton.addEventListener('submit', function() {
+    Buton.addEventListener('click', function(event) {
         event.preventDefault();
         if (selectedItems.length > 0) {
-            
-            const selectedItem = selectedItems[0];  // Change as needed for multiple selections
-            const id = selectedItem.id;
-            const description = encodeURIComponent(selectedItem.D_description);
-            alert('Se selecciono el riesgo ' + description);  // Encode to handle special characters
+            alert('Cantidad de riesgos seleccionados: ' + selectedItems.length);
+            const url = `/proyecto/:${variable}/nuevo_riesgo`;
 
-            const url = `/proyecto/detalles_riesgo/${id}?description=${description}`;
-            window.location.href = url;
-            
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ selectedItems })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                alert('Riesgo(s) agregado(s) con éxito');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('Hubo un error al agregar el/los riesgo(s).');
+            });
+
         } else {
             alert('Por favor, selecciona al menos un riesgo.');
         }
