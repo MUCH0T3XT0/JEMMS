@@ -33,7 +33,7 @@ boton_enviar.addEventListener('click', function(event){
     const hoy = moment(x, "DD-MM-YYYY").toDate();
 
     //CAMPOS VACIOS
-    if(!nombre_proyecto.value || !empresa.value || !f_creacion.value || !f_fin.value || !encargado.value || !presupuesto.value || !descripcion.value){
+    if(!empresa.value || !f_creacion.value || !f_fin.value || !encargado.value || !presupuesto.value || !descripcion.value){
         msg.textContent = "Llene todos los campos";
 
     //LA FECHA DE FIN ES PASADO A LA FECHA ACTUAL DE LA CREACION DEL PROYECTO
@@ -45,48 +45,8 @@ boton_enviar.addEventListener('click', function(event){
         msg.textContent = "La fecha de inicio no puede ser posterior a la fecha de fin. Introduzca una fecha de inicio y fin coherentes.";
 
     
-    }else{//VERIFICACION DE LOS DATOS CON REGEX
-        let r_proyecto = /^(\w|\.|%|-|\$|@|\s){1,30}$/.test(nombre_proyecto.value);
-        let r_empresa = /^(\w|\.|%|-|\$|@|\s){1,15}$/.test(empresa.value);
-        let r_encargado = /^(\w|\.|%|-|\$|@|\s){1,30}$/.test(encargado.value);
-        let r_presupuesto = /\d/.test(presupuesto.value);
-        let r_descripcion = /^(\w|\.|%|-|\$|@|\s){1,500}$/.test(descripcion.value);
-
-        /*
-        console.log(r_proyecto);
-        console.log(r_empresa);
-        console.log(r_encargado);
-        console.log(r_presupuesto);
-        console.log(r_descripcion);*/
-
-        //LA VERIFICACION DE TODOS LOS INPUTS FUE CORRECTA
-        if(r_proyecto && r_empresa && r_empresa && r_presupuesto && r_descripcion){
-            nuevo_proyecto(nombre_proyecto.value, empresa.value, departamento.value, moment(f_creacion.value, "DD-MM-YYYY").format(moment.HTML5_FMT.DATE), moment(f_fin.value,  "DD-MM-YYYY").format(moment.HTML5_FMT.DATE), encargado.value, presupuesto.value, descripcion.value);
-
-        }else{
-            //ERROR EN PROYECTO
-            if(!r_proyecto){
-                msg.textContent = "Nombre de proyecto incorrecto";
-
-            //ERROR EN EMPRESA
-            }else if(!r_empresa){
-                msg.textContent = "Nombre de empresa incorrecto";
-
-            //ERROR EN ENCARGADO
-            }else if(!r_encargado){
-                msg.textContent = "Nombre de encargado incorrecto";
-
-            //ERROR EN PRESUPUESTO
-            }else if(!r_presupuesto){
-                msg.textContent = "Presupuesto incorrecto. Introduza solo digitos";
-            
-            //ERROR EN DESCRIPCION
-            }else{
-                msg.textContent = "Descripcion incorrecta";
-            }
-                
-            
-        }
+    }else{
+        nuevo_proyecto(nombre_proyecto.value, empresa.value, departamento.value, moment(f_creacion.value, "DD-MM-YYYY").format(moment.HTML5_FMT.DATE), moment(f_fin.value,  "DD-MM-YYYY").format(moment.HTML5_FMT.DATE), encargado.value, presupuesto.value, descripcion.value);
     }
 });
 
