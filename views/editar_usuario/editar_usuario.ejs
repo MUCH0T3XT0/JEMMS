@@ -62,7 +62,10 @@
             <div class="mb-3 row">
                 <label for="contrasena" class="col-sm-2 col-form-label">Contraseña</label>
                 <div class="col-sm-10">
-                <input type="password" class="form-control" id="contrasena" name = "contrasena" placeholder = "Solo use este campo si va a cambiar la contraseña">
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="contrasena" name = "contrasena" placeholder = "Solo use este campo si va a cambiar la contraseña">
+                        <button class="btn btn-outline-secondary" type="button" id="mostrar">Mostrar</button>
+                    </div>
                 </div>
             </div>
             <div class="mb-3 row">
@@ -93,50 +96,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-    <script>
-    (function() {
-        var textarea = document.getElementById('nombre');
-        var contadorCaracteres = document.getElementById('contadorNombre');
-        function actualizarContador(){
-            contadorCaracteres.textContent = textarea.value.length + '/30';
-            if (textarea.value.length > 30) {
-                textarea.value = textarea.value.slice(0, 30);
-                contadorCaracteres.textContent = '30/30';
-            }
-        }
-        textarea.addEventListener('input', actualizarContador);
-        textarea.addEventListener('change', actualizarContador());
-    })();
-    </script>
-    <script>
-    (function() {
-        var textarea = document.getElementById('apellido_p');
-        var contadorCaracteres = document.getElementById('contadorApellido_p');
-        function actualizarContador(){
-            contadorCaracteres.textContent = textarea.value.length + '/15';
-            if (textarea.value.length > 15) {
-                textarea.value = textarea.value.slice(0, 15);
-                contadorCaracteres.textContent = '15/15';
-            }
-        }
-        textarea.addEventListener('input', actualizarContador);
-        textarea.addEventListener('change', actualizarContador());
-    })();
-    </script>
-    <script>
-    (function() {
-        var textarea = document.getElementById('apellido_m');
-        var contadorCaracteres = document.getElementById('contadorApellido_m');
-        function actualizarContador(){
-            contadorCaracteres.textContent = textarea.value.length + '/15';
-            if (textarea.value.length > 15) {
-                textarea.value = textarea.value.slice(0, 15);
-                contadorCaracteres.textContent = '15/15';
-            }
-        }
-        textarea.addEventListener('change', actualizarContador());
-        textarea.addEventListener('input', actualizarContador);
-    })();
-    </script>
+    <%- include('editar_usuario.js.ejs')%>
+    
 </body>
 </html>
