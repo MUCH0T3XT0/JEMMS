@@ -2,7 +2,8 @@ window.addEventListener('load', function() {
     console.log("Hola");   
     const wrapper = document.getElementById('tablaMostar_riesgos');
     const variable = wrapper.getAttribute('value');
-
+    console.log(variable);
+    
     gridTable = new gridjs.Grid({
         columns: [
             {
@@ -43,7 +44,7 @@ window.addEventListener('load', function() {
         search: true,
         sort: true,
         server:{
-            url:  `/proyecto/:${variable}/mostrar_tabla_riesgos`,
+            url:  `/proyecto/${variable}/mostrar_tabla_riesgos`,
             then: data => data.riesgo.map( riesgos => [
                 riesgos.description,
                 riesgos.categoria,
@@ -53,4 +54,5 @@ window.addEventListener('load', function() {
             ])
         }
     }).render(wrapper);
+    
 });

@@ -9,6 +9,7 @@ app.set('views', 'views');
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 const rutasUsuario = require('./routes/usuario.routes');
