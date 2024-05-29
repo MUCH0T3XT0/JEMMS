@@ -194,6 +194,22 @@ module.exports.post_editar_proyecto = async(req, res)=>{
     }
 }
 
+module.exports.post_cambiarEstatus = async(req, res)=>{
+    try{
+        console.log("entró");
+        const id_proyecto = req.body.id_proyecto;
+
+        const resultado = await model.Proyecto.cambiarEstatus(id_proyecto);
+        console.log(resultado);
+
+        res.status(201).json({code: 201, msg: "Ok"});
+
+    }catch(error){
+        console.log(error);
+        res.status(401).redirect("proyecto/home");
+    }
+}
+
 module.exports.get_nuevo_riesgo = async(req,res) =>{
     try{
         console.log("Recuperando riesgos de la base de datos")

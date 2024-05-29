@@ -96,6 +96,19 @@ exports.Proyecto = class {
         }
     }
 
+    static async cambiarEstatus(id_proyecto){
+        try{
+            const connexion = await db();
+
+            const resultado = await connexion.execute('UPDATE PROYECTO SET estatus = false WHERE id_proyecto = ?', [id_proyecto]);
+
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
+
     async editar_proyecto(id_proyecto){
         try{
             const connexion = await db();
