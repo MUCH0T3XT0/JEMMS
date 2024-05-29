@@ -18,7 +18,7 @@ router.post('/:id_proyecto/editar_proyecto', controller.post_editar_proyecto);
 router.post('/nuevo_proyecto', rol, estatusLogeado, controller.post_nuevo_proyecto);
 router.post('/:id_proyecto/:id_riesgo/editar_riesgo', estatusLogeado, esLider, controller.post_editar_riesgo);
 router.post('/nuevo_riesgo', estatusLogeado, controller.post_nuevo_riesgo);
-router.post('/:id_proyecto/cambiarEstatus', estatusLogeado, controller.post_cambiarEstatus);
+router.post('/:id_proyecto/cambiarEstatus', estatusLogeado, esLider, controller.post_cambiarEstatus);
 
 
 
