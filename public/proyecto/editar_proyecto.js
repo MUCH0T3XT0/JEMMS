@@ -62,7 +62,7 @@ boton_guardar.addEventListener('click', function(event){
         let r_proyecto = /^(\w|\.|%|-|\$|@||ñ|á|é|í|ó|ú|\s){1,30}$/.test(nombre_proyecto.value);
         let r_empresa = /^(\w|\.|%|-|\$|@||ñ|á|é|í|ó|ú|\s){1,15}$/.test(empresa.value);
         let r_encargado = /^(\w|\.|%|-|\$|@||ñ|á|é|í|ó|ú|\s){1,30}$/.test(encargado.value);
-        let r_presupuesto = /\d/.test(presupuesto.value);
+        let r_presupuesto = /\d{1,19}/.test(presupuesto.value);
         let r_descripcion = /^(\w|\.|%|-|\$|@||ñ|á|é|í|ó|ú|\s){1,500}$/.test(descripcion.value);
 
         //LA VERIFICACION DE TODOS LOS INPUTS FUE CORRECTA
@@ -126,7 +126,7 @@ async function editar_proyecto(id_proyecto, nombre_proyecto, empresa, f_inicio, 
 
     if(response.ok){
         console.log("si");
-        window.location.href = "/proyecto/home";
+        window.location.href = "/proyecto/"+id_proyecto+"/info_proyecto";
     }else{
         msg.textContent = "Error en la BD";
     }
