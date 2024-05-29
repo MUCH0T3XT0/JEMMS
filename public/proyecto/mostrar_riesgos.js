@@ -43,7 +43,7 @@ window.addEventListener('load', function() {
         search: true,
         sort: true,
         server:{
-            url: "/proyecto/:${variable}/mostrar_tabla_riesgos",
+            url:  `/proyecto/:${variable}/mostrar_tabla_riesgos`,
             then: data => data.riesgo.map( riesgos => [
                 riesgos.description,
                 riesgos.categoria,
