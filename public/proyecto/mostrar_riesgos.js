@@ -23,10 +23,6 @@ window.addEventListener('load', function() {
                 name: 'Probabilidad',
             },
             {
-                id: 'probabilidad',
-                name: 'Probabilidad',
-            },
-            {
                 id: 'estretegia_m',
                 name: 'Estrategia'
             },
@@ -50,7 +46,7 @@ window.addEventListener('load', function() {
                 riesgos.categoria,
                 riesgos.impacto,
                 riesgos.probabilidad,
-                riesgos.estrategia_m
+                riesgos.estrategia_m,
             ])
         }
     }).render(wrapper);
