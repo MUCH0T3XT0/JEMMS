@@ -35,7 +35,7 @@ window.addEventListener('load', function() {
         search: true,
         sort: true,
         server:{
-            url: "/proyecto/:${variable}/agregar_riesgos",
+            url: "/proyecto/${variable}/agregar_riesgos",
             then: data => data.riesgo.map(riesgo => [
                 riesgo.id_riesgo,
                 riesgo.description,
@@ -48,6 +48,7 @@ window.addEventListener('load', function() {
     }).render(wrapper);
 
     const selectedItems = [];
+    const newItem = [];
     var numselectedItems= 0;
 
     wrapper.addEventListener('change', function(event) {
@@ -61,33 +62,73 @@ window.addEventListener('load', function() {
             const D_description = checkbox.getAttribute('data-description');
             if (checkbox.checked) {
                 selectedItems.push({D_categoria: D_categoria, D_impacto: D_impacto, D_probabilidad: D_probabilidad, D_estrategia: D_estrategia, D_description: D_description});
-                alert('Se selecciono los siguientes riesgos en el proyecto ' + variable);
-                alert(JSON.stringify(selectedItems, null, 2));
+                //alert('Se selecciono los siguientes riesgos en el proyecto ' + variable);
+                //alert(JSON.stringify(selectedItems, null, 2));
                 numselectedItems +=1;
             } else {
                 const index = selectedItems.findIndex(item => item.id === id);
                 selectedItems.splice(index, 1);
                 numselectedItems= numselectedItems - 1;
-                alert("Se deseleciona");
+                //alert("Se deselecciona");
             }
         }
     });
 
-    const Buton = document.getElementById('AgregarRiesgoBoton');
+    const Buton1= document.getElementById('AgregarRiesgoBoton');
+    const Buton2 = document.getElementById('CrearRiesgoBoton');
 
-    Buton.addEventListener('click', function(event) {
+    Buton1.addEventListener('click', function(event) {
         event.preventDefault();
         console.log(selectedItems);
         console.log(typeof(selectedItems[0].D_categoria));
 
-        miFuncion(selectedItems, variable);
+        FuncionAgregar(selectedItems, variable);
+        
+    });
+    Buton2.addEventListener('click', function(event) {
+        const desc = document.getElementById('descripcion');
+        const vdescripcion = desc.value;
+
+        const impa = document.getElementById('impacto');
+        const vimpacto = impa.value;
+
+        const cate = document.getElementById('categoria');
+        const vcategoria = cate.value;
+
+        const prob = document.getElementById('probabilidad');
+        const vprobabilidad = prob.value;
+
+        const estr = document.getElementById('estrategia');
+        const vestrategia = estr.value;
+        if (vdescripcion.length ==0){
+            alert("Error al crear riesgo: Sin descripcion cargada");
+        }
+        if (vimpacto == 0){
+            alert("Error al crear riesgo: Sin impacto seleccionado");
+        }
+        if (vcategoria == 0){
+            alert("Error al crear riesgo: Sin categoria seleccionada");
+        }
+        if (vprobabilidad == 0){
+            alert("Error al crear riesgo: Sin probabilidad seleccionada");
+        }
+        if (vestrategia.length ==0){
+            alert("Error al crear riesgo: Sin estrategia de mitigacion");
+        }
+        else{
+            console.log("Si llego");
+            newItem.push({D_categoria: vcategoria, D_impacto: vimpacto, D_probabilidad: vprobabilidad, D_estrategia: vestrategia, D_description: vdescripcion})
+            FuncionAgregar(newItem, variable);
+            newItem.splice(index, 1);
+        }
+        console.log("Si llego");
         
     });
 });
-async function miFuncion(selectedItems, variable){
-    if (selectedItems.length > 0) {
-        alert('Cantidad de riesgos seleccionados: ' + selectedItems.length);
-        const url = '/proyecto/'+variable+'/nuevo_riesgo';
+async function FuncionAgregar(selectedItems, variable){
+    if (selectedItems.length != 0) {
+        alert('Quieres agregar ' + selectedItems.length + " riesgo/s?");
+        const url = '/proyecto/'+variable+'/agregar_riesgos';
         console.log(url);
 
         const response = await fetch(url, {

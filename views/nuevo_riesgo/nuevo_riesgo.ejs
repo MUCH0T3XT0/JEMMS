@@ -13,6 +13,66 @@
 </head>
 <body>
     <%- include('./../barra_principal.ejs')%>
+        <div class="container py-4">
+            <div class="table-responsive">
+                <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">Impacto</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Probabilidad</th>
+                        <th scope="col">Estrategia</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="descripcion" name= "descripcion"placeholder="Aqui va descripcion del riesgo">
+                            </div>
+                        </td>
+                        <td>
+                            <select class="form-select" id= "impacto" name= "impacto" aria-label="Default select example">
+                                <option value="0" selected>Seleccionar</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-select" id= "categoria" name= "categoria" aria-label="Default select example">
+                                <option value="0" selected>Seleccionar</option>
+                                <option value="1">Alcance</option>
+                                <option value="2">Tiempo</option>
+                                <option value="3">Calidad</option>
+                                <option value="4">Costo</option>
+                                <option value="5">Recursos</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-select" id= "probabilidad" name= "probabilidad" aria-label="Default select example">
+                                <option value="0" selected>Seleccionar</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </td>
+                        <td>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="estrategia" name="estrategia" placeholder="Aqui va descripcion de la estrategia">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="container py-4">
+            <button type="click" id="CrearRiesgoBoton" class="btn btn-warning mb-3">Crear</button><!--Aqui debe ir en un futuro lun boton con id "submitButton" para usar Ajax-->
+        </div>
+
     <table id="example" class="display">
     <div class="container mt-5">
         <div class="text-center">

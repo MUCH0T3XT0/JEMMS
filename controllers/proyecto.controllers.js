@@ -199,7 +199,7 @@ module.exports.get_agregar_riesgos = async(req,res) =>{
         });
     }
 }
-module.exports.post_nuevo_riesgo = async (req, res) => {
+module.exports.post_agregar_riesgos = async (req, res) => {
     try {
         console.log("Agregando un riesgo (Riesgo especifico)");
 
@@ -218,54 +218,28 @@ module.exports.post_nuevo_riesgo = async (req, res) => {
             await model.Riesgo.agregarRiesgos(id_proyecto, D_categoria, D_impacto, D_probabilidad, D_estrategia, D_description);
         }
         console.log("Riesgos agregados:");
-        res.status(201).render("/nuevo_riesgo/nuevo_riesgo");
+        res.status(201).render("nuevo_riesgo/nuevo_riesgo", { id_proyecto: req.params.id_proyecto});
     } catch (error) {
         console.log(error);
-        res.status(500).render("nuevo_riesgo/nuevo_riesgo", { msj: error.message });
+        res.status(500).render("nuevo_riesgo/nuevo_riesgo", { id_proyecto: req.params.id_proyecto});
     }
 };
 
-/*
+
+
 module.exports.post_nuevo_riesgo = async(req,res) =>{
     try{
-        console.log("Agregando un riesgo(Riesgo especifico)");
-
-        //En el primer parametro va el numero de proyecto. Esta parte debe ser modificada por el id del proyecto donde se esta actualmente
-        const riesgoP = await model.Riesgo.agregarRiesgos(req.body.id_proyecto, req.body.categoria, req.body.impacto, req.body.probabilidad, req.body.estrategia, req.body.descripcion);
-        
-        const proyectos = await model.Proyecto.extraeProyectos();
-        console.log(riesgoP);
-        res.status(201).redirect("/proyecto/nuevo_riesgo");
-    }catch(error){
-        console.log(error);
-        res.render("nuevo_riesgo/nuevo_riesgo", {msj: error});
-    }
-}
-*/
-
-
-module.exports.post_agregar_riesgos = async(req,res) =>{
-    try{
         console.log("Agregando riesgos al proyecto")
-
-        const riesgoP = await model.Riesgo.agregarRiesgos(req.params.id_proyecto, req.body.categoria, req.body.impacto, req.body.probabilidad, req.body.estrategia, req.body.descripcion);
         
-        console.log(riesgoP)
-
-        res.status(201).redirect("/proyecto/"+req.params.id_proyecto+"/menu_proyecto", {code:200, msg: "Riesgos agregados exitosamente"});
-        /*res.status(200).render("nuevo_riesgo/nuevo_riesgo", {
-            code: 200,
-            msg: "Riesgos agregados exitosamente"
-            , riesgo:riesgosG
-        });
-        */
+        const riesgoP = await model.Riesgo.agregarRiesgos(req.params.id_proyecto, req.body.categoria, req.body.impacto, req.body.probabilidad, req.body.estrategia, req.body.descripcion);
+    
+        console.log(riesgoP);
+        alert("Riesgo creado y agregado al proyecto exitosamente");
+        res.status(201).render("nuevo_riesgo/nuevo_riesgo", { id_proyecto: req.params.id_proyecto});
     }catch(error){
         console.log(error);
-        res.status(500).render("nuevo_riesgo/nuevo_riesgo",{
-            code:500,
-            msg: "Error al agregar riesgos"
-            /*, riesgo: []*/
-        });
+        alert("Error al agregar el riesgo");
+        res.status(500).render("nuevo_riesgo/nuevo_riesgo", { id_proyecto: req.params.id_proyecto});
     }
 }
 
