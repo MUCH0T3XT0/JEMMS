@@ -34,7 +34,21 @@ window.addEventListener('load', function() {
                 usuario.nombres,
                 usuario.apellido_p
             ])
-        }
+        },//Se agregó la modificación de estilos en la tabla 
+        style: {
+            table: {
+              border: '3px solid #ccc'
+            },
+            th: {
+              'background-color': 'rgba(0, 0, 0, 0.1)',
+              color: '#000',
+              'border-bottom': '3px solid #ccc',
+              'text-align': 'center'
+            }
+            /*td: {
+              'text-align': 'center'
+            }*/
+          }        
     }).render(wrapper);
 
     gridTable1 = new gridjs.Grid({
@@ -63,13 +77,33 @@ window.addEventListener('load', function() {
                 name: 'Correo Electrónico'
             },
             {
-                name: "Editar",
-              formatter: (_, row) => {
-                return gridjs.h('button', {
-                    className: ' btn btn-link',
-                    onClick: () => alert(`Editing "${row.cells[0].data}" "${row.cells[1].data}"`)
-                  }, 'Editar');
-              }
+                name: "Editar Usuario",
+                sort: false,
+                formatter: (_, row) => {           //Center-content es la clase en el CSS que se agregó para que los botones estén centrados
+                    return gridjs.h('div', { className: 'center-content' }, 
+                        gridjs.h('button', {
+                            className: 'btn btn-primary',
+                            onClick: () => alert(`Editando "${row.cells[0].data}" "${row.cells[1].data}"`)
+                        }, 'Editar')
+                    );
+                }
+            },
+            {//Se agregó el botón de eliminar usuario 
+                name: "Eliminar Usuario",
+                sort: false,
+                formatter: (_, row) => {
+                    return gridjs.h('div', { className: 'center-content' }, 
+                        gridjs.h('button', {
+                            className: 'btn btn-danger',
+                            onClick: () => {
+                                if (confirm(`¿Estás seguro de que quieres eliminar el usuario "${row.cells[0].data}"?`)) {
+                                    // Aquí debes implementar la lógica para eliminar el riesgo
+                                    alert(`Eliminando "${row.cells[0].data}"`);
+                                }
+                            }
+                        }, 'Eliminar')
+                    );
+                }
             }
         ],
         pagination: true,
@@ -84,6 +118,20 @@ window.addEventListener('load', function() {
                 usuario.rol,
                 usuario.correo
             ])
-        }
+        },//Se agregó la opción de darle estilo a la tabla
+        style: {
+            table: {
+              border: '3px solid #ccc'
+            },
+            th: {
+              'background-color': 'rgba(0, 0, 0, 0.1)',
+              color: '#000',
+              'border-bottom': '3px solid #ccc',
+              'text-align': 'center'
+            }
+            /*td: {
+              'text-align': 'center'
+            }*/
+          }
     }).render(wrapper1);
 });
