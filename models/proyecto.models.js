@@ -255,7 +255,7 @@ exports.Riesgo = class {
     static async extraerRiesgosPorProyecto(id_proyec){
         try{
             const connexion = await db();
-            const resultado = await connexion.execute('Select * from RIESGO NATURAL JOIN PROYECTO WHERE RIESGO.id_proyecto = ?', [id_proyec]);
+            const resultado = await connexion.execute('Select * from RIESGO WHERE RIESGO.id_proyecto = ?', [id_proyec]);
             
 
             await connexion.release();

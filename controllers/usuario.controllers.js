@@ -45,25 +45,45 @@ module.exports.post_login = async(req, res) =>{
     }        
 }
 
-//Se muestra la información de los usuarios 
+//Se modificó la función para mostrar la interfaz de mostrar los usuarios
 module.exports.get_mostrar_usuarios = async(req,res) =>{
+    console.log("Recuperando información de los usuarios");   
+    res.render("mostrar_usuarios/mostrar_usuarios");
+}
+
+//Se agregó la función para mostrar la información de los líderes
+module.exports.get_mostrar_usuarios_lideres = async(req,res) =>{
     try{
-        console.log("Recuperando información de los usuarios");
-        const lideres = await model.Usuario.getLideres();
-        const colaboradores = await model.Usuario.getColaboradores();
-
-        res.status(200).render("mostrar_usuarios/mostrar_usuarios",{
-            code: 200,
-            msg: "Ok",
-            usuario1: lideres,
-            usuario2: colaboradores //La variable usuario se ocupa en el html dinamico y lo de usuarios es el resultado de la consulta hecha
-
+        console.log("Recuperando información de los lideres");
+        const lideres = await model.Usuario.getLideres();        
+        
+        res.status(200).json({
+            usuario1: lideres
         });
     }catch(error){
         console.log(error);
-        res.status(500).render("mostrar_usuarios/mostrar_usuarios",{
-            code: 500,
-            msg:"Error base de datos"
+        res.status(400).json({
+            usuario1: []
+        });
+
+    }
+    
+}
+
+//Se agregó la función para mostrar la información de los colaboradres
+module.exports.get_mostrar_usuarios_colaboradores = async(req,res) =>{
+    try{
+        console.log("Recuperando información de los colaboradores");
+        const colaboradores = await model.Usuario.getColaboradores();
+
+        res.status(200).json({
+            usuario2: colaboradores //La variable usuario se ocupa en el html dinamico y lo de usuarios es el resultado de la consulta hecha
+
+        });
+    
+    }catch(error){
+        res.status(200).json({
+            usuario2: [] //La variable usuario se ocupa en el html dinamico y lo de usuarios es el resultado de la consulta hecha
         });
     }
     

@@ -13,6 +13,11 @@ router.post('/login', controller.post_login);
 router.get('/mostrar_usuarios', estatusLogeado, controller.get_mostrar_usuarios);
 router.post('/agregar_usuario', estatusLogeado, rol, controller.post_agregar_usuario);
 router.post('/:id/editar_usuario', estatusLogeado, rol, controller.post_editar_usuario);
+router.get('/mostrar_usuarios', controller.get_mostrar_usuarios);
+router.get('/mostrar_usuarios_lideres', controller.get_mostrar_usuarios_lideres);//Se creo la rama para mostrar la información de lideres
+router.get('/mostrar_usuarios_colaboradores', controller.get_mostrar_usuarios_colaboradores);//Se creo la rama para mostrar la información de colaboradores
+router.post('/agregar_usuario', controller.post_agregar_usuario);
+router.post('/:id/editar_usuario', controller.post_editar_usuario);
 
 
 module.exports = router;
