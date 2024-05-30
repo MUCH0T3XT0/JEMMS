@@ -14,6 +14,7 @@ exports.Proyecto = class {
         this.encargado = encargado;
         this.departamento = departamento;
         this.estatus = estatus;
+        this.riesgo_total=riesgo_total;
     }
 
     static async eliminaProyecto(id_proyecto){
@@ -97,6 +98,18 @@ exports.Proyecto = class {
         try{
             const connexion = await db();
             const resultado = await connexion.execute('SELECT SUM(impacto) AS total FROM RIESGO WHERE id_proyecto= ?', [idProyecto]);
+            console.log(resultado);
+
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
+    static async informacionNumericaG(){
+        try{
+            const connexion = await db();
+            const resultado = await connexion.execute('SELECT p.id_proyecto AS id_proyecto, IFNULL(SUM(r.impacto), 0) AS riesgo_total FROM proyecto p LEFT JOIN riesgo r ON p.id_proyecto = r.id_proyecto GROUP BY p.id_proyecto;');
             console.log(resultado);
 
             await connexion.release();

@@ -1,3 +1,4 @@
+
 -- MySQL dump 10.13  Distrib 8.3.0, for macos14.2 (arm64)
 --
 -- Host: localhost    Database: APPIX
@@ -18,6 +19,9 @@
 --
 -- Table structure for table `DEPARTAMENTO`
 --
+DROP DATABASE IF EXISTS APPIX;
+CREATE DATABASE APPIX;
+USE APPIX;
 
 DROP TABLE IF EXISTS `DEPARTAMENTO`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
