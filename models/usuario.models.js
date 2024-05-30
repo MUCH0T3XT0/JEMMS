@@ -79,9 +79,24 @@ exports.Usuario = class {
     async editar_usuario() {
         try {
             const connection = await db();
+            const hashedPass = await bcrypt.hash(this.contrasena, 12)
             const result = await connection.execute(
             `UPDATE usuario SET nombres = ?, apellido_m = ?, apellido_p = ?, contrasena = ?, rol = ?, correo = ? WHERE id_usuario = ?`,
-            [this.nombre, this.apellido_m, this.apellido_p, this.contrasena, this.rol, this.correo, this.id]
+            [this.nombre, this.apellido_m, this.apellido_p, hashedPass, this.rol, this.correo, this.id]
+            );
+            await connection.release();
+            return result;
+        } catch (error) {
+            throw error; // Re-throw the error for proper handling
+        }
+    }
+
+    async editar_usuario_nocon() {
+        try {
+            const connection = await db();
+            const result = await connection.execute(
+            `UPDATE usuario SET nombres = ?, apellido_m = ?, apellido_p = ?, rol = ?, correo = ? WHERE id_usuario = ?`,
+            [this.nombre, this.apellido_m, this.apellido_p, this.rol, this.correo, this.id]
             );
             await connection.release();
             return result;
