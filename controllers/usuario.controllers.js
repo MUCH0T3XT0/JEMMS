@@ -47,8 +47,12 @@ module.exports.post_login = async(req, res) =>{
 
 //Se modificó la función para mostrar la interfaz de mostrar los usuarios
 module.exports.get_mostrar_usuarios = async(req,res) =>{
-    console.log("Recuperando información de los usuarios");   
-    res.render("mostrar_usuarios/mostrar_usuarios");
+    console.log("Recuperando información de los usuarios");
+
+    const rol = req.session.rol;
+
+
+    res.render("mostrar_usuarios/mostrar_usuarios",{rol: rol});
 }
 
 //Se agregó la función para mostrar la información de los líderes

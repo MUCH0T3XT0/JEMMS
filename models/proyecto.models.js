@@ -14,7 +14,6 @@ exports.Proyecto = class {
         this.encargado = encargado;
         this.departamento = departamento;
         this.estatus = estatus;
-        this.riesgo_total=riesgo_total;
     }
 
     static async eliminaProyecto(id_proyecto){
