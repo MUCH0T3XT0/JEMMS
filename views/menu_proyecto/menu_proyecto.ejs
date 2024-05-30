@@ -22,6 +22,12 @@
 </head>
 <body>
     <%- include('./../barra_principal.ejs')%>
+    <nav class="boton" aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+            <a class="page-link" style="background-color: rgb(49,108,244); color:white" href="/proyecto/home" aria-label="Previous"> <span aria-hidden="true">&laquo;</span>Regresar</a>
+        </ul>
+    </nav>
     <div class="container mt-5">
         
         <div class="text-center">
@@ -81,7 +87,7 @@
                 <a href="/proyecto/<%= id_proyecto%>/mostrar_riesgos" class="btn btn-primary">Reporte de Riesgos</a>
                 
                 <%if (rol || lider) {%>
-                    <a href="/proyecto/nuevo_riesgo" class="btn btn-primary">Agregar Riesgos</a>
+                    <a href="/proyecto/<%= id_proyecto%>/nuevo_riesgo" class="btn btn-primary">Agregar Riesgos</a>
                     <button class="btn btn-danger" id="cambiarEstatus_boton" onclick="muestraAlerta()" data-id="<%- id_proyecto %>">Cambiar estatus del proyecto</button>
                 <%}%>
             </div>

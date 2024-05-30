@@ -28,6 +28,12 @@
         }
     </style>
     <%- include('./../barra_principal.ejs')%>
+    <nav class="boton" aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+            <a class="page-link" style="background-color: rgb(49,108,244); color:white"  href="/proyecto/<%=id_proyecto%>/menu_proyecto" aria-label="Previous"> <span aria-hidden="true">&laquo;</span>Regresar</a>
+        </ul>
+    </nav>
    
     <div class="row justify-content-center mt-6">
         <div class="col-md-2">
@@ -91,9 +97,6 @@
             </div> 
         <%}%>
         
-        <div class="row g-3">
-            <a  href="/proyecto/<%=id_proyecto%>/menu_proyecto" type="submit" class="btn btn-primary mb-3">Regresar</a>
-        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -223,7 +223,8 @@ module.exports.get_nuevo_riesgo = async(req,res) =>{
         res.status(200).render("nuevo_riesgo/nuevo_riesgo", {
             code: 200,
             msg: "Ok",
-            riesgo:riesgosG
+            riesgo:riesgosG,
+            id_proyecto: req.params.id_proyecto
         });
     }catch(error){
         console.log(error);

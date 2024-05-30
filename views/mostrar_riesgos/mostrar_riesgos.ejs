@@ -9,6 +9,12 @@
 <body>
   <%- include('mostrar_riesgos.style.ejs') %>
   <%- include('./../barra_principal.ejs')%>
+  <nav class="boton" aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item">
+        <a class="page-link" style="background-color: rgb(49,108,244); color:white" href="/proyecto/<%=id_proyecto%>/menu_proyecto" aria-label="Previous"> <span aria-hidden="true">&laquo;</span>Regresar</a>
+    </ul>
+</nav>
 
   <div class="row g-0 text-center">
       <div class="col-sm-6 col-md-7">

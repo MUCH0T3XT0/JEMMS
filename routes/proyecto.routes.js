@@ -12,12 +12,12 @@ router.get('/:id_proyecto/info_proyecto', estatusLogeado, controller.get_info_pr
 router.get('/:id_proyecto/editar_proyecto', estatusLogeado, esLider, controller.get_editar_proyecto);
 router.get('/:id_proyecto/:id_riesgo/editar_riesgo', estatusLogeado, esLider, controller.get_editar_riesgo);
 router.get('/:id_proyecto/mostrar_riesgos', estatusLogeado, controller.get_mostrar_riesgos);
-router.get('/nuevo_riesgo', estatusLogeado, controller.get_nuevo_riesgo);
+router.get('/:id_proyecto/nuevo_riesgo', estatusLogeado, rol, controller.get_nuevo_riesgo);
 
 router.post('/:id_proyecto/editar_proyecto', controller.post_editar_proyecto);
 router.post('/nuevo_proyecto', rol, estatusLogeado, controller.post_nuevo_proyecto);
 router.post('/:id_proyecto/:id_riesgo/editar_riesgo', estatusLogeado, esLider, controller.post_editar_riesgo);
-router.post('/nuevo_riesgo', estatusLogeado, controller.post_nuevo_riesgo);
+router.post('/:id_proyecto/nuevo_riesgo', estatusLogeado, rol, controller.post_nuevo_riesgo);
 router.post('/:id_proyecto/cambiarEstatus', estatusLogeado, esLider, controller.post_cambiarEstatus);
 
 

@@ -27,6 +27,12 @@
         }
     </style>
     <%- include('./../barra_principal.ejs')%>
+    <nav class="boton" aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+            <a class="page-link" style="background-color: rgb(49,108,244); color:white" href="/proyecto/<%=id_proyecto%>/info_proyecto" aria-label="Previous"> <span aria-hidden="true">&laquo;</span>Regresar</a>
+        </ul>
+    </nav>
     <div class="row justify-content-center mt-6">
         <div class="text-center">
             <h3 style="margin-bottom: 0px; margin-top: 16px;">Editar el Proyecto</h3>
@@ -102,10 +108,6 @@
             <div class="row g-3">
                 <button id="boton_guardar" data-id="<%=id_proyecto%>" type="button" class="btn btn-success mb-3" >Guardar</button>
             </div>
-
-        <div class="row g-3">
-            <a  href="/proyecto/<%=id_proyecto%>/info_proyecto" type="submit" class="btn btn-primary mb-3">Regresar</a>
-        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
