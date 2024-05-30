@@ -28,10 +28,7 @@ module.exports.get_home = async(req,res) =>{
         
     }catch(error){
         console.log(error);
-        res.status(400).render("home/home",{
-            error: true,
-            rol: rol
-        });
+        res.status(400).redirect("/proyecto/home");
     }
     
 }
@@ -103,7 +100,7 @@ module.exports.get_proyecto = async(req,res) =>{
 
     }catch(error){
         console.log(error);
-        res.status(500).redirect("proyecto/home");
+        res.status(500).redirect("/proyecto/home");
     }
 }
 
@@ -147,9 +144,7 @@ module.exports.get_editar_proyecto = async(req,res) => {
         proyectos[0].fecha_fin = moment(proyectos[0].fecha_fin, "DD/MM/YYYY").format("DD/MM/YYYY");
 
         if(proyectos.length < 1){
-            res.status(400).render("editar_proyecto/editar_proyecto",{
-                error: true
-            });
+            res.status(400).redirect("/proyecto/home");
             return;
         }
 
@@ -161,9 +156,7 @@ module.exports.get_editar_proyecto = async(req,res) => {
 
     } catch(error){
         console.log(error);
-        res.status(400).render("editar_proyecto/editar_proyecto",{
-            error: true
-        });
+        res.status(400).redirect("/proyecto/home");
     }
 }
 
@@ -185,12 +178,10 @@ module.exports.post_editar_proyecto = async(req, res)=>{
         
         const editado = await proyecto_editado.editar_proyecto(id);
 
-        res.status(201).redirect("editar_proyecto");
+        res.status(201).json({code: 201, msg: "Ok"});
     }catch(error){
         console.log(error);
-        res.status(401).redirect("editar_proyecto",{
-            error: true
-        })
+        res.status(401).redirect("/proyecto/"+id+"/editar_proyecto");
     }
 }
 
@@ -202,7 +193,7 @@ module.exports.post_eliminarProyecto = async(req, res)=>{
         const resultadoC = await model.Proyecto.eliminaColaboradoresEnProyecto(id_proyecto);
         const resultadoR = await model.Proyecto.eliminaRiesgoIdProyecto(id_proyecto);
         const resultadoP = await model.Proyecto.eliminaProyecto(id_proyecto);
-        
+
         console.log(resultadoC);
         console.log(resultadoR);
         console.log(resultadoP);
@@ -210,7 +201,7 @@ module.exports.post_eliminarProyecto = async(req, res)=>{
         res.status(201).json({code: 201, msg: "Ok"});
     }catch(error){
         console.log(error);
-        res.status(401).redirect("proyecto/home");
+        res.status(401).redirect("/proyecto/home");
     }
 }
 
@@ -226,7 +217,7 @@ module.exports.post_cambiarEstatus = async(req, res)=>{
 
     }catch(error){
         console.log(error);
-        res.status(401).redirect("proyecto/home");
+        res.status(401).redirect("/proyecto/home");
     }
 }
 
@@ -336,10 +327,7 @@ module.exports.get_editar_riesgo = async(req,res) =>{
         });
     }catch(error){
         console.log(error);
-        res.status(400).redirect("home",{
-            code: 400,
-            msg: "Riesgo no encontrado"
-        });
+        res.status(400).redirect("/proyecto/home");
     }
 }
 
