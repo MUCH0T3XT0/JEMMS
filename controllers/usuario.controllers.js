@@ -70,9 +70,9 @@ module.exports.get_mostrar_usuarios = async(req,res) =>{
 }
 
 module.exports.cerrar_sesion = async(req,res) => {
-    req.session.estatusLogeado = false;
-
-    res.redirect("login");
+    res.render("login/login",{
+        loggeado: false
+    });
 }
 
 module.exports.get_agregar_usuario = async(req,res) =>{
@@ -128,7 +128,10 @@ module.exports.post_agregar_usuario = async(req, res) => {
 
             const usuarionuevo = await usuario.guardar_usuario();
 
-            res.status(201).redirect("/usuario/mostrar_usuarios");
+            res.status(201).redirect("/usuario/mostrar_usuarios",{
+                code:201,
+                msg: "Ok"
+            });
         }else{
             res.status(400).redirect("/usuario/mostrar_usuarios");
         }
