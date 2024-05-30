@@ -60,58 +60,17 @@
           </div>
         </div>
       </div>
-        <div class="col-6 col-md-4">
-          <div class="row align-items-center">
-            <div class="col">
+        <div class="col-6 col-md-4 center-content1">
+          <!--div class="row align-items-center"-->
+            <!--div class="col"-->
               <p id="promedio">Medio</p>
               <h2>Nivel de Riesgo</h2>
               <!--div id="nivelRiesgo" class="form-text"></div-->
-            </div>           
-          </div>
+            <!--/div-->           
+          <!--/div -->
         </div>
-          <div class="container">
-            <div class="table-responsive">
-                <table class="table align-middle">
-                    <thead>
-                        <tr>
-                            <th scope="col">Descripcion</th>
-                            <th scope="col">Categoria</th>
-                            <th scope="col">Impacto</th>
-                            <th scope="col">Probabilidad</th>
-                            <th scope="col">Estrategia</th>
-                            <th scope="col">Editar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% for (var i = 0; i< riesgo.length ; i++){ %>
-                        <tr>
-                            <td><p name="descripcion" ><%= riesgo[i].description %></p></td>
-                    
-                           
-
-                            <%if (riesgo[i].categoria == 1){%>
-                                <td><p style="color: #4ed0d7;">Alcance</p></td>
-                            <%}else if (riesgo[i].categoria == 2){%>
-                                <td><p style="color: #4e80d7;">Tiempo</p></td>
-                            <%}else if (riesgo[i].categoria == 3){%>
-                                <td><p style="color: orange;">Calidad</p></td>
-                            <%}else if (riesgo[i].categoria == 4){%>
-                                <td><p style="color: #4ef73c;">Costo</p></td>
-                            <%}else if (riesgo[i].categoria == 5){%>
-                                <td><p style="color: #ffdd1f;">Recursos</p></td>
-                            <%}%>
-                            <td><p><%= riesgo[i].impacto %></p></td>
-                            <td><p><%= riesgo[i].probabilidad %></p></td>
-                            <td><p><%= riesgo[i].estrategia_m %><p></td>
-                            <td><a href="/proyecto/<%= id_proyecto %>/<%= riesgo[i].id_riesgo %>/editar_riesgo" type="submit" class="btn btn-primary mb-3">Editar riesgo</a></td>
-                        </tr>
-                        <% } %>
-                    </tbody>
-                </table>
-            </div>
-          </div>
-
-          <div class="container" id="tablaMostar_riesgos"  value="<%= id_proyecto%>"></div>            
+          
+        <div class="container" id="tablaMostar_riesgos"  value="<%= id_proyecto%>"></div>          
   </div>
 </body>
 <%- include('mostrar_riesgos.js.ejs')%>
