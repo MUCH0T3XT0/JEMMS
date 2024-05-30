@@ -31,7 +31,7 @@
     <div class="container mt-5">
         
         <div class="text-center">
-            <h2>Menú del Proyecto</h2>
+            <h2>Menú del <%=proyectoGeneral[0].nombre_proyecto%></h2>
             <% if(proyectoGeneral[0].estatus == true){%>
                 <p class="status status-text">Estatus: <span style="color: #28a745; font-weight: bold;">Activo</span></p>
             <%}else{%>
@@ -42,10 +42,17 @@
         <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
             <div class="info-container">
                 <div class="text-center my-3">
-                    <div class="text-left my-3">
-                        <span>Finalización de proyecto en: <br> <p class="risk-points"><%= proyectoGeneral[0].duracion %> días</p></span>
-                        <span>Duracion del proyecto: </span><br> <p class="risk-points""><%= proyectoGeneral[0].diasTotales%> días</p>
-                    </div>
+                    <% if(proyectoGeneral[0].estatus == 1){ %>
+                        <div class="text-left my-3">
+                            <span>Finalización de proyecto en: <br> <p class="risk-points"><%= proyectoGeneral[0].duracion %> días</p></span>
+                            <span>Duracion del proyecto: </span><br> <p class="risk-points"><%= proyectoGeneral[0].diasTotales%> días</p>
+                        </div>
+                    <%}else{%>
+                        <div class="text-left my-3">
+                            <span>Finalización de proyecto en: <br> <p class="risk-points" style="color: #a72828; font-size: bold;">Terminado</p></span>
+                            <span>Duracion del proyecto: </span><br> <p class="risk-points" style="color: #a72828; font-size: bold;">Terminado</p>
+                        </div>
+                    <%}%>
                     <div class="text-left">
                         <p>Cantidad de riesgos: <br> <span class="risk-points"><%= proyectoRiesgo[0].cuenta %></span></p>
 
@@ -64,22 +71,28 @@
                 </div>
             </div>
             <div class="progress-container">
-                <% if(proyectoNum[0].total < 10){%>
-                    <div class="circular_progress" style="--i:85; --clr: #43c617; --value:<%=100-(Math.round((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales))%> ">
-                        <span style="color: white; text-align: center;">Progreso</span>
-                        <span style="color: white;"><%=100-(Math.round((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales))%>%</span>
+                <% if(proyectoGeneral[0].estatus == 1){ %>
+                    <% if(proyectoNum[0].total < 10){%>
+                        <div class="circular_progress" style="--i:85; --clr: #43c617; --value:<%=100-(Math.round((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales))%> ">
+                            <span style="color: white; text-align: center;">Progreso</span>
+                            <span style="color: white;"><%=100-(Math.round((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales))%>%</span>
+                        </div>
+                    <%} else if(proyectoNum[0].total >= 10 && proyectoNum[0].total <= 20){%>
+                        <div class="circular_progress" style="--i:85; --clr: #d8b91b; --value:<%=100-(Math.round((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales))%> ">
+                            <span style="color: white; text-align: center;">Progreso</span>
+                            <span style="color: white;"><%=100-(Math.round((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales))%>%</span>
+                        </div>
+                    <%} else if(proyectoNum[0].total > 20){%>
+                        <div class="circular_progress" style="--i:85; --clr: #d8211b; --value:<%=100-(Math.round((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales))%> ">
+                            <span style="color: white; text-align: center;">Progreso</span>
+                            <span style="color: white;"><%=100-(Math.round((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales))%>%</span>
+                        </div>
+                    <% } %>
+                <%}else{%>
+                    <div class="circular_progress" style="--i:85; --clr: gray; --value:100 ">
+                        <span style="color: white; text-align: center;">Terminado</span>
                     </div>
-                <%} else if(proyectoNum[0].total >= 10 && proyectoNum[0].total <= 20){%>
-                    <div class="circular_progress" style="--i:85; --clr: #d8b91b; --value:<%=100-(Math.round((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales))%> ">
-                        <span style="color: white; text-align: center;">Progreso</span>
-                        <span style="color: white;"><%=100-(Math.round((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales))%>%</span>
-                    </div>
-                <%} else if(proyectoNum[0].total > 20){%>
-                    <div class="circular_progress" style="--i:85; --clr: #d8211b; --value:<%=100-(Math.round((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales))%> ">
-                        <span style="color: white; text-align: center;">Progreso</span>
-                        <span style="color: white;"><%=100-(Math.round((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales))%>%</span>
-                    </div>
-                <% } %>
+                <%}%>
                 
             </div>
             <div class="buttons flex-column">
@@ -88,7 +101,11 @@
                 
                 <%if (rol || lider) {%>
                     <a href="/proyecto/<%= id_proyecto%>/nuevo_riesgo" class="btn btn-primary">Agregar Riesgos</a>
-                    <button class="btn btn-danger" id="cambiarEstatus_boton" onclick="muestraAlerta()" data-id="<%- id_proyecto %>">Cambiar estatus del proyecto</button>
+                    <% if(proyectoGeneral[0].estatus == 1){ %>
+                        <button class="btn btn-danger" id="cambiarEstatus_boton" onclick="muestraAlerta()" data-id="<%= id_proyecto %>">Cambiar estatus del proyecto</button>
+                    <%}else{%>
+                        <button class="btn btn-danger" id="eliminar_boton" onclick="muestraElimina()" data-id="<%= id_proyecto %>">Eliminar proyecto</button>
+                    <%}%>
                 <%}%>
             </div>
         </div>

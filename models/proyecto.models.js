@@ -16,6 +16,42 @@ exports.Proyecto = class {
         this.estatus = estatus;
     }
 
+    static async eliminaProyecto(id_proyecto){
+        try{
+            const connexion = await db();
+            const resultado = await connexion.execute('DELETE FROM PROYECTO WHERE id_proyecto = ?', [id_proyecto]);
+
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
+
+    static async eliminaRiesgoIdProyecto(id_proyecto){
+        try{
+            const connexion = await db();
+            const resultado = await connexion.execute('DELETE FROM RIESGO WHERE id_proyecto = ?', [id_proyecto]);
+
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
+
+    static async eliminaColaboradoresEnProyecto(id_proyecto){
+        try{
+            const connexion = await db();
+            const resultado = await connexion.execute('DELETE FROM TRABAJAN WHERE id_proyecto = ?', [id_proyecto]);
+
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
+
     static async extraeProyectos(){
         try{
             const connexion = await db();
@@ -47,7 +83,7 @@ exports.Proyecto = class {
     static async informacionRestante(idProyecto){
         try{
             const connexion = await db();
-            const resultado = await connexion.execute('SELECT (DATEDIFF(PROYECTO.f_fin, PROYECTO.f_creacion) - DATEDIFF(CURRENT_DATE, PROYECTO.f_creacion)) AS duracion, estatus, DATEDIFF(PROYECTO.f_fin, PROYECTO.f_creacion) AS diasTotales FROM PROYECTO WHERE id_proyecto = ? ', [idProyecto]);
+            const resultado = await connexion.execute('SELECT nombre_proyecto, (DATEDIFF(PROYECTO.f_fin, PROYECTO.f_creacion) - DATEDIFF(CURRENT_DATE, PROYECTO.f_creacion)) AS duracion, estatus, DATEDIFF(PROYECTO.f_fin, PROYECTO.f_creacion) AS diasTotales FROM PROYECTO WHERE id_proyecto = ? ', [idProyecto]);
             console.log(resultado);
 
             await connexion.release();

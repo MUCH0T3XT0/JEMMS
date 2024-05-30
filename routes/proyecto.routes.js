@@ -19,7 +19,7 @@ router.post('/nuevo_proyecto', rol, estatusLogeado, controller.post_nuevo_proyec
 router.post('/:id_proyecto/:id_riesgo/editar_riesgo', estatusLogeado, esLider, controller.post_editar_riesgo);
 router.post('/:id_proyecto/nuevo_riesgo', estatusLogeado, rol, controller.post_nuevo_riesgo);
 router.post('/:id_proyecto/cambiarEstatus', estatusLogeado, esLider, controller.post_cambiarEstatus);
-
+router.post('/:id_proyecto/eliminarProyecto', estatusLogeado, esLider, controller.post_eliminarProyecto);
 
 
 module.exports = router;

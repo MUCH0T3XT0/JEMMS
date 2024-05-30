@@ -194,6 +194,26 @@ module.exports.post_editar_proyecto = async(req, res)=>{
     }
 }
 
+module.exports.post_eliminarProyecto = async(req, res)=>{
+    try{
+        console.log("Eliminando proyecto");
+        const id_proyecto = req.params.id_proyecto;
+
+        const resultadoC = await model.Proyecto.eliminaColaboradoresEnProyecto(id_proyecto);
+        const resultadoR = await model.Proyecto.eliminaRiesgoIdProyecto(id_proyecto);
+        const resultadoP = await model.Proyecto.eliminaProyecto(id_proyecto);
+        
+        console.log(resultadoC);
+        console.log(resultadoR);
+        console.log(resultadoP);
+
+        res.status(201).json({code: 201, msg: "Ok"});
+    }catch(error){
+        console.log(error);
+        res.status(401).redirect("proyecto/home");
+    }
+}
+
 module.exports.post_cambiarEstatus = async(req, res)=>{
     try{
         console.log("entró");
