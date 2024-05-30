@@ -26,7 +26,18 @@ module.exports.get_home = async(req,res) =>{
     }
     
 }
-//----------------------------------
+//-------------Se agregó esto nuevo---------------------
+
+// Paginación para proyectos activos
+module.exports.getProyectosActivos = async (req, res) => {
+
+};
+
+// Paginación para proyectos pasados
+module.exports.getProyectosPasados = async (req, res) => {
+
+};
+
 
 //----------------------------------
 

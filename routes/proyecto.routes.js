@@ -11,6 +11,10 @@ router.get('/:id_proyecto/:id_riesgo/editar_riesgo', controller.get_editar_riesg
 router.get('/:id/mostrar_riesgos', controller.get_mostrar_riesgos);
 router.get('/nuevo_riesgo', controller.get_nuevo_riesgo);
 
+// Rutas para paginación
+router.get('/proyectos_activos', controller.getProyectosActivos);
+router.get('/proyectos_pasados', controller.getProyectosPasados);
+
 router.post('/:id/editar_proyecto', controller.post_editar_proyecto);
 router.post('/nuevo_proyecto', controller.post_nuevo_proyecto);
 router.post('/:id_proyecto/:id_riesgo/editar_riesgo', controller.post_editar_riesgo);
