@@ -9,13 +9,15 @@
 <body>
     <%- include('editar_riesgo.style.ejs') %>
     <%- include('./../barra_principal.ejs') %>
+    <nav class="boton" aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+            <a class="page-link" style="background-color: rgb(49,108,244); color:white" href="/proyecto/<%=id_proyecto%>/mostrar_riesgos" aria-label="Previous"> <span aria-hidden="true">&laquo;</span>Regresar</a>
+        </ul>
+    </nav>
     <div class="conteiner py-4">
-        <div class="row justify-content-center mt-6">
-            <div class="col-md-2">
-                <div class="text-center">
-                    <h3 style="margin-bottom: 0px;">Editar Riesgo</h3>
-                </div>
-            </div>
+        <div class="text-center">
+            <h3 style="margin-bottom: 0px;">Editar Riesgo</h3>
         </div>
     </div>
 

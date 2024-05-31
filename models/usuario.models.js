@@ -11,11 +11,50 @@ exports.Usuario = class {
         this.contrasena = contrasena;
         this.rol = rol;
     }
+
+    static async eliminaTrabaja(id_usuario){
+        try{
+            const connexion = await db();
+            const resultado = await connexion.execute('DELETE FROM TRABAJAN WHERE id_empleados = ?', [id_usuario]);
+            console.log(resultado);
+            
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
+
+    static async eliminaUsuario(id_usuario){
+        try{
+            const connexion = await db();
+            const resultado = await connexion.execute('DELETE FROM USUARIO WHERE id_usuario = ?', [id_usuario]);
+            console.log(resultado);
+            
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
+
+    static async buscaLider(id_lider){
+        try {
+            const connexion = await db();
+            const resultado = await connexion.execute('SELECT id_lider FROM PROYECTO WHERE id_lider = ?', [id_lider]);
+            console.log(resultado);
+            
+            await connexion.release();
+            return resultado;
+        } catch (error) {
+            throw error; 
+        }
+    }
    
     static async buscaUsuario(correo) {
         try {
             const connexion = await db();
-            const resultado = await connexion.execute('Select id_usuario, correo, contrasena from USUARIO WHERE correo = ?', [correo]);
+            const resultado = await connexion.execute('Select id_usuario, correo, contrasena, rol from USUARIO WHERE correo = ?', [correo]);
             console.log(resultado);
             
             await connexion.release();
@@ -40,8 +79,8 @@ exports.Usuario = class {
     
     static async getLideres() {
         try {
-            const connexion = await db();
-            const result = await connexion.execute('SELECT id_usuario,nombres, apellido_m, nombre_proyecto FROM USUARIO JOIN PROYECTO ON id_usuario = id_manager ORDER BY id_usuario;');
+            const connexion = await db();                               //Se modifico el dato solictado de apellido_m a apellido_p
+            const result = await connexion.execute('SELECT id_usuario ,nombres, apellido_p, nombre_proyecto FROM USUARIO JOIN PROYECTO ON id_usuario = id_lider ORDER BY id_usuario;');
             await connexion.release();
             return result;
         } catch (error) {
@@ -51,8 +90,8 @@ exports.Usuario = class {
     
     static async getColaboradores() {
         try {
-            const connexion = await db();
-            const result = await connexion.execute('SELECT id_usuario,nombres, apellido_m, correo FROM USUARIO;');
+            const connexion = await db();                              //Se modifico el dato solictado de apellido_m a apellido_p         
+            const result = await connexion.execute('SELECT id_usuario,nombres, rol, apellido_p, correo FROM USUARIO;');
             await connexion.release();
             return result;
         } catch (error) {
@@ -79,9 +118,24 @@ exports.Usuario = class {
     async editar_usuario() {
         try {
             const connection = await db();
+            const hashedPass = await bcrypt.hash(this.contrasena, 12)
             const result = await connection.execute(
             `UPDATE usuario SET nombres = ?, apellido_m = ?, apellido_p = ?, contrasena = ?, rol = ?, correo = ? WHERE id_usuario = ?`,
-            [this.nombre, this.apellido_m, this.apellido_p, this.contrasena, this.rol, this.correo, this.id]
+            [this.nombre, this.apellido_m, this.apellido_p, hashedPass, this.rol, this.correo, this.id]
+            );
+            await connection.release();
+            return result;
+        } catch (error) {
+            throw error; // Re-throw the error for proper handling
+        }
+    }
+
+    async editar_usuario_nocon() {
+        try {
+            const connection = await db();
+            const result = await connection.execute(
+            `UPDATE usuario SET nombres = ?, apellido_m = ?, apellido_p = ?, rol = ?, correo = ? WHERE id_usuario = ?`,
+            [this.nombre, this.apellido_m, this.apellido_p, this.rol, this.correo, this.id]
             );
             await connection.release();
             return result;

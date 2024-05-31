@@ -1,41 +1,54 @@
 const model = require("../models/proyecto.models.js");
+const modelU = require("../models/usuario.models.js")
+const moment = require("moment");
 
 module.exports.get_home = async(req,res) =>{
     try{
         console.log("Recuperando proyectos");
         const proyectos = await model.Proyecto.extraeProyectos();
+        const termo = await model.Proyecto.informacionNumericaG();
+
+        const rol = req.session.rol;
 
         if(proyectos.length < 1){
             
             res.status(400).render("home/home",{
-                error: true
+                error: true,
+                rol: rol
             });
             return;
         }
 
         res.status(201).render("home/home",{
             proyecto: proyectos,
-            error: false
+            termometro: termo,
+            error: false,
+            rol: rol
         });
         
     }catch(error){
         console.log(error);
-        res.status(400).render("home/home",{
-            error: true
-        });
+        res.status(400).redirect("/proyecto/home");
     }
     
 }
 
 module.exports.get_nuevo_proyecto = async(req,res) =>{
     try{
-        console.log("Recuperando riesgos de la base de datos")
+        console.log("Recuperando riesgos de la base de datos");
         const riesgosG = await model.Riesgo.extraerRiesgosG();
 
-        console.log(riesgosG);
+        console.log("Recuperando usuarios de la BD de datos");
+        const usuarios = await modelU.Usuario.getColaboradores();
+
+        console.log("Recuperando los departamentos de la BD");
+        const departamentos = await model.Proyecto.obtenerDepartamentos();
+
         res.status(201).render("nuevo_proyecto/nuevo_proyecto",{
             error:false,
-            riesgo: riesgosG
+            riesgo: riesgosG,
+            usuarios: usuarios,
+            departamentos: departamentos
         });
     }catch(error){
         console.log(error);
@@ -46,14 +59,33 @@ module.exports.get_nuevo_proyecto = async(req,res) =>{
     
 }
 
+module.exports.post_nuevo_proyecto = async(req,res)=>{
+    try{
+        console.log("Agregando un proyecto");
+        console.log(req.body.check);
+        const nuevoP = new  model.Proyecto(null, 1, req.body.descripcion, req.body.empresa, req.body.nombre_proyecto, req.body.presupuesto, req.body.f_creacion, req.body.f_fin, req.body.encargado, req.body.departamento, 1);
+        console.log(nuevoP);
+
+        const resultado = nuevoP.nuevoProyecto();
+        res.redirect('home');
+    }catch(error){
+        console.log(error);
+        res.render('nuevo_proyecto/nuevo_proyecto');
+    }
+}
+
 module.exports.get_proyecto = async(req,res) =>{
     try{
-        var id = req.params.id;
+        var id = req.params.id_proyecto;
+
         console.log("Recuperando proyectos");
         const numRiesgo= await model.Proyecto.cantidadRiesgo(id);
         const infoGeneral= await model.Proyecto.informacionRestante(id);
         const infoNum= await model.Proyecto.informacionNumerica(id);
 
+        const liderResultado = await model.Proyecto.idLider(id);
+
+        const lider = (liderResultado[0].id_lider == req.session.idUsuario) ? true : false;
 
         res.status(200).render("menu_proyecto/menu_proyecto",{
             code: 200,
@@ -61,58 +93,58 @@ module.exports.get_proyecto = async(req,res) =>{
             proyectoRiesgo: numRiesgo,
             proyectoGeneral: infoGeneral,
             proyectoNum: infoNum,
-            id_proyecto: id
+            id_proyecto: id,
+            rol: req.session.rol,
+            lider: lider
         });
 
     }catch(error){
         console.log(error);
-        res.status(500).redirect("menu_proyecto/menu_proyecto",{
-            code: 500,
-            msg: "No se encontró información del proyecto",
-        });
+        res.status(500).redirect("/proyecto/home");
     }
 }
 
 module.exports.get_info_proyecto = async(req,res) => {
     try {
-        const id = req.params.id;
+        const id = req.params.id_proyecto;
 
         const proyectos = await model.Proyecto.ver_proyecto(id);
 
         if(proyectos.length < 1){
-            
-            res.status(400).render("info_proyecto/info_proyecto",{
-                error: true
-            });
+            res.status(400).redirect("/proyecto/home");
             return;
         }
+
+        const liderResultado = await model.Proyecto.idLider(id);
+
+        const lider = (liderResultado[0].id_lider == req.session.idUsuario) ? true : false;
 
         res.status(201).render("info_proyecto/info_proyecto",{
             proyecto: proyectos,
             error: false,
-            id_proyecto: id
+            id_proyecto: id,
+            rol: req.session.rol,
+            lider: lider
         });
 
     } catch(error){
         console.log(error);
-        res.status(400).render("info_proyecto/info_proyecto",{
-            error: true
-        });
+        res.status(400).redirect("/proyecto/home");
     }
 }
 
 module.exports.get_editar_proyecto = async(req,res) => {
     try {
-        //console.log("Get editar proyecto");
-        const id = req.params.id;
+        console.log("Get editar proyecto");
+        const id = req.params.id_proyecto;
         //console.log(id);
 
-        const proyectos = await model.Proyecto.ver_proyecto(id);
+        var proyectos = await model.Proyecto.ver_proyecto(id);
+        proyectos[0].fecha_creacion = moment(proyectos[0].fecha_creacion, "DD/MM/YYYY").format("DD/MM/YYYY");
+        proyectos[0].fecha_fin = moment(proyectos[0].fecha_fin, "DD/MM/YYYY").format("DD/MM/YYYY");
 
         if(proyectos.length < 1){
-            res.status(400).render("editar_proyecto/editar_proyecto",{
-                error: true
-            });
+            res.status(400).redirect("/proyecto/home");
             return;
         }
 
@@ -124,16 +156,14 @@ module.exports.get_editar_proyecto = async(req,res) => {
 
     } catch(error){
         console.log(error);
-        res.status(400).render("editar_proyecto/editar_proyecto",{
-            error: true
-        });
+        res.status(400).redirect("/proyecto/home");
     }
 }
 
 module.exports.post_editar_proyecto = async(req, res)=>{
     try{
         //console.log("post crear ");
-        const id = req.params.id;
+        const id = req.params.id_proyecto;
 
         const nombre_proyecto = req.body.nombre_proyecto;
         const empresa = req.body.empresa;
@@ -148,66 +178,137 @@ module.exports.post_editar_proyecto = async(req, res)=>{
         
         const editado = await proyecto_editado.editar_proyecto(id);
 
-        res.status(201).redirect("editar_proyecto");
+        res.status(201).json({code: 201, msg: "Ok"});
     }catch(error){
         console.log(error);
-        res.status(401).redirect("editar_proyecto",{
-            error: true
-        })
+        res.status(401).redirect("/proyecto/"+id+"/editar_proyecto");
     }
 }
 
+module.exports.post_eliminarProyecto = async(req, res)=>{
+    try{
+        console.log("Eliminando proyecto");
+        const id_proyecto = req.params.id_proyecto;
+
+        const resultadoC = await model.Proyecto.eliminaColaboradoresEnProyecto(id_proyecto);
+        const resultadoR = await model.Proyecto.eliminaRiesgoIdProyecto(id_proyecto);
+        const resultadoP = await model.Proyecto.eliminaProyecto(id_proyecto);
+
+        console.log(resultadoC);
+        console.log(resultadoR);
+        console.log(resultadoP);
+
+        res.status(201).json({code: 201, msg: "Ok"});
+    }catch(error){
+        console.log(error);
+        res.status(401).redirect("/proyecto/home");
+    }
+}
+
+module.exports.post_cambiarEstatus = async(req, res)=>{
+    try{
+        console.log("entró");
+        const id_proyecto = req.body.id_proyecto;
+
+        const resultado = await model.Proyecto.cambiarEstatus(id_proyecto);
+        console.log(resultado);
+
+        res.status(201).json({code: 201, msg: "Ok"});
+
+    }catch(error){
+        console.log(error);
+        res.status(401).redirect("/proyecto/home");
+    }
+}
 module.exports.get_nuevo_riesgo = async(req,res) =>{
     try{
-        console.log("Recuperando riesgos de la base de datos")
+        console.log("Recuperando riesgos de la base de datos");
 
-        //Extrae todos los riesgos existentes en la BD
-        const riesgosG = await model.Riesgo.extraerRiesgosG();
-
-        //console.log(riesgosG);
-
-        //Renderiza la pagina con los riesgos obtenidos
         res.status(200).render("nuevo_riesgo/nuevo_riesgo", {
             code: 200,
             msg: "Ok",
-            riesgo:riesgosG
+            id_proyecto: req.params.id_proyecto
+            /*, riesgo:riesgosG*/
         });
     }catch(error){
         console.log(error);
         res.status(500).render("nuevo_riesgo/nuevo_riesgo",{
             code:500,
-            msg: "Error en la BD",
+            msg: "Error en la BD"
+            /*, riesgo: []*/
+        });
+    }
+}
+module.exports.get_agregar_riesgos = async(req,res) =>{
+    try{
+        console.log("Recuperando1 riesgos de la base de datos");
+        //Extrae todos los riesgos existentes en la BD
+        const riesgosG = await model.Riesgo.extraerRiesgosG();
+        console.log(riesgosG);
+
+        //Renderiza la pagina con los riesgos obtenidos
+        res.status(200).json({
+            code: 200,
+            msg: "Riesgos cargados exitosamente",
+            riesgo:riesgosG
+        });
+    }catch(error){
+        console.log(error);
+        res.status(500).json({
+            code:500,
+            msg: "Error al cargar los riesgos",
             riesgo: []
         });
     }
 }
+module.exports.post_agregar_riesgos = async (req, res) => {
+    try {
+        console.log("Agregando un riesgo (Riesgo especifico)");
+
+        const selectedItems = req.body.selectedItems; // Obtener los riesgos seleccionados del cuerpo de la solicitud
+        const id_proyecto = req.params.id_proyecto;
+        console.log(req.body);
+
+        if (!Array.isArray(selectedItems) || selectedItems.length == 0) {
+            throw new Error("No se han proporcionado riesgos para agregar");
+        }
+
+        for (const item of selectedItems) {
+            console.log(item);
+            const { D_categoria, D_impacto, D_probabilidad, D_estrategia, D_description } = item;
+            // Agregar cada riesgo
+            await model.Riesgo.agregarRiesgos(id_proyecto, D_categoria, D_impacto, D_probabilidad, D_estrategia, D_description);
+        }
+        console.log("Riesgos agregados:");
+        res.status(201).render("nuevo_riesgo/nuevo_riesgo", { id_proyecto: req.params.id_proyecto});
+    } catch (error) {
+        console.log(error);
+        res.status(500).render("nuevo_riesgo/nuevo_riesgo", { id_proyecto: req.params.id_proyecto});
+    }
+};
+
+
 
 module.exports.post_nuevo_riesgo = async(req,res) =>{
     try{
-        console.log("Agregando un riesgo(Riesgo especifico)");
-
-        //En el primer parametro va el numero de proyecto. Esta parte debe ser modificada por el id del proyecto donde se esta actualmente
-        const riesgoP = await model.Riesgo.agregarRiesgos(1, req.body.categoria, req.body.impacto, req.body.probabilidad, req.body.estrategia, req.body.descripcion);
+        console.log("Agregando riesgos al proyecto")
         
-        const proyectos = await model.Proyecto.extraeProyectos();
-        /*Aqui debe mandarte a la pagina de menu proyectos al agregar un proyecto exitosamente, como esta debajo
-        res.render("menu_proyecto/menu_proyecto",{
-            riesgo: riesgos
-        });
-        */
-        //Como aun no tengo dicha interfaz(debido a que de eso se encarga Mari) dejo lo de abajo
+        const riesgoP = await model.Riesgo.agregarRiesgos(req.params.id_proyecto, req.body.categoria, req.body.impacto, req.body.probabilidad, req.body.estrategia, req.body.descripcion);
+    
         console.log(riesgoP);
-        res.status(201).redirect("/proyecto/nuevo_riesgo");
+        alert("Riesgo creado y agregado al proyecto exitosamente");
+        res.status(201).render("nuevo_riesgo/nuevo_riesgo", { id_proyecto: req.params.id_proyecto});
     }catch(error){
         console.log(error);
-        res.render("nuevo_riesgo/nuevo_riesgo", {msj: error});
+        alert("Error al agregar el riesgo");
+        res.status(500).render("nuevo_riesgo/nuevo_riesgo", { id_proyecto: req.params.id_proyecto});
     }
 }
 
 module.exports.get_mostrar_riesgos = async(req,res) =>{
     try{
         console.log("Recuperando riesgos de la base de datos")
-        const id_proyecto = req.params.id;
+        const id_proyecto = req.params.id_proyecto;
         const riesgosG = await model.Riesgo.extraerRiesgosPorProyecto(id_proyecto);
 
         const alcance = await model.Riesgo.cuentaRiesgo(id_proyecto, 1);
@@ -218,6 +319,11 @@ module.exports.get_mostrar_riesgos = async(req,res) =>{
 
        
         const total = alcance[0].suma + tiempo[0].suma + calidad[0].suma + costo[0].suma + recursos[0].suma;
+
+        const liderResultado = await model.Proyecto.idLider(id_proyecto);
+
+        var lider = (liderResultado[0].id_lider == req.session.idUsuario) ? true : false;
+        lider = (req.session.rol == true) ? true : lider;
         
         //console.log(total);
         //console.log(riesgosG);
@@ -231,14 +337,34 @@ module.exports.get_mostrar_riesgos = async(req,res) =>{
             costo:costo,
             recursos:recursos,
             total: Number(total),
-            id_proyecto: id_proyecto
+            id_proyecto: id_proyecto,
+            lider: lider
         });
+
     }catch(error){
         console.log(error);
         res.status(200).render("mostrar_riesgos/mostrar_riesgos",{
             code: 200,
             msg: "No se encontro ningun riesgo"
         });
+    }
+}
+
+module.exports.get_mostrar_tabla_riesgos = async(req, res) => {
+    try{
+        console.log("Recuperando información de riesgos");
+        const id_proyecto = req.params.id;
+        const riesgos = await model.Riesgo.extraerRiesgosPorProyecto(id_proyecto);      
+        
+        res.status(200).json({
+            riesgo: riesgos 
+        });
+    }catch(error){
+        console.log(error);
+        res.status(400).json({
+            riesgo: []
+        });
+
     }
 }
 
@@ -262,10 +388,7 @@ module.exports.get_editar_riesgo = async(req,res) =>{
         });
     }catch(error){
         console.log(error);
-        res.status(400).redirect("home",{
-            code: 400,
-            msg: "Riesgo no encontrado"
-        });
+        res.status(400).redirect("/proyecto/home");
     }
 }
 
@@ -287,30 +410,16 @@ module.exports.post_editar_riesgo = async(req,res) =>{
     }
 }
 
-module.exports.post_nuevo_proyecto = async(req,res)=>{
+module.exports.post_eliminarRiesgo = async(req,res) =>{
     try{
-        console.log("Agregando un proyecto");
-        const nuevoP = new  model.Proyecto(null, 1, req.body.descripcion, req.body.empresa, req.body.nombre_proyecto, req.body.presupuesto, req.body.f_creacion, req.body.f_fin, req.body.encargado, req.body.departamento, 1);
-        console.log(nuevoP);
+        console.log("Eliminando Riesgo");
+        console.log(req.body.id_riesgo);
+        const eliminando = await model.Riesgo.eliminarRiesgo(req.body.id_riesgo);
 
-        const resultado = nuevoP.nuevoProyecto();
-        res.redirect('home');
+        res.status(201).json({code: 201});
+
     }catch(error){
         console.log(error);
-        res.render('nuevo_proyecto/nuevo_proyecto');
+        res.status(401).json({code:401});
     }
 }
-
-
-
-module.exports.post_mostrar_riesgos = async(req,res) =>{
-    try{
-        const riesgosP = await model.Riesgo.agregarRiesgos(1, req.body.categoria, req.body.impacto, req.body.probabilidad, req.body.estrategia, req.body.descripcion);
-        //Aqui re redirije a la pagina de editar riesgo
-        res.status(201).redirect("/proyecto/editar_riesgo", {riesgo: riesgosP});
-    }catch(error){
-        console.log(error);
-        res.render("mostrar_riesgos/mostrar_riesgos", {msj: error});
-    }
-}
-

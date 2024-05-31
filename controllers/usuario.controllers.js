@@ -11,13 +11,9 @@ module.exports.post_login = async(req, res) =>{
     try {
         console.log("Entrando");
         const usuarios = await model.Usuario.buscaUsuario(req.body.correo)
-        //console.log(usuarios);
-
+        
         if(usuarios.length < 1){
-            
-            res.status(404).render("login/login",{
-                registro: false
-            });
+            res.status(400).json({code: 400, msg: "Usuario no encontrado"});
             return;
         }
 
@@ -29,58 +25,71 @@ module.exports.post_login = async(req, res) =>{
         
 
         if(!doMatch) {
-            res.status(400).render("login/login",{
-                registro: false
-            });
+            req.session.estatusLogeado = false;
+            res.status(400).json({code: 400, msg: "Contraseña incorrecta"});
             return;
         }
 
+        req.session.estatusLogeado = true;
+        req.session.idUsuario = usuarios[0].id_usuario;
+        req.session.rol = (usuarios[0].rol == false) ? false : true;
+
         
-/*        // Se agrega método para obtener el permiso del usuario
-        const permiso = await model.Usuario.getPermisos(usuario.username);
-        if (permiso.length == 0) {
-            req.session.error = "Usuario y/o contraseña incorrectos";
-            res.render("usuario/login", {
-                registro: false
-            });
-            return;
-        }*/
-
-
-        //req.session.nombre = usuario.nombre;
-        //req.session.permisos = permiso;
-        //req.session.isLoggedIn = true;
-
-        res.status(200).redirect("/proyecto/home");
+        res.status(201).json({code: 201, msg: "Ok"});
         
 
     }catch (error){
         console.log(error);
-        res.render("login/login",{
-            registro: false
-        });
+        req.session.estatusLogeado = false;
+        res.status(400).json({code: 400, msg: "Contraseña incorrecta"});
     }        
 }
 
-//Se muestra la información de los usuarios 
+//Se modificó la función para mostrar la interfaz de mostrar los usuarios
 module.exports.get_mostrar_usuarios = async(req,res) =>{
+    console.log("Recuperando información de los usuarios");
+
+    const rol = req.session.rol;
+
+
+    res.render("mostrar_usuarios/mostrar_usuarios",
+        {rol: rol}
+    );
+}
+
+//Se agregó la función para mostrar la información de los líderes
+module.exports.get_mostrar_usuarios_lideres = async(req,res) =>{
     try{
-        console.log("Recuperando información de los usuarios");
-        const lideres = await model.Usuario.getLideres();
-        const colaboradores = await model.Usuario.getColaboradores();
-
-        res.status(200).render("mostrar_usuarios/mostrar_usuarios",{
-            code: 200,
-            msg: "Ok",
-            usuario1: lideres,
-            usuario2: colaboradores //La variable usuario se ocupa en el html dinamico y lo de usuarios es el resultado de la consulta hecha
-
+        console.log("Recuperando información de los lideres");
+        const lideres = await model.Usuario.getLideres();        
+        
+        res.status(200).json({
+            usuario1: lideres
         });
     }catch(error){
         console.log(error);
-        res.status(500).render("mostrar_usuarios/mostrar_usuarios",{
-            code: 500,
-            msg:"Error base de datos"
+        res.status(400).json({
+            usuario1: []
+        });
+
+    }
+    
+}
+
+//Se agregó la función para mostrar la información de los colaboradres
+module.exports.get_mostrar_usuarios_colaboradores = async(req,res) =>{
+    try{
+        console.log("Recuperando información de los colaboradores");
+        const colaboradores = await model.Usuario.getColaboradores();
+
+        res.status(200).json({
+            usuario2: colaboradores //La variable usuario se ocupa en el html dinamico y lo de usuarios es el resultado de la consulta hecha
+
+        });
+    
+    }catch(error){
+        res.status(200).json({
+            usuario2: [] //La variable usuario se ocupa en el html dinamico y lo de usuarios es el resultado de la consulta hecha
         });
     }
     
@@ -93,14 +102,21 @@ module.exports.cerrar_sesion = async(req,res) => {
 }
 
 module.exports.get_agregar_usuario = async(req,res) =>{
+    const valido = req.query.valido === 'false' ? false : true;
+    const correov = req.query.correov === 'false' ? false : true;
+    const nombre = req.query.nombre === 'false' ? false : true;
     res.status(200).render("agregar_usuario/agregar_usuario",{
         code:200,
-        msg: "Ok"
+        msg: "Ok",
+        valido: valido,
+        correov:correov,
+        nombre:nombre
     });
 }
 
 module.exports.post_agregar_usuario = async(req, res) => {
     try {
+        const nombrevalido = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/;
         const nombre = req.body.nombre;
         const apellido_p = req.body.apellido_p;
         const apellido_m = req.body.apellido_m;
@@ -108,7 +124,27 @@ module.exports.post_agregar_usuario = async(req, res) => {
         const contrasena = req.body.contrasena;
         const rol = req.body.acceso;
 
-        
+        if(nombre == ''||apellido_p == ''||correo == ''|| contrasena == ''){
+            res.status(400).redirect("/usuario/agregar_usuario?valido=false");
+            return;
+        }
+
+        const correovalido = /(\w|\.)+@appix\.mx/;
+        if(!correovalido.test(correo)){
+            res.status(403).redirect("/usuario/agregar_usuario?correov=false");
+            return;
+        }
+
+        if(!nombrevalido.test(nombre)||!nombrevalido.test(apellido_p)){
+            res.status(403).redirect("/usuario/agregar_usuario?nombre=false");
+            return;
+        }
+
+        if(apellido_m && !nombrevalido.test(apellido_m)){
+            res.status(403).redirect("/usuario/agregar_usuario?nombre=false");
+            return;
+        }
+
         const usuario = new model.Usuario(null, correo, nombre, apellido_m, apellido_p, contrasena, rol);
 
         const verificacion = await model.Usuario.buscaUsuario(correo);
@@ -123,20 +159,14 @@ module.exports.post_agregar_usuario = async(req, res) => {
                 msg: "Ok"
             });
         }else{
-            res.redirect("/usuario/mostrar_usuarios",{
-                code:403,
-                msg: "Usuario ya existente"
-            });
+            res.status(400).redirect("/usuario/mostrar_usuarios");
         }
 
         
 
     } catch (error) {
         console.error(error);
-        res.status(500).redirect("/usuario/mostrar_usuarios",{
-            code: 500,
-            message: "Error registando usuario"
-        }); // Idealmente se crea una plantilla de errores genérica
+        res.status(500).redirect("/usuario/mostrar_usuarios?code:500&msg=Error+registando+usuario"); // Idealmente se crea una plantilla de errores genérica
     }
 }
 
@@ -144,6 +174,8 @@ module.exports.get_editar_usuario = async(req,res) =>{
     try {
         //Busca el usuario en la BD
         const usuario = await model.Usuario.buscaUsuarioPorId(req.params.id);
+        const valido = req.query.valido === 'false' ? false : true;
+        const nombre = req.query.nombre === 'false' ? false : true;
 
         //Verifica la que exista el Usuario de la BD, si es menor a 1 significa que es un array vacio
         if(usuario.length < 1){
@@ -155,7 +187,9 @@ module.exports.get_editar_usuario = async(req,res) =>{
         res.status(200).render("editar_usuario/editar_usuario",{
             code: 200,
             msg: "Ok",
-            usuario:usuario
+            usuario:usuario,
+            valido:valido,
+            nombre:nombre
         });
     }catch (error){
         res.redirect("/agregar_usuario/agregar_usuario");
@@ -165,6 +199,7 @@ module.exports.get_editar_usuario = async(req,res) =>{
 module.exports.post_editar_usuario = async(req, res) => {
     try {
         //Se guarda la info del body en constantes
+        const nombrevalido = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/;
         const id = req.params.id;
         const nombre = req.body.nombre;
         const apellido_p = req.body.apellido_p;
@@ -173,17 +208,62 @@ module.exports.post_editar_usuario = async(req, res) => {
         const contrasena = req.body.contrasena;
         const rol = req.body.acceso;
         
-        //Se crea el constructor
-        const usuario = new model.Usuario(id, correo, nombre, apellido_m, apellido_p, contrasena, rol);
-        //console.log(usuario);
+        if(nombre == ''||apellido_p == ''||correo == ''){
+            res.status(400).redirect(`/usuario/${id}/editar_usuario?valido=false`);
+            return;
+        }
+
+        if(!nombrevalido.test(nombre)||!nombrevalido.test(apellido_p)){
+            res.status(403).redirect(`/usuario/${id}/editar_usuario?nombre=false`);
+            return;
+        }
+
+        if(apellido_m && !nombrevalido.test(apellido_m)){
+            res.status(403).redirect(`/usuario/${id}/editar_usuario?nombre=false`);
+            return;
+        }
         
-        //Se edita el usuario en la BD
-        const editado = await usuario.editar_usuario()
+        if(!contrasena == ''){
+            //Se crea el constructor
+            const usuario = new model.Usuario(id, correo, nombre, apellido_m, apellido_p, contrasena, rol);
+            //Se edita el usuario en la BD
+            const editado = await usuario.editar_usuario();
+        }else{
+            //Se crea el constructor
+            const usuario = new model.Usuario(id, correo, nombre, apellido_m, apellido_p, contrasena, rol);
+            //Se edita el usuario en la BD
+            const editado = await usuario.editar_usuario_nocon();
+        }
     
         res.redirect("/usuario/mostrar_usuarios");
     
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Error editando usuario" }); // Idealmente se crea una plantilla de errores genérica
+    }
+}
+
+module.exports.post_eliminarUsuario = async(req, res) =>{
+    try{
+        console.log("borrando Usuario")
+        const buscaLider = await model.Usuario.buscaLider(req.body.id_usuario);
+        console.log(req.body.id_usuario);
+
+        if(!(buscaLider.length < 1)){
+            res.status(400).json({code: 400});
+            return;
+        }
+
+        const eliminaT = await model.Usuario.eliminaTrabaja(req.body.id_usuario);
+        const eliminaU = await model.Usuario.eliminaUsuario(req.body.id_usuario);
+
+        console.log(eliminaT);
+        console.log(eliminaU);
+
+        res.status(201).json({code: 201});
+        return;
+    }catch(error){
+        console.log(error);
+        res.status(401).redirect("/usuario/mostrar_usuarios");
     }
 }

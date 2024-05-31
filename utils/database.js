@@ -4,8 +4,8 @@ const pool = mariadb.createPool({
     host:"127.0.0.1",
     user:"mikey",
     password:"mikey",
-    database: "APPIX",
-    connectionLimit:10
+    database: "appix",
+    connectionLimit:10,
 });
 
 module.exports = async () => {

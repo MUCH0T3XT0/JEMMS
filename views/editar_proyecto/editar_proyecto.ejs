@@ -14,9 +14,10 @@
         body {
             background-image: url('/proyecto/FONDO_web_N-03.png');
             background-size: cover; /* Cubrir todo el fondo */
-            background-position: center bottom 1rem; /* Centrar la imagen en la página */
+            background-position: center bottom; /* Centrar la imagen en la página */
             background-attachment: fixed;
-        }      
+            background-repeat: no-repeat;
+        }  
         .form-check-input {
             border: 1px solid #000000;
             border-radius: 4px;
@@ -27,6 +28,12 @@
         }
     </style>
     <%- include('./../barra_principal.ejs')%>
+    <nav class="boton" aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+            <a class="page-link" style="background-color: rgb(49,108,244); color:white" href="/proyecto/<%=id_proyecto%>/info_proyecto" aria-label="Previous"> <span aria-hidden="true">&laquo;</span>Regresar</a>
+        </ul>
+    </nav>
     <div class="row justify-content-center mt-6">
         <div class="text-center">
             <h3 style="margin-bottom: 0px; margin-top: 16px;">Editar el Proyecto</h3>
@@ -34,86 +41,96 @@
     </div>
 
     <div class="container py-4">
-        <form class=" row g-3" action="/proyecto/<%=id_proyecto%>/editar_proyecto" method="post">
+      
             <div class="mb-3 row">
                 <label for="inputNombre" class="col-sm-2 col-form-label">Nombre de proyecto</label>
                 <div class="col-sm-10">
-                <input name="nombre_proyecto" type=" text" class="form-control" id="inputNombre" value="<%= proyecto[0].nombre_proyecto %>">
+                    <input name="nombre_proyecto" type=" text" class="form-control" id="nombre_proyecto" value="<%= proyecto[0].nombre_proyecto %>">
+                    <div id="msg_nombre_proyecto" style="display: none;">
+                        <p style="color: red;">Nombre de proyecto incorrecto</p>
+                    </div>
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="inputCliente" class="col-sm-2 col-form-label">Nombre de empresa</label>
                 <div class="col-sm-10">
-                <input name="empresa" type=" text" class="form-control" id="inputCliente" value="<%= proyecto[0].empresa %>">
+                    <input name="empresa" type=" text" class="form-control" id="empresa" value="<%= proyecto[0].empresa %>">
+                    <div id="msg_empresa" style="display: none;">
+                        <p style="color: red;">Nombre de empresa incorrecto</p>
+                    </div>
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="inputStartDate" class="col-sm-2 col-form-label">Fecha de inicio</label>
                 <div class="col-sm-10">
-                <input name="f_creacion" type="text" class="form-control" id="inputStartDate" value="<%= proyecto[0].fecha_creacion %>">
+                    <input name="f_creacion" type="text" class="form-control" id="f_creacion" value="<%= proyecto[0].fecha_creacion %>">
+                    <div id="msg_f_fin" style="display: none;">
+                        <p style="color: red;">La fecha de inicio no puede ser posterior a la fecha de fin. Introduzca una fecha de inicio y fin coherentes</p>
+                    </div>
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="inputEndDate" class="col-sm-2 col-form-label">Fecha de final</label>
                 <div class="col-sm-10">
-                <input name="f_fin" type="text" class="form-control" id="inputEndDate" value="<%= proyecto[0].fecha_fin %>">
+                    <input name="f_fin" type="text" class="form-control" id="f_fin" value="<%= proyecto[0].fecha_fin %>">
+                    <div id="msg_f_creacion" style="display: none;">
+                        <p style="color: red;">Introduza una fecha de termino posterior al dia de hoy</p>
+                    </div>
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="inputEncargado" class="col-sm-2 col-form-label">Encargado</label>
                 <div class="col-sm-10">
-                <input name="encargado" type="text" class="form-control" id="inputEncargado" value="<%= proyecto[0].encargado %>">
+                    <input name="encargado" type="text" class="form-control" id="encargado" value="<%= proyecto[0].encargado %>">
+                    <div id="msg_encargado" style="display: none;">
+                        <p style="color: red;">Nombre del encargado incorrecto</p>
+                    </div>
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="inputPresupuesto" class="col-sm-2 col-form-label">Presupuesto</label>
                 <div class="col-sm-10">
-                    <input name="presupuesto" type="text" class="form-control" id="inputPresupuesto" value="<%= proyecto[0].presupuesto %>">
+                    <input name="presupuesto" type="text" class="form-control" id="presupuesto" value="<%= proyecto[0].presupuesto %>">
+                    <div id="msg_presupuesto" style="display: none;">
+                        <p style="color: red;">Presupuesto incorrecto. Introduza solo digitos</p>
+                    </div>
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="inputPresupuesto" class="col-sm-2 col-form-label">Descripcion de proyecto</label>
                 <div class="col-sm-10">
-                    <textarea name="descripcion" class="form-control" id="inputProyecto" rows="4"><%= proyecto[0].descripcion %></textarea>
+                    <textarea name="descripcion" class="form-control" id="descripcion" rows="4"><%= proyecto[0].descripcion %></textarea>
+                    <span id="contadorCaracteres">0/500</span>
+                    <div id="msg_descripcion" style="display: none;">
+                        <p style="color: red;">Descripcion incorrecta</p>
+                    </div>
                 </div>
             </div>
             <div class="row g-3">
-                <button type="submit" class="btn btn-success mb-3" >Guardar</button>
+                <button id="boton_guardar" data-id="<%=id_proyecto%>" type="button" class="btn btn-success mb-3" >Guardar</button>
             </div>
-        </form>
-        
-        <div class="row g-3">
-            <a  href="/proyecto/<%=id_proyecto%>/info_proyecto" type="submit" class="btn btn-primary mb-3">Regresar</a>
-        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-    <script>
-        var textarea = document.getElementById('inputProyecto');
-        var contadorCaracteres = document.getElementById('contadorCaracteres');
-        textarea.addEventListener('input', function() {
-            contadorCaracteres.textContent = textarea.value.length + '/500';
-            if (textarea.value.length > 500) {
-                textarea.value = textarea.value.slice(0, 500);
-                contadorCaracteres.textContent = '500/500';
-            }
-        });
-    </script>
+    
     <script>
         $(document).ready(function(){
-            $('#inputStartDate').datepicker({
+            $('#f_creacion').datepicker({
                 format: 'dd/mm/yyyy', 
                 autoclose: true 
             });
         });
         $(document).ready(function(){
-            $('#inputEndDate').datepicker({
+            $('#f_fin').datepicker({
                 format: 'dd/mm/yyyy', 
                 autoclose: true 
             });
         });
     </script>
 </body>
+    <%- include('./editar_proyecto.js.ejs')%>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
+    <script src="/proyecto/editar_proyecto.js"></script>
 </html>

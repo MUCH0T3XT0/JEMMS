@@ -2,9 +2,9 @@ const db = require('../utils/database.js');
 const bcrypt = require('bcryptjs');
 
 exports.Proyecto = class {
-    constructor(id, id_manager, descripcion, empresa, nombre_proyecto, presupuesto, f_creacion, f_fin, encargado, departamento, estatus){
+    constructor(id, id_lider, descripcion, empresa, nombre_proyecto, presupuesto, f_creacion, f_fin, encargado, departamento, estatus){
         this.id = id;
-        this.id_manager = id_manager;
+        this.id_lider = id_lider;
         this.descripcion = descripcion;
         this.empresa = empresa;
         this.nombre_proyecto = nombre_proyecto;
@@ -16,11 +16,47 @@ exports.Proyecto = class {
         this.estatus = estatus;
     }
 
+    static async eliminaProyecto(id_proyecto){
+        try{
+            const connexion = await db();
+            const resultado = await connexion.execute('DELETE FROM PROYECTO WHERE id_proyecto = ?', [id_proyecto]);
+
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
+
+    static async eliminaRiesgoIdProyecto(id_proyecto){
+        try{
+            const connexion = await db();
+            const resultado = await connexion.execute('DELETE FROM RIESGO WHERE id_proyecto = ?', [id_proyecto]);
+
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
+
+    static async eliminaColaboradoresEnProyecto(id_proyecto){
+        try{
+            const connexion = await db();
+            const resultado = await connexion.execute('DELETE FROM TRABAJAN WHERE id_proyecto = ?', [id_proyecto]);
+
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
+
     static async extraeProyectos(){
         try{
             const connexion = await db();
-            const resultado = await connexion.execute('Select id_proyecto, descripcion, nombre_proyecto, estatus from PROYECTO');
-            console.log(resultado);
+            const resultado = await connexion.execute('Select id_proyecto, descripcion, departamento, nombre_proyecto, estatus from PROYECTO');
+            //console.log(resultado);
 
             await connexion.release();
             return resultado;
@@ -47,7 +83,7 @@ exports.Proyecto = class {
     static async informacionRestante(idProyecto){
         try{
             const connexion = await db();
-            const resultado = await connexion.execute('SELECT (DATEDIFF(PROYECTO.f_fin, PROYECTO.f_creacion) - DATEDIFF(CURRENT_DATE, PROYECTO.f_creacion)) AS duracion, estatus, DATEDIFF(PROYECTO.f_fin, PROYECTO.f_creacion) AS diasTotales FROM PROYECTO WHERE id_proyecto = ? ', [idProyecto]);
+            const resultado = await connexion.execute('SELECT nombre_proyecto, (DATEDIFF(PROYECTO.f_fin, PROYECTO.f_creacion) - DATEDIFF(CURRENT_DATE, PROYECTO.f_creacion)) AS duracion, estatus, DATEDIFF(PROYECTO.f_fin, PROYECTO.f_creacion) AS diasTotales FROM PROYECTO WHERE id_proyecto = ? ', [idProyecto]);
             console.log(resultado);
 
             await connexion.release();
@@ -69,14 +105,50 @@ exports.Proyecto = class {
             throw error;
         }
     }
+    static async informacionNumericaG(){
+        try{
+            const connexion = await db();
+            const resultado = await connexion.execute('SELECT p.id_proyecto AS id_proyecto, IFNULL(SUM(r.impacto), 0) AS riesgo_total FROM proyecto p LEFT JOIN riesgo r ON p.id_proyecto = r.id_proyecto GROUP BY p.id_proyecto;');
+            console.log(resultado);
 
-   
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
+
+    static async informacionNumericaG(){
+        try{
+            const connexion = await db();
+            const resultado = await connexion.execute('SELECT p.id_proyecto AS id_proyecto, IFNULL(SUM(r.impacto), 0) AS riesgo_total FROM proyecto p LEFT JOIN riesgo r ON p.id_proyecto = r.id_proyecto GROUP BY p.id_proyecto;');
+            //console.log(resultado);
+
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
 
     static async ver_proyecto(id_proyecto){
         try{
             const connexion = await db();
             
-            const resultado = await connexion.execute('Select descripcion, empresa, nombre_proyecto, presupuesto, DATE_FORMAT(f_creacion, \'%Y-%m-%d\') AS fecha_creacion, DATE_FORMAT(f_fin, \'%Y-%m-%d\') AS fecha_fin, encargado, departamento from PROYECTO WHERE id_proyecto = ?', [id_proyecto]);
+            const resultado = await connexion.execute('Select descripcion, empresa, nombre_proyecto, presupuesto, DATE_FORMAT(f_creacion, \'%d/%m/%y\') AS fecha_creacion, DATE_FORMAT(f_fin, \'%d/%m/%y\') AS fecha_fin, encargado, departamento from PROYECTO WHERE id_proyecto = ?', [id_proyecto]);
+
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
+
+    static async cambiarEstatus(id_proyecto){
+        try{
+            const connexion = await db();
+
+            const resultado = await connexion.execute('UPDATE PROYECTO SET estatus = false WHERE id_proyecto = ?', [id_proyecto]);
 
             await connexion.release();
             return resultado;
@@ -104,12 +176,14 @@ exports.Proyecto = class {
     async nuevoProyecto(){
         try{
             const connexion = await db();
-            const resultado = connexion.execute('Insert into proyecto (id_manager, descripcion, empresa, nombre_proyecto, presupuesto, f_creacion, f_fin, encargado, departamento, estatus) Values ( ?, ?, ?, ?, ?, \'2024-07-02\', \'2024-07-09\', ?, ?, ?)',
-            [this.id_manager,
+            const resultado = connexion.execute('Insert into proyecto (id_lider, descripcion, empresa, nombre_proyecto, presupuesto, f_creacion, f_fin, encargado, departamento, estatus) Values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [this.id_lider,
             this.descripcion,
             this.empresa,
             this.nombre_proyecto,
             this.presupuesto,
+            this.f_creacion,
+            this.f_fin,
             this.encargado,
             this.departamento,
             this.estatus
@@ -120,6 +194,32 @@ exports.Proyecto = class {
             return;
         }catch(error){
             console.log(error);
+            throw error;
+        }
+    }
+
+    static async obtenerDepartamentos(){
+        try{
+            const connexion = await db();
+
+            const resultado = await connexion.execute('SELECT * FROM DEPARTAMENTO');
+            
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
+
+    static async idLider(id_proyecto){
+        try{
+            const connexion = await db();
+
+            const resultado = await connexion.execute('SELECT id_lider FROM PROYECTO WHERE id_proyecto = ?', [id_proyecto]);
+
+            await connexion.release();
+            return resultado;
+        }catch(error){
             throw error;
         }
     }
@@ -164,10 +264,10 @@ exports.Riesgo = class {
         }
     }
     //Funcion para extraer los riesgos del proyecto en el que se esta.
-    static async extraerRiesgosPorProyecto(id_proyec){
+    static async extraerRiesgosPorProyecto(id_proyecto){
         try{
             const connexion = await db();
-            const resultado = await connexion.execute('Select * from RIESGO NATURAL JOIN PROYECTO WHERE RIESGO.id_proyecto = ?', [id_proyec]);
+            const resultado = await connexion.execute('Select * from RIESGO WHERE RIESGO.id_proyecto = ?', [id_proyecto]);
             
 
             await connexion.release();
@@ -211,12 +311,24 @@ exports.Riesgo = class {
         }
     }
     
-    
 
     static async agregarRiesgos(proyecto, categoria, impacto, probabilidad, estrategia, descripcion){
         try{
             const connexion = await db();
             const resultado = await connexion.execute("INSERT INTO riesgo (id_proyecto, categoria, impacto, probabilidad, estrategia_m, description) VALUES(?, ?, ?, ?, ?, ?);", [proyecto, categoria, impacto, probabilidad, estrategia, descripcion]);
+            console.log(resultado);
+
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
+
+    static async eliminarRiesgo(id_riesgo){
+        try{
+            const connexion = await db();
+            const resultado = await connexion.execute('DELETE FROM RIESGO WHERE id_riesgo = ?', [id_riesgo]);
             console.log(resultado);
 
             await connexion.release();

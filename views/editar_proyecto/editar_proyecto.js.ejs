@@ -1,0 +1,11 @@
+<script>
+    var textarea = document.getElementById('descripcion');
+    var contadorCaracteres = document.getElementById('contadorCaracteres');
+    textarea.addEventListener('input', function() {
+        contadorCaracteres.textContent = textarea.value.length + '/500';
+        if (textarea.value.length > 500) {
+            textarea.value = textarea.value.slice(0, 500);
+            contadorCaracteres.textContent = '500/500';
+        }
+    });
+</script>
