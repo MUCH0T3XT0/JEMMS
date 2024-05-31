@@ -1,5 +1,6 @@
 window.addEventListener('load', function() {
     console.log("Hola");   
+    const id_proyecto = document.getElementById('idP').getAttribute('value');
     const wrapper = document.getElementById('tablaMostar_riesgos');
     const variable = wrapper.getAttribute('value');
     console.log(variable);
@@ -70,7 +71,7 @@ window.addEventListener('load', function() {
                     return gridjs.h('div', { className: 'center-content' }, 
                         gridjs.h('button', {
                             className: 'btn btn-primary',
-                            onClick: () => alert(`Editando "${row.cells[0].data}" "${row.cells[1].data}"`)
+                            onClick: () => window.location.href = `/proyecto/${id_proyecto}/${row.cells[5].data}/editar_riesgo`
                         }, 'Editar')
                     );
                 }
@@ -82,12 +83,7 @@ window.addEventListener('load', function() {
                     return gridjs.h('div', { className: 'center-content' }, 
                         gridjs.h('button', {
                             className: 'btn btn-danger',
-                            onClick: () => {
-                                if (confirm(`¿Estás seguro de que quieres eliminar el riesgo "${row.cells[0].data}"?`)) {
-                                    // Aquí debes implementar la lógica para eliminar el riesgo
-                                    alert(`Eliminando "${row.cells[0].data}"`);
-                                }
-                            }
+                            onClick: () => { muestraElimina(row.cells[5].data)}
                         }, 'Eliminar')
                     );
                 }
@@ -104,6 +100,7 @@ window.addEventListener('load', function() {
                 impactoMap[riesgos.impacto], //Usar el objeto de mapeo de impacto dependiendo del número definido en la función
                 probabilidadMap[riesgos.probabilidad], //Usar el objeto de mapeo de probabilidad dependiendo del número definido en la función
                 riesgos.estrategia_m,
+                riesgos.id_riesgo,
             ])
         },//Dar estilo a la tabla 
         style: {
@@ -123,3 +120,52 @@ window.addEventListener('load', function() {
     }).render(wrapper);
     
 });
+
+function muestraElimina(id_riesgo){
+    swal("¿Estas seguro de que quieres eliminar este riesgo?", "Esta accion no se puede deshacer", {
+        className: "boxstyle",
+
+        dangerMode: true,
+        
+        buttons: {
+            cancel: true,
+
+            New: {
+                text: "Eliminar riesgo",
+
+                visible: true,
+
+                className: "buttonstyle",
+            }
+        },
+    })
+    .then((borrar)=>{
+        if (borrar) {
+            eliminaRiesgo(id_riesgo);
+        }
+    })
+    ;
+}
+
+async function eliminaRiesgo(id_riesgo){
+    const id_proyecto = document.getElementById('idP').getAttribute('value');
+    console.log(id_proyecto);
+
+    console.log("entro aca");
+    console.log(id_riesgo);
+    const url = "/proyecto/"+id_proyecto+"/"+id_riesgo+"/eliminarRiesgo";
+    
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({id_riesgo: id_riesgo})
+    })
+
+    console.log(response.ok);
+
+    if(response.ok){
+        window.location.href = "/proyecto/"+id_proyecto+"/mostrar_riesgos";
+    }else{
+        console.log("Error en la BD");
+    }
+}

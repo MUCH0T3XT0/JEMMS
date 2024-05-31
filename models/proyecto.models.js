@@ -264,10 +264,10 @@ exports.Riesgo = class {
         }
     }
     //Funcion para extraer los riesgos del proyecto en el que se esta.
-    static async extraerRiesgosPorProyecto(id_proyec){
+    static async extraerRiesgosPorProyecto(id_proyecto){
         try{
             const connexion = await db();
-            const resultado = await connexion.execute('Select * from RIESGO WHERE RIESGO.id_proyecto = ?', [id_proyec]);
+            const resultado = await connexion.execute('Select * from RIESGO WHERE RIESGO.id_proyecto = ?', [id_proyecto]);
             
 
             await connexion.release();
@@ -316,6 +316,19 @@ exports.Riesgo = class {
         try{
             const connexion = await db();
             const resultado = await connexion.execute("INSERT INTO riesgo (id_proyecto, categoria, impacto, probabilidad, estrategia_m, description) VALUES(?, ?, ?, ?, ?, ?);", [proyecto, categoria, impacto, probabilidad, estrategia, descripcion]);
+            console.log(resultado);
+
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
+
+    static async eliminarRiesgo(id_riesgo){
+        try{
+            const connexion = await db();
+            const resultado = await connexion.execute('DELETE FROM RIESGO WHERE id_riesgo = ?', [id_riesgo]);
             console.log(resultado);
 
             await connexion.release();

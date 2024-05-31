@@ -26,6 +26,7 @@ router.get('/:id_proyecto/agregar_riesgos', controller.get_agregar_riesgos);
 router.post('/:id/editar_proyecto', controller.post_editar_proyecto);
 router.post('/:id_proyecto/nuevo_riesgo', estatusLogeado, esLider, controller.post_nuevo_riesgo);
 router.post('/:id_proyecto/:id_riesgo/editar_riesgo', estatusLogeado, esLider, controller.post_editar_riesgo);
+router.post('/:id_proyecto/:id_riesgo/eliminarRiesgo', estatusLogeado, esLider, controller.post_eliminarRiesgo);
 
 //Proyecto
 router.post('/:id_proyecto/nuevo_riesgo', controller.post_nuevo_riesgo);

@@ -403,3 +403,17 @@ module.exports.post_editar_riesgo = async(req,res) =>{
         });
     }
 }
+
+module.exports.post_eliminarRiesgo = async(req,res) =>{
+    try{
+        console.log("Eliminando Riesgo");
+        console.log(req.body.id_riesgo);
+        const eliminando = await model.Riesgo.eliminarRiesgo(req.body.id_riesgo);
+
+        res.status(201).json({code: 201});
+
+    }catch(error){
+        console.log(error);
+        res.status(401).json({code:401});
+    }
+}
