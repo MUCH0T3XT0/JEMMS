@@ -52,7 +52,9 @@ module.exports.get_mostrar_usuarios = async(req,res) =>{
     const rol = req.session.rol;
 
 
-    res.render("mostrar_usuarios/mostrar_usuarios",{rol: rol});
+    res.render("mostrar_usuarios/mostrar_usuarios",
+        {rol: rol}
+    );
 }
 
 //Se agregó la función para mostrar la información de los líderes
@@ -238,5 +240,30 @@ module.exports.post_editar_usuario = async(req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Error editando usuario" }); // Idealmente se crea una plantilla de errores genérica
+    }
+}
+
+module.exports.post_eliminarUsuario = async(req, res) =>{
+    try{
+        console.log("borrando Usuario")
+        const buscaLider = await model.Usuario.buscaLider(req.body.id_usuario);
+        console.log(req.body.id_usuario);
+
+        if(!(buscaLider.length < 1)){
+            res.status(400).json({code: 400});
+            return;
+        }
+
+        const eliminaT = await model.Usuario.eliminaTrabaja(req.body.id_usuario);
+        const eliminaU = await model.Usuario.eliminaUsuario(req.body.id_usuario);
+
+        console.log(eliminaT);
+        console.log(eliminaU);
+
+        res.status(201).json({code: 201});
+        return;
+    }catch(error){
+        console.log(error);
+        res.status(401).redirect("/usuario/mostrar_usuarios");
     }
 }

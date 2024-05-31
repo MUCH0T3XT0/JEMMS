@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.bootstrap5.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
     <%- include('./../head.ejs') %>
     <%- include('./usuariosEstilos.ejs') %>
 
@@ -42,14 +43,16 @@
         </div>
     </div>
 
-    <div class="container" id = "tablaMostar_lider"></div>            
-        <br><br><br><br>
+    <div class="container" id = "tablaMostar_lider" data-value="<%-rol%>"></div>            
+        <br><br><br>
 
-        <div class="container">
-            <div class="row g-3">
-                <a href="/usuario/agregar_usuario" type="submit" class="btn btn-warning mb-3">Agregar Usuario</a>
-            </div> 
-        </div>
+        <% if(rol){ %>
+            <div class="container">
+                <div class="row g-3">
+                    <a href="/usuario/agregar_usuario" type="submit" class="btn btn-warning mb-3">Agregar Usuario</a>
+                </div> 
+            </div>
+        <%}%>
         
         <br><br><br><br>
     </div>      

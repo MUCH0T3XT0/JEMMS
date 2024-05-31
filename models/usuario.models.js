@@ -11,6 +11,45 @@ exports.Usuario = class {
         this.contrasena = contrasena;
         this.rol = rol;
     }
+
+    static async eliminaTrabaja(id_usuario){
+        try{
+            const connexion = await db();
+            const resultado = await connexion.execute('DELETE FROM TRABAJAN WHERE id_empleados = ?', [id_usuario]);
+            console.log(resultado);
+            
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
+
+    static async eliminaUsuario(id_usuario){
+        try{
+            const connexion = await db();
+            const resultado = await connexion.execute('DELETE FROM USUARIO WHERE id_usuario = ?', [id_usuario]);
+            console.log(resultado);
+            
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
+
+    static async buscaLider(id_lider){
+        try {
+            const connexion = await db();
+            const resultado = await connexion.execute('SELECT id_lider FROM PROYECTO WHERE id_lider = ?', [id_lider]);
+            console.log(resultado);
+            
+            await connexion.release();
+            return resultado;
+        } catch (error) {
+            throw error; 
+        }
+    }
    
     static async buscaUsuario(correo) {
         try {
