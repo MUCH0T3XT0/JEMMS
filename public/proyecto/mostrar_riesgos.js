@@ -1,9 +1,10 @@
 window.addEventListener('load', function() {
     console.log("Hola");   
     const id_proyecto = document.getElementById('idP').getAttribute('value');
+    const lider = (document.getElementById('verificacion').getAttribute('value') === "true")? true:false;
+    console.log(lider);
     const wrapper = document.getElementById('tablaMostar_riesgos');
     const variable = wrapper.getAttribute('value');
-    console.log(variable);
 
     //En lugar de imprimir el número entero, muestra la descripción del valor numérico de categoría
     const categoriaMap = {
@@ -37,88 +38,149 @@ window.addEventListener('load', function() {
         3: 'Alta',
     };
 
-    gridTable = new gridjs.Grid({
-        columns: [
-            {
-                id: 'description',
-                name: 'Descripción del Riesgo'
-            },
-            {
-                id: 'categoria',
-                name: 'Categoría',
-                formatter: (cell) => {    //Se mandan llamar las funciones para mostrar la descripción con color del riesgo
-                    const category = categoriaMap[cell];
-                    const color = categoriaColorMap[category];
-                    return gridjs.html(`<span style="color: ${color};">${category}</span>`);
+    if(lider){
+        console.log("entro lider");
+        gridTable = new gridjs.Grid({
+            columns: [
+                {
+                    id: 'description',
+                    name: 'Descripción del Riesgo'
+                },
+                {
+                    id: 'categoria',
+                    name: 'Categoría',
+                    formatter: (cell) => {    //Se mandan llamar las funciones para mostrar la descripción con color del riesgo
+                        const category = categoriaMap[cell];
+                        const color = categoriaColorMap[category];
+                        return gridjs.html(`<span style="color: ${color};">${category}</span>`);
+                    }
+                },
+                {
+                    id: 'impacto',
+                    name: 'Impacto'
+                },
+                {
+                    id: 'probabilidad',
+                    name: 'Probabilidad',
+                },
+                {
+                    id: 'estretegia_m',
+                    name: 'Estrategia'
+                },
+                {
+                    name: "Editar",
+                    sort: false,
+                    formatter: (_, row) => {
+                        return gridjs.h('div', { className: 'center-content' }, 
+                            gridjs.h('button', {
+                                className: 'btn btn-primary',
+                                onClick: () => window.location.href = `/proyecto/${id_proyecto}/${row.cells[5].data}/editar_riesgo`
+                            }, 'Editar')
+                        );
+                    }
+                },
+                { //Se agregó la columna de eliminar
+                    name: "Eliminar",
+                    sort: false,
+                    formatter: (_, row) => {        //Centrar los botónes con center-content que está definido en el CSS
+                        return gridjs.h('div', { className: 'center-content' }, 
+                            gridjs.h('button', {
+                                className: 'btn btn-danger',
+                                onClick: () => { muestraElimina(row.cells[5].data)}
+                            }, 'Eliminar')
+                        );
+                    }
                 }
-            },
-            {
-                id: 'impacto',
-                name: 'Impacto'
-            },
-            {
-                id: 'probabilidad',
-                name: 'Probabilidad',
-            },
-            {
-                id: 'estretegia_m',
-                name: 'Estrategia'
-            },
-            {
-                name: "Editar",
-                sort: false,
-                formatter: (_, row) => {
-                    return gridjs.h('div', { className: 'center-content' }, 
-                        gridjs.h('button', {
-                            className: 'btn btn-primary',
-                            onClick: () => window.location.href = `/proyecto/${id_proyecto}/${row.cells[5].data}/editar_riesgo`
-                        }, 'Editar')
-                    );
+            ],
+            pagination: true,
+            search: true,
+            sort: true,
+            server:{
+                url:  `/proyecto/${variable}/mostrar_tabla_riesgos`,
+                then: data => data.riesgo.map( riesgos => [
+                    riesgos.description,
+                    riesgos.categoria,
+                    impactoMap[riesgos.impacto], //Usar el objeto de mapeo de impacto dependiendo del número definido en la función
+                    probabilidadMap[riesgos.probabilidad], //Usar el objeto de mapeo de probabilidad dependiendo del número definido en la función
+                    riesgos.estrategia_m,
+                    riesgos.id_riesgo,
+                ])
+            },//Dar estilo a la tabla 
+            style: {
+                table: {
+                border: '3px solid rgb(15, 28, 167)'
+                },
+                th: {
+                'background-color': 'rgba(15, 28, 167, 0.345)',
+                color: '#000',
+                'border-bottom': '3px solid rgb(15, 28, 167)',
+                'text-align': 'center'
                 }
-            },
-            { //Se agregó la columna de eliminar
-                name: "Eliminar",
-                sort: false,
-                formatter: (_, row) => {        //Centrar los botónes con center-content que está definido en el CSS
-                    return gridjs.h('div', { className: 'center-content' }, 
-                        gridjs.h('button', {
-                            className: 'btn btn-danger',
-                            onClick: () => { muestraElimina(row.cells[5].data)}
-                        }, 'Eliminar')
-                    );
-                }
+                /*td: {
+                'text-align': 'center'
+                }*/
             }
-        ],
-        pagination: true,
-        search: true,
-        sort: true,
-        server:{
-            url:  `/proyecto/${variable}/mostrar_tabla_riesgos`,
-            then: data => data.riesgo.map( riesgos => [
-                riesgos.description,
-                riesgos.categoria,
-                impactoMap[riesgos.impacto], //Usar el objeto de mapeo de impacto dependiendo del número definido en la función
-                probabilidadMap[riesgos.probabilidad], //Usar el objeto de mapeo de probabilidad dependiendo del número definido en la función
-                riesgos.estrategia_m,
-                riesgos.id_riesgo,
-            ])
-        },//Dar estilo a la tabla 
-        style: {
-            table: {
-              border: '3px solid rgb(15, 28, 167)'
-            },
-            th: {
-              'background-color': 'rgba(15, 28, 167, 0.345)',
-              color: '#000',
-              'border-bottom': '3px solid rgb(15, 28, 167)',
-              'text-align': 'center'
+        }).render(wrapper);
+    }else{
+        gridTable = new gridjs.Grid({
+            columns: [
+                {
+                    id: 'description',
+                    name: 'Descripción del Riesgo'
+                },
+                {
+                    id: 'categoria',
+                    name: 'Categoría',
+                    formatter: (cell) => {    //Se mandan llamar las funciones para mostrar la descripción con color del riesgo
+                        const category = categoriaMap[cell];
+                        const color = categoriaColorMap[category];
+                        return gridjs.html(`<span style="color: ${color};">${category}</span>`);
+                    }
+                },
+                {
+                    id: 'impacto',
+                    name: 'Impacto'
+                },
+                {
+                    id: 'probabilidad',
+                    name: 'Probabilidad',
+                },
+                {
+                    id: 'estretegia_m',
+                    name: 'Estrategia'
+                },
+            ],
+            pagination: true,
+            search: true,
+            sort: true,
+            server:{
+                url:  `/proyecto/${variable}/mostrar_tabla_riesgos`,
+                then: data => data.riesgo.map( riesgos => [
+                    riesgos.description,
+                    riesgos.categoria,
+                    impactoMap[riesgos.impacto], //Usar el objeto de mapeo de impacto dependiendo del número definido en la función
+                    probabilidadMap[riesgos.probabilidad], //Usar el objeto de mapeo de probabilidad dependiendo del número definido en la función
+                    riesgos.estrategia_m,
+                    riesgos.id_riesgo,
+                ])
+            },//Dar estilo a la tabla 
+            style: {
+                table: {
+                border: '3px solid rgb(15, 28, 167)'
+                },
+                th: {
+                'background-color': 'rgba(15, 28, 167, 0.345)',
+                color: '#000',
+                'border-bottom': '3px solid rgb(15, 28, 167)',
+                'text-align': 'center'
+                }
+                /*td: {
+                'text-align': 'center'
+                }*/
             }
-            /*td: {
-              'text-align': 'center'
-            }*/
-          }
-    }).render(wrapper);
-    
+        }).render(wrapper);
+    }
+        
 });
 
 function muestraElimina(id_riesgo){

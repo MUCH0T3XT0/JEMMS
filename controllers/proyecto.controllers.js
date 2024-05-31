@@ -319,6 +319,11 @@ module.exports.get_mostrar_riesgos = async(req,res) =>{
 
        
         const total = alcance[0].suma + tiempo[0].suma + calidad[0].suma + costo[0].suma + recursos[0].suma;
+
+        const liderResultado = await model.Proyecto.idLider(id_proyecto);
+
+        var lider = (liderResultado[0].id_lider == req.session.idUsuario) ? true : false;
+        lider = (req.session.rol == true) ? true : lider;
         
         //console.log(total);
         //console.log(riesgosG);
@@ -332,7 +337,8 @@ module.exports.get_mostrar_riesgos = async(req,res) =>{
             costo:costo,
             recursos:recursos,
             total: Number(total),
-            id_proyecto: id_proyecto
+            id_proyecto: id_proyecto,
+            lider: lider
         });
 
     }catch(error){
