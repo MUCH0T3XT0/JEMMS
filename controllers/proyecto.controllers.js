@@ -162,8 +162,8 @@ module.exports.get_editar_proyecto = async(req,res) => {
 
 module.exports.post_editar_proyecto = async(req, res)=>{
     try{
-        //console.log("post crear ");
-        const id = req.params.id_proyecto;
+        console.log("Post editar proyecto");
+        const id = req.body.id_proyecto;
 
         const nombre_proyecto = req.body.nombre_proyecto;
         const empresa = req.body.empresa;
@@ -174,7 +174,6 @@ module.exports.post_editar_proyecto = async(req, res)=>{
         const descripcion = req.body.descripcion;
 
         const proyecto_editado = new model.Proyecto(null, null, descripcion, empresa, nombre_proyecto, presupuesto, f_creacion, f_fin, encargado, null, null);
-        //console.log(proyecto_editado);
         
         const editado = await proyecto_editado.editar_proyecto(id);
 

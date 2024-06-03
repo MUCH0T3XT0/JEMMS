@@ -112,17 +112,17 @@ boton_guardar.addEventListener('click', function(event){
 });
 
 async function editar_proyecto(id_proyecto, nombre_proyecto, empresa, f_inicio, f_fin, encargado, presupuesto, descripcion){
-    console.log(id_proyecto);
+    //console.log(id_proyecto);
     const url = '/proyecto/'+id_proyecto+'/editar_proyecto';
     
     
     const response = await fetch(url, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({nombre_proyecto:nombre_proyecto, descripcion: descripcion, empresa: empresa, presupuesto: presupuesto, f_creacion: f_inicio, f_fin: f_fin, encargado: encargado})
+        body: JSON.stringify({id_proyecto: id_proyecto, nombre_proyecto:nombre_proyecto, descripcion: descripcion, empresa: empresa, presupuesto: presupuesto, f_creacion: f_inicio, f_fin: f_fin, encargado: encargado})
     })
 
-    console.log(response.ok);
+    //console.log(response.ok);
 
     if(response.ok){
         console.log("si");
