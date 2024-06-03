@@ -1,8 +1,0 @@
-<nav class="boton" aria-label="Page navigation example">
-    <ul class="pagination">
-        <li class="page-item">
-        <a class="page-link" href="/menu_proyecto" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-        </a>
-    </ul>
-</nav>
