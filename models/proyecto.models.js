@@ -55,7 +55,7 @@ exports.Proyecto = class {
     static async extraeProyectos(){
         try{
             const connexion = await db();
-            const resultado = await connexion.execute('Select id_proyecto, descripcion, departamento, nombre_proyecto, estatus from PROYECTO');
+            const resultado = await connexion.execute('Select id_proyecto, descripcion, departamento, nombre_proyecto, estatus from PROYECTO ORDER BY f_creacion');
             //console.log(resultado);
 
             await connexion.release();
