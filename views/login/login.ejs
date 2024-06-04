@@ -30,6 +30,9 @@
                             <label for="exampleFormControlInput1" class="form-label" >Dirección de correo electrónico</label>
                             <input  id="correo" class="form-control" placeholder="nombre@appix.mx" name = "correo">
                         </div>
+                        <div id="msg_correo_invalido" style="display: none;">
+                            <p style="color: red;">Correo inválido</p>
+                        </div>
                     
                         <div class="mb-4">
                             <label for="inputPassword" >Contraseña</label> 
@@ -49,16 +52,15 @@
                                 </script>
                             </div>   
                         </div>
-
-                        <!--SE MODIFICO EL ID DEL BOTON-->
+                        <div id="msg_constraseña" style="display: none;">
+                            <p style="color: red;">Correo o contraseña incorrecto</p>
+                        </div>
                         <button id="iniciar" type="button" class="btn btn-dark mt-4">Iniciar Sesion</button>
                     </form>
+                    <div id="msg_campos" style="display: none;">
+                        <p style="color: red;">LLene todos los campos</p>
+                    </div>
                 </div> 
-                <div class="offset-md-2 g-5" >
-                    
-                    <h4 id="msg" style="color: red;"></h4>
-                    
-                </div>
             </div>
             
         </div>
