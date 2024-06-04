@@ -3,7 +3,7 @@ console.log("aqui");
 
 window.addEventListener('load', function() {
     console.log("aqui no");
-    let msg = document.getElementById('msg');
+    
     let correo = document.getElementById('correo');
     let contrasena = document.getElementById('contrasena');
 });
@@ -13,14 +13,16 @@ const boton = document.getElementById('iniciar');
 //console.log(boton);
 
 boton.addEventListener('click', function(event){
-    msg.textContent = "";
+    let msg_correo_invalido = document.getElementById('msg_correo_invalido');
+    let msg_constraseña = document.getElementById('msg_constraseña');
+    let msg_campos = document.getElementById('msg_campos');
 
-    console.log("entro");
-    //console.log(correo.value);
-    //console.log(contrasena.value);
+    msg_correo_invalido.style.display = "none";
+    msg_constraseña.style.display = "none";
+    msg_campos.style.display = "none";
     
     if(!correo.value || !contrasena.value){
-        msg.textContent = "Llene todos los campos";
+        msg_campos.style.display = "block";
     }else{
         let resultado = /(\w|\d|\.|_)+@appix\.mx/.test(correo.value);
         console.log(resultado);
@@ -29,10 +31,9 @@ boton.addEventListener('click', function(event){
 })
 
 async function login(resultado, correo, contrasena){
-    msg.textContent = "";
-
+    
     if(!resultado){
-        msg.textContent="Correo Inválido";
+        msg_correo_invalido.style.display = "block";
     }else{
         //console.log(correo);
         //console.log(contrasena);
@@ -50,7 +51,7 @@ async function login(resultado, correo, contrasena){
             console.log("si");
             window.location.href = "/proyecto/home";
         }else{
-            msg.textContent = "Cuenta o contraseña incorrectos";
+            msg_constraseña.style.display = "block";
         }
 
 
