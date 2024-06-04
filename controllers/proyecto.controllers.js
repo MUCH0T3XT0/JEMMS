@@ -309,6 +309,7 @@ module.exports.get_mostrar_riesgos = async(req,res) =>{
         console.log("Recuperando riesgos de la base de datos")
         const id_proyecto = req.params.id_proyecto;
         const riesgosG = await model.Riesgo.extraerRiesgosPorProyecto(id_proyecto);
+        const infoNum= await model.Proyecto.informacionNumerica(id_proyecto);
 
         const alcance = await model.Riesgo.cuentaRiesgo(id_proyecto, 1);
         const tiempo = await model.Riesgo.cuentaRiesgo(id_proyecto, 2);
@@ -329,6 +330,7 @@ module.exports.get_mostrar_riesgos = async(req,res) =>{
         res.status(200).render("mostrar_riesgos/mostrar_riesgos", {
             code:200,
             msg: "Ok",
+            proyectoNum: infoNum,
             riesgo:riesgosG,
             alcance: alcance,
             tiempo:tiempo,

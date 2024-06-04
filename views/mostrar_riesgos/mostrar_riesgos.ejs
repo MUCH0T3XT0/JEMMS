@@ -73,9 +73,19 @@
         </div>
       </div>
         <div class="col-6 col-md-4 center-content1">
-          <%%>
-          <p id="promedio">Medio</p>
+          <br><br><br>
           <h2>Nivel de Riesgo</h2>
+            <% if(proyectoNum[0].total < 10){%>
+                <p style="color: #28a213; font-weight: bold; text-align: center;font-size: 4rem;">Bajo</p>
+           
+            <%} else if(proyectoNum[0].total >= 10 && proyectoNum[0].total <= 20){%>
+                <p style="color: #bfbf1b; font-weight: bold; text-align: center;font-size: 4rem;">Medio</p>
+
+            <%} else if(proyectoNum[0].total > 20){%>
+                <p style="color: #d52b15; font-weight: bold; text-align: center;font-size: 4rem;">Alto</p>
+            <%} else {%>
+                <p style="color: gray; font-weight: bold; text-align: center;font-size: 4rem;">Nulo</p>
+            <%}%>
         </div>
           
         <div class="container" id="tablaMostar_riesgos"  value="<%= id_proyecto%>"></div>
