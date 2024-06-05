@@ -7,7 +7,7 @@ module.exports.get_home = async(req,res) =>{
         console.log("Recuperando proyectos");
         const proyectos = await model.Proyecto.extraeProyectos();
         const termo = await model.Proyecto.informacionNumericaG();
-
+        console.log(termo);
         const rol = req.session.rol;
 
         if(proyectos.length < 1){
