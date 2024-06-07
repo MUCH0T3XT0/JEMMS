@@ -26,6 +26,7 @@ boton_guardar.addEventListener('click', function(event){
     let msg_descripcion = document.getElementById('msg_descripcion');
     let msg_f_creacion = document.getElementById('msg_f_creacion');
     let msg_f_fin = document.getElementById('msg_f_fin');
+    let msg_campos = document.getElementById('msg_campos');
 
     
     msg_nombre_proyecto.style.display = "none";
@@ -35,6 +36,7 @@ boton_guardar.addEventListener('click', function(event){
     msg_descripcion.style.display = "none";
     msg_f_creacion.style.display = "none";
     msg_f_fin.style.display = "none";
+    msg_campos.style.display = "none";
 
 
     const inicio = moment(f_creacion.value, "DD/MM/YYYY").toDate();
@@ -44,7 +46,7 @@ boton_guardar.addEventListener('click', function(event){
 
     //CAMPOS VACIOS
     if(!nombre_proyecto.value || !empresa.value || !f_creacion.value || !f_fin.value || !encargado.value || !presupuesto.value || !descripcion.value){
-        msg.textContent = "Llene todos los campos";
+        msg_campos.style.display = "block";
 
     //LA FECHA DE FIN ES PASADO A LA FECHA ACTUAL DE LA CREACION DEL PROYECTO
     }else if(moment(fin).isBefore(hoy)){
@@ -66,7 +68,7 @@ boton_guardar.addEventListener('click', function(event){
         let r_descripcion = /^(\w|\.|%|-|\$|@||ñ|á|é|í|ó|ú|\s){1,500}$/.test(descripcion.value);
 
         //LA VERIFICACION DE TODOS LOS INPUTS FUE CORRECTA
-        if(r_proyecto && r_empresa && r_empresa && r_presupuesto && r_descripcion){
+        if(r_proyecto && r_empresa && r_encargado && r_presupuesto && r_descripcion){
             
             editar_proyecto(id, nombre_proyecto.value, empresa.value, moment(f_creacion.value, "DD-MM-YYYY").format(moment.HTML5_FMT.DATE), moment(f_fin.value,  "DD-MM-YYYY").format(moment.HTML5_FMT.DATE), encargado.value, presupuesto.value, descripcion.value);
 
