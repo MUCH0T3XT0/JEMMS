@@ -32,8 +32,8 @@ app.use('/usuario', rutasUsuario);
 const rutasProyecto = require('./routes/proyecto.routes');
 app.use('/proyecto', rutasProyecto);
 
-app.use((request, response, next) => {
-  response.redirect('/usuario/cerrar_sesion');
+app.get('*', function(req, res){
+  res.status(404).redirect('/proyecto/home');
 });
 
 
