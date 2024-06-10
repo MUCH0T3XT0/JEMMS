@@ -10,28 +10,84 @@ module.exports.get_home = async(req,res) =>{
         console.log(termo);
         const rol = req.session.rol;
 
+
+        let proyectosActivos=[];
+        let proyectosInactivos=[];
+
         if(proyectos.length < 1){
             
             res.status(400).render("home/home",{
                 error: true,
-                rol: rol
+                rol: rol,
+                current: page,
+                pages: pages,
+                pagess: pagess
             });
             return;
+        }
+
+        for(i=0; i<proyectos.length; i++){
+            let num = proyectosActivos[i];
+            console.log(num);
+
+            if(proyectos[i].estatus == true){
+                proyectosActivos.push(proyectos[i]);
+            }
+            else{
+                proyectosInactivos.push(proyectos[i]);
+            }
+        }
+
+        var perPage = 8
+        var page = req.query.page || 1
+        let skip = ((perPage * page) - perPage);
+
+        let totalproyectosAct = proyectosActivos.length;
+        let totalproyectosInac = proyectosInactivos.length;
+
+        let pages = Math.ceil(totalproyectosAct / perPage);
+        let pagess = Math.ceil(totalproyectosInac / perPage);
+
+        let muestraProjActivos=[];
+        let muestraProjInactivos=[];
+        var contAc=0;
+        var contIn=0;
+
+        console.log(skip);
+        for(i=skip; i<proyectosActivos.length; i++){
+            if (contAc==8){
+                break;
+            }
+            muestraProjActivos.push(proyectosActivos[i]);
+            contAc++;
+        }
+
+        for(i=skip; i<proyectosInactivos.length; i++){
+            if (contIn==8){
+                break;
+            }
+            muestraProjInactivos.push(muestraProjInactivos[i]);
+            contIn++;
         }
 
         res.status(201).render("home/home",{
             proyecto: proyectos,
             termometro: termo,
             error: false,
-            rol: rol
-        });
+            rol: rol,
+            current: page,
+            pages: pages,
+            pagess: pages,
+            proyectosActivos: muestraProjActivos,
+            proyectosInactivos: muestraProjInactivos
+        });     
         
     }catch(error){
         console.log(error);
         res.status(400).redirect("/proyecto/home");
     }
-    
 }
+
 
 module.exports.get_nuevo_proyecto = async(req,res) =>{
     try{
