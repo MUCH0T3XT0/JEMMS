@@ -15,7 +15,7 @@ exports.Usuario = class {
     static async eliminaTrabaja(id_usuario){
         try{
             const connexion = await db();
-            const resultado = await connexion.execute('DELETE FROM TRABAJAN WHERE id_empleados = ?', [id_usuario]);
+            const resultado = await connexion.execute('DELETE FROM TRABAJAN WHERE id_empleados = ?;', [id_usuario]);
             console.log(resultado);
             
             await connexion.release();
@@ -24,7 +24,42 @@ exports.Usuario = class {
             throw error;
         }
     }
-
+    static async eliminaTrabajaProyecto(id_usuario, id_proyecto){
+        try{
+            const connexion = await db();
+            const resultado = await connexion.execute('DELETE FROM TRABAJAN WHERE id_empleados = ? and id_proyecto= ?;', [id_usuario, id_proyecto]);
+            console.log(resultado);
+            
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
+    static async cambiarLider(id_usuario, id_proyecto){
+        try{
+            const connexion = await db();
+            const resultado = await connexion.execute('UPDATE PROYECTO SET id_lider = ? WHERE id_proyecto = ?;', [id_usuario, id_proyecto]);
+            this.eliminaTrabajaProyecto(id_usuario,id_proyecto);
+            console.log(resultado);
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
+    static async agregaTrabaja(id_usuario, id_proyecto){
+        try{
+            const connexion = await db();
+            const resultado = await connexion.execute('INSERT INTO trabajan VALUES(?, ?);', [id_usuario, id_proyecto]);
+            console.log(resultado);
+            
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
     static async eliminaUsuario(id_usuario){
         try{
             const connexion = await db();
@@ -98,6 +133,37 @@ exports.Usuario = class {
             throw error; 
         }
     } 
+    static async getLideresProyecto(id_proyecto) {
+        try {
+            const connexion = await db();
+            const result = await connexion.execute('SELECT id_usuario ,nombres, apellido_p, nombre_proyecto FROM USUARIO JOIN PROYECTO ON id_usuario = id_lider WHERE id_proyecto= ? ORDER BY id_usuario;', [id_proyecto]);
+            await connexion.release();
+            return result;
+        } catch (error) {
+            throw error; 
+        }
+    }
+    
+    static async getColaboradoresProyecto(id_proyecto) {
+        try {
+            const connexion = await db();   
+            const result = await connexion.execute('SELECT id_usuario,nombres, rol, apellido_p, correo FROM usuario JOIN trabajan ON id_usuario = id_empleados WHERE id_proyecto= ? ORDER BY id_usuario;', [id_proyecto]);
+            await connexion.release();
+            return result;
+        } catch (error) {
+            throw error; 
+        }
+    } 
+    static async getNoColaboradoresProyecto(id_proyecto) {
+        try {
+            const connexion = await db();   
+            const result = await connexion.execute('SELECT id_usuario,nombres, rol, apellido_p, correo FROM usuario WHERE id_usuario NOT IN (SELECT id_empleados FROM trabajan WHERE id_proyecto = ?) AND id_usuario NOT IN (SELECT id_lider FROM proyecto WHERE id_proyecto = ?);', [id_proyecto, id_proyecto]);
+            await connexion.release();
+            return result;
+        } catch (error) {
+            throw error; 
+        }
+    }
 
     async guardar_usuario() {
         try {

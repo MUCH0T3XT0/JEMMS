@@ -95,6 +95,66 @@ module.exports.get_mostrar_usuarios_colaboradores = async(req,res) =>{
     
 }
 
+//Se agregó las funciónes para mostrar la información de los colaboradres y lideres por proyecto
+
+module.exports.get_mostrar_usuarios_lideres_por_proyecto = async(req,res) =>{
+    try{
+        console.log("Recuperando información de los lideres por proyecto");
+        const id_proyecto= req.params.id;
+        const lideres = await model.Usuario.getLideresProyecto(id_proyecto);        
+        
+        res.status(200).json({
+            usuario1: lideres
+        });
+    }catch(error){
+        console.log(error);
+        res.status(400).json({
+            usuario1: []
+        });
+
+    }
+    
+}
+module.exports.get_mostrar_usuarios_colaboradores_por_proyecto = async(req,res) =>{
+    try{
+        console.log("Recuperando información de los colaboradores por proyecto");
+        const id_proyecto= req.params.id;
+        const colaboradores = await model.Usuario.getColaboradoresProyecto(id_proyecto);
+
+        res.status(200).json({
+            usuario2: colaboradores //La variable usuario se ocupa en el html dinamico y lo de usuarios es el resultado de la consulta hecha
+
+        });
+    
+    }catch(error){
+        res.status(200).json({
+            usuario2: [] //La variable usuario se ocupa en el html dinamico y lo de usuarios es el resultado de la consulta hecha
+        });
+    }
+    
+}
+
+module.exports.get_agregar_usuarios_colaboradores = async(req,res) =>{
+    try{
+        console.log("Recuperando información de los colaboradores por proyecto");
+        const id_proyecto= req.params.id;
+        const colaboradores = await model.Usuario.getNoColaboradoresProyecto(id_proyecto);
+        
+        res.status(200).json({
+            usuario2: colaboradores //La variable usuario se ocupa en el html dinamico y lo de usuarios es el resultado de la consulta hecha
+
+        });
+    
+    }catch(error){
+        res.status(200).json({
+            usuario2: [] //La variable usuario se ocupa en el html dinamico y lo de usuarios es el resultado de la consulta hecha
+        });
+    }
+    
+}
+
+
+
 module.exports.cerrar_sesion = async(req,res) => {
     res.render("login/login",{
         loggeado: false
@@ -242,10 +302,50 @@ module.exports.post_editar_usuario = async(req, res) => {
         res.status(500).json({ message: "Error editando usuario" }); // Idealmente se crea una plantilla de errores genérica
     }
 }
+module.exports.post_agregar_usuarios_colaboradores = async(req, res) =>{
+    try{
+        console.log("Agregando colaborador");
 
+        const agregaT = await model.Usuario.agregaTrabaja(req.body.id, req.body.id_proyecto);
+
+        console.log(agregaT);
+
+        res.redirect("/proyecto/"+req.body.id_proyecto+"/menu_proyecto");
+        return;
+    }catch(error){
+        console.log(error);
+    }
+}
+module.exports.post_eliminar_usuarios_colaboradores = async(req, res) =>{
+    try{
+        console.log("Borrando colaborador");
+
+        const agregaT = await model.Usuario.eliminaTrabajaProyecto(req.body.id, req.body.id_proyecto);
+
+        console.log(agregaT);
+
+        res.redirect("/proyecto/"+req.body.id_proyecto+"/menu_proyecto");
+        return;
+    }catch(error){
+        console.log(error);
+    }
+}
+module.exports.post_cambiar_liderazgo = async(req, res) =>{
+    console.log("Cambiando liderazgo");
+    try{
+        console.log("Cambiando liderazgo");
+
+        const cambiaL = await model.Usuario.cambiarLider(req.body.id, req.body.id_proyecto);
+        console.log(cambiaL);
+        res.redirect("/proyecto/"+req.body.id_proyecto+"/menu_proyecto");
+        return;
+    }catch(error){
+        console.log(error);
+    }
+}
 module.exports.post_eliminarUsuario = async(req, res) =>{
     try{
-        console.log("borrando Usuario")
+        console.log("Borrando Usuario");
         const buscaLider = await model.Usuario.buscaLider(req.body.id_usuario);
         console.log(req.body.id_usuario);
 
