@@ -8,10 +8,8 @@ const esLider = require("../utils/esLider.js");
 //GET
 //Home
 router.get('/home', estatusLogeado,controller.get_home);
-///*
-//Se agrego para la paginacionActivos
-router.get('/home/:page', controller.get_home);
-//*/
+
+
 
 
 //Proyectos

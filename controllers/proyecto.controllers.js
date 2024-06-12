@@ -2,92 +2,96 @@ const model = require("../models/proyecto.models.js");
 const modelU = require("../models/usuario.models.js")
 const moment = require("moment");
 
-module.exports.get_home = async(req,res) =>{
-    try{
+
+// Controlador:
+module.exports.get_home = async(req, res) => {
+    try {
         console.log("Recuperando proyectos");
         const proyectos = await model.Proyecto.extraeProyectos();
         const termo = await model.Proyecto.informacionNumericaG();
         console.log(termo);
         const rol = req.session.rol;
 
+        let proyectosActivos = [];
+        let proyectosInactivos = [];
 
-        let proyectosActivos=[];
-        let proyectosInactivos=[];
-
-        if(proyectos.length < 1){
-            
-            res.status(400).render("home/home",{
+        if (proyectos.length < 1) {
+            res.status(400).render("home/home", {
                 error: true,
                 rol: rol,
-                current: page,
-                pages: pages,
-                pagess: pagess
+                current: req.query.page || 1,
+                pages: pagesActivos,
+                pagess: pageInactivos
             });
             return;
         }
 
-        for(i=0; i<proyectos.length; i++){
+        for (i = 0; i < proyectos.length; i++) {
             let num = proyectosActivos[i];
             console.log(num);
 
-            if(proyectos[i].estatus == true){
+            console.log(proyectos[i].estatus);
+            if (proyectos[i].estatus == true) {
                 proyectosActivos.push(proyectos[i]);
-            }
-            else{
+            } else {
                 proyectosInactivos.push(proyectos[i]);
+                console.log(proyectosInactivos);
             }
         }
 
-        var perPage = 8
-        var page = req.query.page || 1
-        let skip = ((perPage * page) - perPage);
+        var perPage = 8;
+        var pageActivos = req.query.pageActivos || 1;
+        var pageInactivos = req.query.pageInactivos || 1;
 
-        let totalproyectosAct = proyectosActivos.length;
-        let totalproyectosInac = proyectosInactivos.length;
+        let skipActivos = ((perPage * pageActivos) - perPage);
+        let skipInactivos = ((perPage * pageInactivos) - perPage);
 
-        let pages = Math.ceil(totalproyectosAct / perPage);
-        let pagess = Math.ceil(totalproyectosInac / perPage);
+        let totalProyectosActivos = proyectosActivos.length;
+        let totalProyectosInactivos = proyectosInactivos.length;
 
-        let muestraProjActivos=[];
-        let muestraProjInactivos=[];
-        var contAc=0;
-        var contIn=0;
+        let pagesActivos = Math.ceil(totalProyectosActivos / perPage);
+        let pagesInactivos = Math.ceil(totalProyectosInactivos / perPage);
 
-        console.log(skip);
-        for(i=skip; i<proyectosActivos.length; i++){
-            if (contAc==8){
+        let muestraProjActivos = [];
+        let muestraProjInactivos = [];
+        var contac=0;
+        var contin=0;
+
+        for(i=skipActivos; i<proyectosActivos.length; i++){
+            if (contac==8){
                 break;
             }
             muestraProjActivos.push(proyectosActivos[i]);
-            contAc++;
+            contac++;
         }
 
-        for(i=skip; i<proyectosInactivos.length; i++){
-            if (contIn==8){
+        for(i=skipInactivos; i<proyectosInactivos.length; i++){
+            if (contin==8){
                 break;
             }
-            muestraProjInactivos.push(muestraProjInactivos[i]);
-            contIn++;
+            muestraProjInactivos.push(proyectosInactivos[i]);
+            contin++;
         }
+            console.log("🚀 ~ module.exports.get_home=async ~ muestraProjInactivos:", muestraProjInactivos.length)
 
-        res.status(201).render("home/home",{
+        res.status(201).render("home/home", {
             proyecto: proyectos,
             termometro: termo,
             error: false,
             rol: rol,
-            current: page,
-            pages: pages,
-            pagess: pages,
+            currentActivos: pageActivos,
+            pagesActivos: pagesActivos,
+            currentInactivos: pageInactivos,
+            pagesInactivos: pagesInactivos,
             proyectosActivos: muestraProjActivos,
             proyectosInactivos: muestraProjInactivos
-        });     
-        
-    }catch(error){
+        });
+
+    } catch (error) {
         console.log(error);
         res.status(400).redirect("/proyecto/home");
     }
 }
-
 
 module.exports.get_nuevo_proyecto = async(req,res) =>{
     try{

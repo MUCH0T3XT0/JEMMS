@@ -55,7 +55,7 @@
             <div class="row row-cols-4 g-4">
                 <%var flag = false%>
                 <% for (var i = 0; i< proyectosActivos.length ; i++){ %>
-                    <% if(proyecto[i].estatus == true){%>
+                    <% if(proyectosActivos[i].estatus == true){%>
                         <%flag = true%>
                         <div class="col">
                             <% if(termometro[i].riesgo_total <= 0){ %>
@@ -80,9 +80,9 @@
                             
                             <% } %>
                             <div class="card-body">
-                                <h5 class="card-title"><%= proyecto[i].nombre_proyecto %><br></h5>
-                                <p><%= proyecto[i].descripcion %></p>
-                                <p>Departamento: <%= proyecto[i].departamento %></p>
+                                <h5 class="card-title"><%= proyectosActivos[i].nombre_proyecto %><br></h5>
+                                <p><%= proyectosActivos[i].descripcion %></p>
+                                <p>Departamento: <%= proyectosActivos[i].departamento %></p>
                                 <a href="/proyecto/<%= proyecto[i].id_proyecto%>/menu_proyecto" class="btn btn-primary" id="go">Ver más</a>
                             </div>
                         </div>
@@ -96,32 +96,32 @@
         <nav aria-label="Page navigation example">
             <ul class="pagination">
                 
-              <% if (current == 1) { %>
+              <% if (currentActivos == 1) { %>
                 <li class="page-item disabled" ><a class="page-link" href="#">Previous</a></li>
             <% } else { %>
-                <li class="page-item"><a href="/proyecto/home/1" class="page-link" >Previous</a></li>
+                <li class="page-item"><a href="/proyecto/home?pageActivos=1" class="page-link" >Previous</a></li>
             <% } %>
 
-            <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+            <% var i = (Number(currentActivos) > 5 ? Number(currentActivos) - 4 : 1) %>
             <% if (i !== 1) { %>
                 <li class="page-item disabled "><a class="page-link" href="#">...</a></li>
             <% } %>
 
-            <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
-                <% if (i == current) { %>
+            <% for (; i <= (Number(currentActivos) + 4) && i <= pagesActivos; i++) { %>
+                <% if (i == currentActivos) { %>
                     <li class="page-item active"><a class="page-link" href="#"><%= i %></a></li>
                 <% } else { %>
-                    <li class="page-item"><a href="/proyecto/home/<%= i %>" class="page-link" ><%= i %></a></li>
+                    <li class="page-item"><a href="/proyecto/home?pageActivos=<%= i %>" class="page-link" ><%= i %></a></li>
                 <% } %>
-                <% if (i == Number(current) + 4 && i < pages) { %>
+                <% if (i == Number(currentActivos) + 4 && i < pagesActivos) { %>
                     <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
                 <% } %>
             <% } %>
 
-              <% if (current == pages) { %>
+              <% if (currentActivos == pagesActivos) { %>
                 <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
             <% } else { %>
-                <li class="page-item"><a href="/proyecto/home/<%= pages %>"  class="page-link" >Next</a></li>
+                <li class="page-item"><a href="/proyecto/home?pageActivos=<%= pagesActivos%>"  class="page-link" >Next</a></li>
             <% } %>
             </ul>
           </nav>
@@ -145,7 +145,7 @@
             <div class="row row-cols-4 g-4">
                 <%var flag = false%>
                 <% for (var i = 0; i< proyectosInactivos.length ; i++){ %>
-                    <% if(proyecto[i].estatus == false){%>
+                    <% if(proyectosInactivos[i].estatus == false){%>
                         <%flag = true%>
                         <div class="col">
                             <% if(termometro[i].riesgo_total <= 0){ %>
@@ -170,9 +170,9 @@
                             
                             <% } %>
                             <div class="card-body">
-                                <h5 class="card-title"><%= proyecto[i].nombre_proyecto %><br></h5>
-                                <p><%= proyecto[i].descripcion %></p>
-                                <p>Departamento: <%= proyecto[i].departamento %></p>
+                                <h5 class="card-title"><%= proyectosInactivos[i].nombre_proyecto %><br></h5>
+                                <p><%= proyectosInactivos[i].descripcion %></p>
+                                <p>Departamento: <%= proyectosInactivos[i].departamento %></p>
                                 <a href="<%= proyecto[i].id_proyecto%>/menu_proyecto" class="btn btn-primary" id="go">Ver más</a>
                             </div>
                         </div>
@@ -183,38 +183,40 @@
         </div>
 
         <!--Paginacion proyectos inactivos-->
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                
-              <% if (current == 1) { %>
-                <li class="page-item disabled" ><a class="page-link" href="#">Previous</a></li>
-            <% } else { %>
-                <li class="page-item"><a href="/proyecto/home/1" class="page-link" >Previous</a></li>
-            <% } %>
-
-            <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
-            <% if (i !== 1) { %>
-                <li class="page-item disabled "><a class="page-link" href="#">...</a></li>
-            <% } %>
-
-            <% for (; i <= (Number(current) + 4) && i <= pagess; i++) { %>
-                <% if (i == current) { %>
-                    <li class="page-item active"><a class="page-link" href="#"><%= i %></a></li>
+        <div class="d-flex justify-content-center mt-4">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    
+                <% if (currentInactivos == 1) { %>
+                    <li class="page-item disabled" ><a class="page-link" href="#">Previous</a></li>
                 <% } else { %>
-                    <li class="page-item"><a href="/proyecto/home/<%= i %>" class="page-link" ><%= i %></a></li>
+                    <li class="page-item"><a href="/proyecto/home?pageInactivos=1" class="page-link" >Previous</a></li>
                 <% } %>
-                <% if (i == Number(current) + 4 && i < pagess) { %>
-                    <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
-                <% } %>
-            <% } %>
 
-              <% if (current == pagess) { %>
-                <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
-            <% } else { %>
-                <li class="page-item"><a href="/proyecto/home/<%= pages %>"  class="page-link" >Next</a></li>
-            <% } %>
-            </ul>
-          </nav>
+                <% var i = (Number(currentInactivos) > 5 ? Number(currentInactivos) - 4 : 1) %>
+                <% if (i !== 1) { %>
+                    <li class="page-item disabled "><a class="page-link" href="#">...</a></li>
+                <% } %>
+
+                <% for (; i <= (Number(currentInactivos) + 4) && i <= pagesInactivos; i++) { %>
+                    <% if (i == currentInactivos) { %>
+                        <li class="page-item active"><a class="page-link" href="#"><%= i %></a></li>
+                    <% } else { %>
+                        <li class="page-item"><a href="/proyecto/home?pageInactivos<%= i %>" class="page-link" ><%= i %></a></li>
+                    <% } %>
+                    <% if (i == Number(currentInactivos) + 4 && i < pagesInactivos) { %>
+                        <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                    <% } %>
+                <% } %>
+
+                <% if (currentInactivos == pagesInactivos) { %>
+                    <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                <% } else { %>
+                    <li class="page-item"><a href="/proyecto/home?pageInactivos<%= pagesInactivos %>"  class="page-link" >Next</a></li>
+                <% } %>
+                </ul>
+            </nav>
+        </div>
 
         <!--Paginacion proyectos inactivos-->
 
