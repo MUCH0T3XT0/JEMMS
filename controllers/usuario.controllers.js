@@ -96,9 +96,10 @@ module.exports.get_mostrar_usuarios_colaboradores = async(req,res) =>{
 }
 
 module.exports.cerrar_sesion = async(req,res) => {
-    res.render("login/login",{
-        loggeado: false
-    });
+    req.session.estatusLogeado = false;
+    req.session.idUsuario = null;
+    req.session.rol = null;
+    res.redirect("/usuario/login");
 }
 
 module.exports.get_agregar_usuario = async(req,res) =>{

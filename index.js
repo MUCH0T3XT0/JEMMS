@@ -32,6 +32,10 @@ app.use('/usuario', rutasUsuario);
 const rutasProyecto = require('./routes/proyecto.routes');
 app.use('/proyecto', rutasProyecto);
 
+app.get('*', function(req, res){
+  res.status(404).redirect('/proyecto/home');
+});
+
 
 const server = http.createServer( (request, response) => {    
     console.log(request.url);

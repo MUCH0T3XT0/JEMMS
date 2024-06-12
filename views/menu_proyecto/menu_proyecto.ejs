@@ -73,7 +73,8 @@
                 <% if(proyectoGeneral[0].estatus == 1){ %>
                     <% if(proyectoNum[0].total < 10){%>
                         <div class="circular_progress" style="--i:85; --clr: #43c617; --value:<%=100-(Math.round((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales))%> ">
-                            <span style="color: white; text-align: center;">Progreso</span>
+                            <span style="color: white; text-align: center;">Tiempo</span><br>
+                            <span style="color: white; text-align: center;">transcurrido</span>
                             <span style="color: white;"><%=100-(Math.round((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales))%>%</span>
                         </div>
                     <%} else if(proyectoNum[0].total >= 10 && proyectoNum[0].total <= 20){%>

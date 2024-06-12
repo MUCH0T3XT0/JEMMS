@@ -55,7 +55,7 @@ exports.Proyecto = class {
     static async extraeProyectos(){
         try{
             const connexion = await db();
-            const resultado = await connexion.execute('Select id_proyecto, descripcion, departamento, nombre_proyecto, estatus from PROYECTO');
+            const resultado = await connexion.execute('Select id_proyecto, descripcion, departamento, nombre_proyecto, estatus from PROYECTO ORDER BY f_creacion DESC');
             //console.log(resultado);
 
             await connexion.release();
@@ -108,21 +108,8 @@ exports.Proyecto = class {
     static async informacionNumericaG(){
         try{
             const connexion = await db();
-            const resultado = await connexion.execute('SELECT p.id_proyecto AS id_proyecto, IFNULL(SUM(r.impacto), 0) AS riesgo_total FROM proyecto p LEFT JOIN riesgo r ON p.id_proyecto = r.id_proyecto GROUP BY p.id_proyecto;');
+            const resultado = await connexion.execute('SELECT p.id_proyecto AS id_proyecto, IFNULL(SUM(r.impacto), 0) AS riesgo_total FROM proyecto p LEFT JOIN riesgo r ON p.id_proyecto = r.id_proyecto GROUP BY p.id_proyecto ORDER BY p.f_creacion DESC;');
             console.log(resultado);
-
-            await connexion.release();
-            return resultado;
-        }catch(error){
-            throw error;
-        }
-    }
-
-    static async informacionNumericaG(){
-        try{
-            const connexion = await db();
-            const resultado = await connexion.execute('SELECT p.id_proyecto AS id_proyecto, IFNULL(SUM(r.impacto), 0) AS riesgo_total FROM proyecto p LEFT JOIN riesgo r ON p.id_proyecto = r.id_proyecto GROUP BY p.id_proyecto;');
-            //console.log(resultado);
 
             await connexion.release();
             return resultado;
