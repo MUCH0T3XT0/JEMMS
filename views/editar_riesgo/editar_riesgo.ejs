@@ -33,12 +33,14 @@
                 <label for="nombre" class="col-sm-2 col-form-label">Descripcion: </label>
                 <div class="col-sm-10">
                 <input type= "text" class="form-control" id="descripcion" name = "descripcion" value="<%= riesgoSelec[0].description %>">
+                <span id="contadorDesc">0/65</span>
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="apellido_p" class="col-sm-2 col-form-label">Estrategia</label>
                 <div class="col-sm-10">
                 <input type=" text" class="form-control" id="estrategia" name = "estrategia" value = "<%= riesgoSelec[0].estrategia_m %>">
+                <span id="contadorEstra">0/65</span>
                 </div>
             </div>
             <div class="mb-3 row">
@@ -82,5 +84,5 @@
         </form>
     </div>
 </body>
-
+<%- include('./editar_riesgo.js.ejs')%>
 </html>

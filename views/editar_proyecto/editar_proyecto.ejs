@@ -46,6 +46,7 @@
                 <label for="inputNombre" class="col-sm-2 col-form-label">Nombre de proyecto</label>
                 <div class="col-sm-10">
                     <input name="nombre_proyecto" type=" text" class="form-control" id="nombre_proyecto" value="<%= proyecto[0].nombre_proyecto %>">
+                    <span id="contadorNombre">0/30</span>
                     <div id="msg_nombre_proyecto" style="display: none;">
                         <p style="color: red;">Nombre de proyecto incorrecto</p>
                     </div>
@@ -55,6 +56,7 @@
                 <label for="inputCliente" class="col-sm-2 col-form-label">Nombre de empresa</label>
                 <div class="col-sm-10">
                     <input name="empresa" type=" text" class="form-control" id="empresa" value="<%= proyecto[0].empresa %>">
+                    <span id="contadorEmpresa">0/15</span>
                     <div id="msg_empresa" style="display: none;">
                         <p style="color: red;">Nombre de empresa incorrecto</p>
                     </div>
@@ -82,6 +84,7 @@
                 <label for="inputEncargado" class="col-sm-2 col-form-label">Encargado</label>
                 <div class="col-sm-10">
                     <input name="encargado" type="text" class="form-control" id="encargado" value="<%= proyecto[0].encargado %>">
+                    <span id="contadorEncargado">0/30</span>
                     <div id="msg_encargado" style="display: none;">
                         <p style="color: red;">Nombre del encargado incorrecto</p>
                     </div>
