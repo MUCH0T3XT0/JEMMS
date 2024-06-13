@@ -130,10 +130,40 @@ async function nuevo_proyecto(id_lider, nombre_proyecto, empresa, departamento, 
     console.log(response.ok);
 
     if(response.ok){
-        console.log("si");
-        window.location.href = "/proyecto/home";
+        swal("Se creó exitosamente el proyecto", "Serás redirido a Home", {
+            className: "boxstyle",
+
+            icon: "success",
+
+            dangerMode: true,
+            
+            buttons: {
+                New: {
+                    text: "Ok",
+
+                    visible: true,
+
+                    className: "buttonstyle",
+                }
+            },
+        }).then((crear)=>{
+            if (crear) {
+                window.location.href = "/proyecto/home";
+            }
+        });
     }else{
-        msg.textContent = "Error en la BD";
+        swal("¡Ha ocurrido un error en la base de datos!",{
+            icon: "error",
+            buttons: {
+                New: {
+                text: "Aceptar",
+
+                visible: true,
+
+                className: "buttonstyle"
+                }
+            }
+        })
     }
 };
 

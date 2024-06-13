@@ -351,6 +351,8 @@ function muestraAgrega(id_usuario){
     swal("¿Estas seguro de que quieres agregar este usuario?", "Se asignara autimaticamente a este proyecto", {
         className: "boxstyle",
 
+        icon: "warning",
+
         dangerMode: true,
         
         buttons: {
@@ -421,6 +423,8 @@ function muestraLider(id_usuario){
     swal("¿Quieres transferir el liderazgo a este colaborador?", "Se transferira el rol y el lider anterior perderá sus privilegios", {
         className: "boxstyle",
 
+        icon: "warning",
+
         dangerMode: true,
         
         buttons: {
@@ -447,6 +451,8 @@ function muestraAlerta(){
 
     swal("¿Estas seguro de cambiar el estatus?", "El proyecto se cambiará a -Inactivo-", {
         className: "boxstyle",
+
+        icon: "warning",
 
         dangerMode: true,
         
@@ -523,6 +529,8 @@ function muestraElimina(){
     swal("¿Estas seguro de que quieres eliminar el proyecto?", "Esta accion no se puede deshacer", {
         className: "boxstyle",
 
+        icon: "warning",
+
         dangerMode: true,
         
         buttons: {
@@ -549,6 +557,8 @@ function muestraEliminaColaborador(id_usuario){
 
     swal("¿Estás seguro de que quieres expulsar al colaborador del proyecto?", "Para volver a enlazar el usuario al proyecto, se necesitará agregarlo nuevamente", {
         className: "boxstyle",
+
+        icon: "warning",
 
         dangerMode: true,
         
