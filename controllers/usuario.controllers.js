@@ -1,4 +1,5 @@
 const model = require("../models/usuario.models.js");
+const modelP = require("../models/proyecto.models.js");
 const bcrypt = require('bcryptjs');
 
 module.exports.get_login = async(req,res) =>{
@@ -315,8 +316,8 @@ module.exports.post_agregar_usuarios_colaboradores = async(req, res) =>{
         const agregaT = await model.Usuario.agregaTrabaja(req.body.id, req.body.id_proyecto);
 
         console.log(agregaT);
-
-        res.redirect("/proyecto/"+req.body.id_proyecto+"/menu_proyecto");
+        console.log("Wenas")
+        res.status(201).json({code: 201, msg: "Ok"});
         return;
     }catch(error){
         console.log(error);
@@ -330,7 +331,7 @@ module.exports.post_eliminar_usuarios_colaboradores = async(req, res) =>{
 
         console.log(agregaT);
 
-        res.redirect("/proyecto/"+req.body.id_proyecto+"/menu_proyecto");
+        res.status(201).json({code: 201, msg: "Ok"});
         return;
     }catch(error){
         console.log(error);
@@ -340,8 +341,10 @@ module.exports.post_cambiar_liderazgo = async(req, res) =>{
     console.log("Cambiando liderazgo");
     try{
         console.log("Cambiando liderazgo");
-
+        const liderAnterior = await modelP.Proyecto.idLider(req.body.id_proyecto);
+        console.log(typeof(liderAnterior[0].id_lider))
         const cambiaL = await model.Usuario.cambiarLider(req.body.id, req.body.id_proyecto);
+        const agregaT = await model.Usuario.agregaTrabaja(liderAnterior[0].id_lider, req.body.id_proyecto);
         console.log(cambiaL);
         res.redirect("/proyecto/"+req.body.id_proyecto+"/menu_proyecto");
         return;

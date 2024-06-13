@@ -52,7 +52,6 @@ exports.Usuario = class {
         try{
             const connexion = await db();
             const resultado = await connexion.execute('INSERT INTO trabajan VALUES(?, ?);', [id_usuario, id_proyecto]);
-            console.log(resultado);
             
             await connexion.release();
             return resultado;
