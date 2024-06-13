@@ -483,7 +483,7 @@ async function cambiarEstatus(id_proyecto){
     console.log(response.ok);
 
     if(response.ok){
-        swal("Se ha cambiado el estatus del proyecto", "Para volverlo a activar, cambie la fecha de creacion al dia actual y verá reflejado el cambio e 24hrs",{
+        swal("Se ha cambiado el estatus del proyecto", "Para volverlo a activar, cambie la fecha de creacion al dia actual y verá reflejado el cambio en 24hrs",{
             icon: "success",
             buttons: {
                 New: {
