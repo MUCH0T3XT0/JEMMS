@@ -95,7 +95,8 @@ module.exports.get_proyecto = async(req,res) =>{
             proyectoNum: infoNum,
             id_proyecto: id,
             rol: req.session.rol,
-            lider: lider
+            lider: lider,
+            id_usuario: req.session.idUsuario
         });
 
     }catch(error){

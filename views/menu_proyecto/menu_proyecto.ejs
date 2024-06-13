@@ -109,12 +109,11 @@
             </div>
         </div>
     </div>
-    <%if (rol || lider) {%>
     <br>
     <div class="text-center">
         <h2> Líder </h2>
     </div>
-    <div class="container" id = "tablaMostar_lider" data-value="<%-rol%>"></div>
+    <div class="container" id = "tablaMostar_lider" data-value1= "<%- id_proyecto%>" data-value2="<%- lider%>" data-value3="<%- rol%>"></div>
     <div class="container mt-5">
         <div class="buttons flex-column">
             <!--<button class="btn btn-warning" id="cambiarEstatus_boton" onclick="muestraAlerta()" data-id="<%= id_proyecto %>">Cambiar lider</button>-->
@@ -126,19 +125,18 @@
             <h2> Colaboradores </h2>
         </div>
     </div>
-    <div class="container" id = "tablaMostar_colaboradores" value="<%= id_proyecto%>"></div>
+    <div class="container" id = "tablaMostar_colaboradores"></div>
     <div class="dropdown">
         <div class="row g-3">
             <button class="btn btn-warning mb-3 dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
             Añadir Colaboradores
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li><div class="container" id = "tablaMostar_colaboradores1" data-value="<%-rol%>" value="<%= id_proyecto%>"></div></li>
+            <li><div class="container" id = "tablaMostar_colaboradores1"></div></li>
             </ul>
         </div>
     </div>
     <br>
-    <%}%>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
     <script src="https://cdn.jsdelivr.net/npm/gridjs/dist/gridjs.umd.js"></script>

@@ -3,9 +3,9 @@ window.addEventListener('load', function() {
     const wrapper = document.getElementById('tablaMostar_lider');
     const wrapper1 = document.getElementById('tablaMostar_colaboradores');
     const wrapper2 = document.getElementById('tablaMostar_colaboradores1');
-    variable = wrapper1.getAttribute('value');
-    
-    console.log("ABC");
+    variable = wrapper.getAttribute('data-value1');
+    liderazgo = (wrapper.getAttribute('data-value2')=="true")? true:false;
+    rol = (wrapper.getAttribute('data-value3')=="true")? true: false;
 
         gridTable = new gridjs.Grid({
             columns: [
@@ -162,13 +162,13 @@ window.addEventListener('load', function() {
                 name: "",
                 sort: false,
                 formatter: (_, row) => {
-                    return gridjs.h('div', { className: 'center-content' }, 
+                    return liderazgo || rol ? gridjs.h('div', { className: 'center-content' }, 
                         gridjs.h('button', {
                             className: 'btn btn-info',
                             onClick: () => { muestraLider(row.cells[0].data);
                             }
                         }, 'Asignar como lider')
-                    );
+                    ): '';
                 }
             },
             {//Se agregó el botón de agregar colaborador 
@@ -176,13 +176,13 @@ window.addEventListener('load', function() {
                 name: "",
                 sort: false,
                 formatter: (_, row) => {
-                    return gridjs.h('div', { className: 'center-content' }, 
+                    return liderazgo || rol ? gridjs.h('div', { className: 'center-content' }, 
                         gridjs.h('button', {
                             className: 'btn btn-danger',
                             onClick: () => { muestraElimina(row.cells[0].data);
                             }
                         }, 'Expulsar del proyecto')
-                    );
+                    ): '';
                 }
             }
         ],
