@@ -122,7 +122,7 @@ module.exports.post_nuevo_proyecto = async(req,res)=>{
     try{
         console.log("Agregando un proyecto");
         console.log(req.body.check);
-        const nuevoP = new  model.Proyecto(null, 1, req.body.descripcion, req.body.empresa, req.body.nombre_proyecto, req.body.presupuesto, req.body.f_creacion, req.body.f_fin, req.body.encargado, req.body.departamento, 1);
+        const nuevoP = new  model.Proyecto(null, req.body.id_lider, req.body.descripcion, req.body.empresa, req.body.nombre_proyecto, req.body.presupuesto, req.body.f_creacion, req.body.f_fin, req.body.encargado, req.body.departamento, 1);
         console.log(nuevoP);
 
         const resultado = nuevoP.nuevoProyecto();

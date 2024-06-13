@@ -16,6 +16,7 @@ window.addEventListener('load', function(){
 const boton_enviar = document.getElementById('boton-enviar');
 
 boton_enviar.addEventListener('click', function(event){
+    let opciones = document.getElementsByName('check');
     msg.textContent = null;
     let msg_nombre_proyecto = document.getElementById('msg_nombre_proyecto');
     let msg_empresa = document.getElementById('msg_empresa');
@@ -24,7 +25,6 @@ boton_enviar.addEventListener('click', function(event){
     let msg_descripcion = document.getElementById('msg_descripcion');
     let msg_f_creacion = document.getElementById('msg_f_creacion');
     let msg_f_fin = document.getElementById('msg_f_fin');
-
     
     msg_nombre_proyecto.style.display = "none";
     msg_empresa.style.display = "none";
@@ -39,8 +39,17 @@ boton_enviar.addEventListener('click', function(event){
     const fin = moment(f_fin.value, "DD/MM/YYYY").toDate();
     const x = moment();
     const hoy = moment(x, "DD-MM-YYYY").toDate();
-
+    let lider_proyecto;
+            for (const lider of opciones) {
+                if (lider.checked) {
+                    lider_proyecto = lider.value;
+                    break;
+                }
+            }
     //CAMPOS VACIOS
+    if (!lider_proyecto){
+        msg.textContent = "Tienes que asignar lider al proyecto";
+    }
     if(!nombre_proyecto.value || !empresa.value || !f_creacion.value || !f_fin.value || !encargado.value || !presupuesto.value || !descripcion.value){
         msg.textContent = "Llene todos los campos";
 
@@ -65,7 +74,7 @@ boton_enviar.addEventListener('click', function(event){
 
         //LA VERIFICACION DE TODOS LOS INPUTS FUE CORRECTA
         if(r_proyecto && r_empresa && r_empresa && r_presupuesto && r_descripcion){
-            nuevo_proyecto(nombre_proyecto.value, empresa.value, departamento.value, moment(f_creacion.value, "DD-MM-YYYY").format(moment.HTML5_FMT.DATE), moment(f_fin.value,  "DD-MM-YYYY").format(moment.HTML5_FMT.DATE), encargado.value, presupuesto.value, descripcion.value);
+            nuevo_proyecto(lider_proyecto.value, nombre_proyecto.value, empresa.value, departamento.value, moment(f_creacion.value, "DD-MM-YYYY").format(moment.HTML5_FMT.DATE), moment(f_fin.value,  "DD-MM-YYYY").format(moment.HTML5_FMT.DATE), encargado.value, presupuesto.value, descripcion.value);
 
         }else{
             //ERROR EN PROYECTO
@@ -108,14 +117,14 @@ boton_enviar.addEventListener('click', function(event){
     }
 });
 
-async function nuevo_proyecto(nombre_proyecto, empresa, departamento, f_inicio, f_fin, encargado, presupuesto, descripcion){
+async function nuevo_proyecto(id_lider, nombre_proyecto, empresa, departamento, f_inicio, f_fin, encargado, presupuesto, descripcion){
     const url = "/proyecto/nuevo_proyecto";
     
 
     const response = await fetch(url, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({nombre_proyecto:nombre_proyecto, descripcion: descripcion, empresa: empresa, presupuesto: presupuesto, f_creacion: f_inicio, f_fin: f_fin, encargado: encargado, departamento: departamento})
+        body: JSON.stringify({id_lider: id_lider ,nombre_proyecto:nombre_proyecto, descripcion: descripcion, empresa: empresa, presupuesto: presupuesto, f_creacion: f_inicio, f_fin: f_fin, encargado: encargado, departamento: departamento})
     })
 
     console.log(response.ok);
@@ -127,3 +136,187 @@ async function nuevo_proyecto(nombre_proyecto, empresa, departamento, f_inicio, 
         msg.textContent = "Error en la BD";
     }
 };
+
+
+
+
+//------------------------------------------------------------------------------------
+
+
+
+
+function muestraConfirmacion(objeto,id, num){
+    swal("¿Estas seguro de querer crear el proyecto?", "Se agregara de acuerdo a los riesgos introducidos",{
+        className: "boxstyle",
+
+        dangerMode: true,
+        
+        buttons: {
+            cancel: true,
+
+            New: {
+                text: "Aceptar",
+
+                visible: true,
+
+                className: "buttonstyle",
+            }
+        },
+    })
+    .then((borrar)=>{
+        if (borrar) {
+            FuncionAgregar(objeto, id);
+        }
+    })
+    ;
+}
+function muestraAlerta(alerta, icono){
+    swal("Alerta", 
+        alerta, 
+        icono, {
+        dangerMode: true,
+        buttons: {New: {text: "Aceptar"}},
+        closeOnClickOutside: false,
+        timer: 5000,
+    });
+}
+window.addEventListener('load', function() {
+    const wrapper = document.getElementById('tablaMostar_Riesgos_Globales');
+    const variable = wrapper.getAttribute('value');
+
+        gridTable = new gridjs.Grid({
+            columns: [
+                {
+                    id: 'select',
+                    name: 'Seleccionar',
+                    formatter: (_, row) => gridjs.html(`<input type="checkbox" class="select-row" data-id="${row.cells[0].data}" data-description="${row.cells[1].data}" data-categoria="${row.cells[2].data}" data-impacto="${row.cells[3].data}" data-probabilidad="${row.cells[4].data}" data-estrategia_m="${row.cells[5].data}"/>`)
+                },
+                {
+                    id: 'description',
+                    name: 'Descripcion del riesgo'
+                },
+                {
+                    id: 'categoria',
+                    name: 'Categoria de riesgo'
+                },
+                {
+                    id: 'impacto',
+                    name: 'Impacto de riesgo'
+                },
+                {
+                    id: 'probabilidad',
+                    name: 'Probabilidad del riesgo'
+                },
+                {
+                    id: 'estrategia_m',
+                    name: 'Estrategia  de Mitigacion'
+                }
+            ],
+        pagination: true,
+        search: true,
+        sort: true,
+        server:{
+            url: "/proyecto/${variable}/agregar_riesgos",
+            then: data => data.riesgo.map(riesgo => [
+                riesgo.id_riesgo,
+                riesgo.description,
+                riesgo.categoria,
+                riesgo.impacto,
+                riesgo.probabilidad,
+                riesgo.estrategia_m,
+            ])
+        }
+    }).render(wrapper);
+
+    const selectedItems = [];
+    const newItem = [];
+    var numselectedItems= 0;
+
+    wrapper.addEventListener('change', function(event) {
+        if (event.target.classList.contains('select-row')) {
+            const checkbox = event.target;
+            const id = checkbox.getAttribute('data-id');
+            const D_categoria = checkbox.getAttribute('data-categoria');
+            const D_impacto = checkbox.getAttribute('data-impacto');
+            const D_probabilidad = checkbox.getAttribute('data-probabilidad');
+            const D_estrategia = checkbox.getAttribute('data-estrategia_m');
+            const D_description = checkbox.getAttribute('data-description');
+            if (checkbox.checked) {
+                selectedItems.push({D_categoria: D_categoria, D_impacto: D_impacto, D_probabilidad: D_probabilidad, D_estrategia: D_estrategia, D_description: D_description});
+                //alert('Se selecciono los siguientes riesgos en el proyecto ' + variable);
+                //alert(JSON.stringify(selectedItems, null, 2));
+                numselectedItems +=1;
+            } else {
+                const index = selectedItems.findIndex(item => item.id === id);
+                selectedItems.splice(index, 1);
+                numselectedItems= numselectedItems - 1;
+                //alert("Se deselecciona");
+            }
+        }
+    });
+
+    const Buton1= document.getElementById('AgregarRiesgoBoton');
+    const Buton2 = document.getElementById('CrearRiesgoBoton');
+    
+    Buton1.addEventListener('click', function(event) {
+        event.preventDefault();
+        muestraConfirmacion(selectedItems, variable, numselectedItems);
+        
+    });
+    Buton2.addEventListener('click', function(event) {
+        const desc = document.getElementById('descripcion');
+        const vdescripcion = desc.value;
+
+        const impa = document.getElementById('impacto');
+        const vimpacto = impa.value;
+
+        const cate = document.getElementById('categoria');
+        const vcategoria = cate.value;
+
+        const prob = document.getElementById('probabilidad');
+        const vprobabilidad = prob.value;
+
+        const estr = document.getElementById('estrategia');
+        const vestrategia = estr.value;
+        if (vdescripcion.length ==0 || vimpacto == 0 || vcategoria == 0 || vprobabilidad == 0 || vestrategia.length ==0){
+            muestraAlerta("Error al crear riesgo: Los datos no fueron rellenados en su totalidad", "warning");
+            newItem = [];
+        }else{
+            console.log("Si llego");
+            newItem.push({D_categoria: vcategoria, D_impacto: vimpacto, D_probabilidad: vprobabilidad, D_estrategia: vestrategia, D_description: vdescripcion})
+            muestraConfirmacion(newItem, variable, 1);
+            newItem = [];
+        }
+        
+    });
+});
+async function FuncionAgregar(selectedItems, variable){
+    if (selectedItems.length != 0) {
+        const url = '/proyecto/'+variable+'/agregar_riesgos';
+        console.log(url);
+
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({selectedItems: selectedItems})
+        })
+        .then(response => {
+            if(!response.ok){
+                throw new Error("HTTP error " + response.status);;
+            }
+        })
+        .then(data => {
+            console.log('Success:', data);
+            muestraAlerta('Riesgo(s) agregado(s) con éxito', "success");
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            muestraAlerta('Hubo un error al agregar el/los riesgo(s).', "warning");
+        });
+
+        console.log(response);
+
+    } else {
+        muestraAlerta('Por favor, selecciona al menos un riesgo.', "warning");
+    }
+}

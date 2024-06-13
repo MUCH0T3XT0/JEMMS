@@ -181,7 +181,7 @@ window.addEventListener('load', function() {
                     return liderazgo || rol ? gridjs.h('div', { className: 'center-content' }, 
                         gridjs.h('button', {
                             className: 'btn btn-danger',
-                            onClick: () => { muestraElimina(row.cells[0].data);
+                            onClick: () => { muestraEliminaColaborador(row.cells[0].data);
                             }
                         }, 'Expulsar')
                     ): '';
@@ -234,8 +234,8 @@ window.addEventListener('load', function() {
 });
 
 async function agregarColaborador(id_usuario){
-    const wrapper2 = document.getElementById('tablaMostar_colaboradores1');
-    variable = wrapper2.getAttribute('value');
+    const wrapper = document.getElementById('tablaMostar_lider');
+    variable = wrapper.getAttribute('data-value1');
 
     console.log("entro aca");
     console.log(id_usuario);
@@ -267,8 +267,8 @@ async function agregarColaborador(id_usuario){
 
 
 async function eliminarColaborador(id_usuario){
-    const wrapper2 = document.getElementById('tablaMostar_colaboradores');
-    variable = wrapper2.getAttribute('value');
+    const wrapper = document.getElementById('tablaMostar_lider');
+    variable = wrapper.getAttribute('data-value1');
 
     console.log("entro aca");
     console.log(id_usuario);
@@ -301,8 +301,8 @@ async function eliminarColaborador(id_usuario){
 }
 
 async function cambiarLiderazgo(id_usuario){
-    const wrapper2 = document.getElementById('tablaMostar_colaboradores');
-    variable = wrapper2.getAttribute('value');
+    const wrapper = document.getElementById('tablaMostar_lider');
+    variable = wrapper.getAttribute('data-value1');
 
     console.log("entro aca");
 
@@ -435,7 +435,8 @@ async function cambiarEstatus(id_proyecto){
 }
 
 function muestraElimina(){
-    let id_proyecto = document.getElementById('eliminar_boton').getAttribute('data-id');
+    const wrapper = document.getElementById('tablaMostar_lider');
+    id_proyecto = wrapper.getAttribute('data-value1');
     console.log(id_proyecto);
 
     swal("¿Estas seguro de que quieres eliminar el proyecto?", "Esta accion no se puede deshacer", {
@@ -458,6 +459,34 @@ function muestraElimina(){
     .then((borrar)=>{
         if (borrar) {
             eliminaProyecto(id_proyecto);
+        }
+    })
+    ;
+}
+function muestraEliminaColaborador(id_usuario){
+    console.log(id_usuario);
+
+    swal("¿Estas seguro de que quieres expulsar al colaborador del proyecto?", "Esta accion no se puede deshacer", {
+        className: "boxstyle",
+
+        dangerMode: true,
+        
+        buttons: {
+            cancel: true,
+
+            New: {
+                text: "Expulsar",
+
+                visible: true,
+
+                className: "buttonstyle",
+            }
+        },
+    })
+    .then((borrar)=>{
+        if (borrar) {
+            eliminarColaborador(id_usuario);
+            location.reload();
         }
     })
     ;

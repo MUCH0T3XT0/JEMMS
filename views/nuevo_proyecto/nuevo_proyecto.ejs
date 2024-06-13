@@ -152,61 +152,15 @@
         
     <div id="riesgos" style="display: none;" >
         <br><br>
-        <div class="row justify-content-center mt-6">
-            <div class="col-md-4">
-                <div class="text-center">
-                    <h3>Añadir riesgo existente al proyecto</h3>
-                </div>
-            </div>
-        </div>
-        <br>
         
-        <div class="container">
-            <div class="table-responsive">
-                <table class="table align-middle">
-                    <thead>
-                        <tr>
-                            <th scope="col">Descripcion</th>
-                            
-                            <th scope="col">Categoria</th>
-                            <th scope="col">Impacto</th>
-                            <th scope="col">Probabilidad</th>
-                            <th scope="col">Estrategia</th>
-                            <th scope="col">Seleccionar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% for (var i = 0; i< riesgo.length ; i++){ %>
-                        <tr>
-                            <td><p name="descripcion" ><%= riesgo[i].description %></p></td>
-                    
-                        
-
-                            <%if (riesgo[i].categoria == 1){%>
-                                <td><p style="color: #4ed0d7;">Alcance</p></td>
-                            <%}else if (riesgo[i].categoria == 2){%>
-                                <td><p style="color: #4e80d7;">Tiempo</p></td>
-                            <%}else if (riesgo[i].categoria == 3){%>
-                                <td><p style="color: orange;">Calidad</p></td>
-                            <%}else if (riesgo[i].categoria == 4){%>
-                                <td><p style="color: #4ef73c;">Costo</p></td>
-                            <%}else if (riesgo[i].categoria == 5){%>
-                                <td><p style="color: #ffdd1f;">Recursos</p></td>
-                            <%}%>
-                            <td><p><%= riesgo[i].impacto %></p></td>
-                            <td><p><%= riesgo[i].probabilidad %></p></td>
-                            <td><p><%= riesgo[i].estrategia_m %><p></td>
-                            <td>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="<%= riesgo[i].id %>" value="<%= riesgo[i].id %>">
-                                </div>
-                            </td>
-                        </tr>
-                        <% } %>
-                    </tbody>
-                </table>
+        <div class="espaciado">
+            <div class="text-center">
+                <h3>Añadir riesgos de algun proyecto anterior</h3>
             </div>
         </div>
+        <div class="container" id = "tablaMostar_Riesgos_Globales" value="1"></div>            
+        <br><br><br><br>
+        
         <div class="container py-4">
             <button type="button" class="btn btn-primary mb-3">Enviar</button>
         </div>  
@@ -241,8 +195,8 @@
                                 <td><%= usuarios[i].correo %></td>
                                 <td>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="check" id="usuario<%=usuarios[i].id_usuario%>">
-                                        <label class="form-check-label" for="usuario<%=usuarios[i].id_usuario%>">
+                                        <input class="form-check-input" name= "check" type="radio" value="<%=usuarios[i].id_usuario%>" id="<%=usuarios[i].id_usuario%>">
+                                        <label class="form-check-label" for="<%=usuarios[i].id_usuario%>">
                                         </label>
                                     </div>
                                 </td>
@@ -273,6 +227,7 @@
             });
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/gridjs/dist/gridjs.umd.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
     <script src="/proyecto/nuevo_proyecto.js"></script>
     <%- include('nuevo_proyecto.js.ejs')%>
