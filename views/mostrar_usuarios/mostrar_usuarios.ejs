@@ -45,6 +45,14 @@
         </div>
         
         <div class="container" id = "tablaMostar_colaboradores"></div>
+        <br><br><br>
+        <% if(rol){ %>
+            <div class="container">
+                <div class="row g-3">
+                    <a href="/usuario/agregar_usuario" type="submit" class="btn btn-warning mb-3">Agregar Usuario</a>
+                </div> 
+            </div>
+        <%}%>
 
     </div>
 
@@ -55,17 +63,7 @@
     </div>
 
     <div class="container" id = "tablaMostar_lider" data-value="<%-rol%>"></div>     
-    <div id = "id_usuario" data-value="<%=id_usuario%>"></div>         
-        <br><br><br>
-
-        <% if(rol){ %>
-            <div class="container">
-                <div class="row g-3">
-                    <a href="/usuario/agregar_usuario" type="submit" class="btn btn-warning mb-3">Agregar Usuario</a>
-                </div> 
-            </div>
-        <%}%>
-        
+    <div id = "id_usuario" data-value="<%=id_usuario%>"></div>
         <br><br><br><br>
     </div>      
 

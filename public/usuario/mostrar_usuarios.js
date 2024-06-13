@@ -214,6 +214,8 @@ function muestraElimina(id_usuario){
         swal("¿Estas seguro de que quieres eliminar este usuario?", "Esta accion no se puede deshacer", {
             className: "boxstyle",
 
+            icon: "warning",
+
             dangerMode: true,
             
             buttons: {
@@ -252,7 +254,22 @@ async function eliminaUsuario(id_usuario){
     console.log(response.ok);
 
     if(response.ok){
-        window.location.href = "/usuario/mostrar_usuarios";
+        swal("Se ha eliminado el usuario de la página", "Esta acción ya no se puede deshacer",{
+            icon: "success",
+            buttons: {
+                New: {
+                text: "Aceptar",
+
+                visible: true,
+
+                className: "buttonstyle",
+                }
+            }
+        }
+        ).then((borrar)=>{
+            window.location.href = "/usuario/mostrar_usuarios";
+        })
+        
     }else{
         swal("¡El Usuario seleccionado es lider de un proyecto!", "Cambia el lider del proyecto al cual el usuario está asociado", {
             className: "boxstyle",
