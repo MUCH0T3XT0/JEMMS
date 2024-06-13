@@ -337,10 +337,32 @@ module.exports.post_agregar_riesgos = async (req, res) => {
         if (!Array.isArray(selectedItems) || selectedItems.length == 0) {
             throw new Error("No se han proporcionado riesgos para agregar");
         }
+        let impacto = ["Bajo", "Medio", "Alto"];
+        let categoria = ["Alcance", "Tiempo", "Calidad", "Costo", "Recursos"];
+        let probabilidad = ["Baja", "Media", "Alta"];
 
         for (const item of selectedItems) {
+            var { D_categoria, D_impacto, D_probabilidad, D_estrategia, D_description } = item;
+
+            for(let i = 0; i < 3; i++){
+                if(D_impacto == impacto[i]){
+                    D_impacto = i+1;
+                    break;
+                }
+            }
+
+            for(let i = 0; i < 3; i++){
+                if(D_probabilidad == probabilidad[i]){
+                    D_probabilidad = i+1;
+                    break;
+                }
+            }
+            
+            for(let i = 0; i < 5; i++)
+                (D_categoria == categoria[i])? D_categoria = i+1 : false;
+
             console.log(item);
-            const { D_categoria, D_impacto, D_probabilidad, D_estrategia, D_description } = item;
+
             // Agregar cada riesgo
             await model.Riesgo.agregarRiesgos(id_proyecto, D_categoria, D_impacto, D_probabilidad, D_estrategia, D_description);
         }
@@ -361,11 +383,11 @@ module.exports.post_nuevo_riesgo = async(req,res) =>{
         const riesgoP = await model.Riesgo.agregarRiesgos(req.params.id_proyecto, req.body.categoria, req.body.impacto, req.body.probabilidad, req.body.estrategia, req.body.descripcion);
     
         console.log(riesgoP);
-        alert("Riesgo creado y agregado al proyecto exitosamente");
+        //alert("Riesgo creado y agregado al proyecto exitosamente");
         res.status(201).render("nuevo_riesgo/nuevo_riesgo", { id_proyecto: req.params.id_proyecto});
     }catch(error){
         console.log(error);
-        alert("Error al agregar el riesgo");
+        //alert("Error al agregar el riesgo");
         res.status(500).render("nuevo_riesgo/nuevo_riesgo", { id_proyecto: req.params.id_proyecto});
     }
 }
