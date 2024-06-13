@@ -198,30 +198,43 @@ window.addEventListener('load', function() {
 
 function muestraElimina(id_usuario){
     console.log(id_usuario);
+    const id_U = document.getElementById('id_usuario').dataset.value;
+    if(id_usuario==id_U){
+        swal("ERROR, no te puedes borrar a ti mismo", {
+            icon: "error",
 
-    swal("¿Estas seguro de que quieres eliminar este usuario?", "Esta accion no se puede deshacer", {
-        className: "boxstyle",
+            className: "boxstyle",
 
-        dangerMode: true,
-        
-        buttons: {
-            cancel: true,
+            dangerMode: true,
+            
+            buttons: {
+                cancel: true
+            }})
+    }else{
+        swal("¿Estas seguro de que quieres eliminar este usuario?", "Esta accion no se puede deshacer", {
+            className: "boxstyle",
 
-            New: {
-                text: "Eliminar usuario",
+            dangerMode: true,
+            
+            buttons: {
+                cancel: true,
 
-                visible: true,
+                New: {
+                    text: "Eliminar usuario",
 
-                className: "buttonstyle",
+                    visible: true,
+
+                    className: "buttonstyle",
+                }
+            },
+        })
+        .then((borrar)=>{
+            if (borrar) {
+                eliminaUsuario(id_usuario);
             }
-        },
-    })
-    .then((borrar)=>{
-        if (borrar) {
-            eliminaUsuario(id_usuario);
-        }
-    })
-    ;
+        })
+        ;
+    }
 }
 
 async function eliminaUsuario(id_usuario){

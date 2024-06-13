@@ -50,10 +50,13 @@ module.exports.get_mostrar_usuarios = async(req,res) =>{
     console.log("Recuperando información de los usuarios");
 
     const rol = req.session.rol;
-
+    const id_usuario = req.session.idUsuario;
 
     res.render("mostrar_usuarios/mostrar_usuarios",
-        {rol: rol}
+        {
+            rol: rol,
+            id_usuario: id_usuario
+        }
     );
 }
 
@@ -248,6 +251,8 @@ module.exports.get_editar_usuario = async(req,res) =>{
         res.status(200).render("editar_usuario/editar_usuario",{
             code: 200,
             msg: "Ok",
+            id_actual: req.params.id,
+            id_usuario: req.session.idUsuario,
             usuario:usuario,
             valido:valido,
             nombre:nombre
