@@ -115,11 +115,7 @@
         <h2> Líder </h2>
     </div>
     <div class="container" id = "tablaMostar_lider" data-value1= "<%- id_proyecto%>" data-value2="<%- lider%>" data-value3="<%- rol%>"></div>
-    <div class="container mt-5">
-        <div class="buttons flex-column">
-            <!--<button class="btn btn-warning" id="cambiarEstatus_boton" onclick="muestraAlerta()" data-id="<%= id_proyecto %>">Cambiar lider</button>-->
-        </div>
-    </div>
+    
     <br>
     <div class="container mt-5">
         <div class="text-center">
@@ -131,9 +127,11 @@
     
     <div class="dropdown">
     <div class="d-flex justify-content-left mt-4" id="containerColaboradores">
+        <%if (rol || lider) {%>
         <button class="btn btn-warning mb-3 dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
             Añadir Colaboradores
             </button>
+        <%}%>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <li><div class="container" id = "tablaMostar_colaboradores1"></div></li>
             </ul>
