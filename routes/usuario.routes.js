@@ -17,7 +17,18 @@ router.get('/mostrar_usuarios', estatusLogeado, controller.get_mostrar_usuarios)
 router.get('/mostrar_usuarios_lideres', estatusLogeado, controller.get_mostrar_usuarios_lideres);//Se creo la rama para mostrar la información de lideres
 router.get('/mostrar_usuarios_colaboradores', estatusLogeado, controller.get_mostrar_usuarios_colaboradores);//Se creo la rama para mostrar la información de colaboradores
 
+router.get('/:id/mostrar_usuarios_lideres_por_proyecto', estatusLogeado, controller.get_mostrar_usuarios_lideres_por_proyecto);//Se creo la rama para mostrar la información de lideres
+router.get('/:id/mostrar_usuarios_colaboradores_por_proyecto', estatusLogeado, controller.get_mostrar_usuarios_colaboradores_por_proyecto);//Se creo la rama para mostrar la información de colaboradores
+
+router.get('/:id/agregar_usuarios_colaboradores', estatusLogeado, controller.get_agregar_usuarios_colaboradores);
+
+
+router.post('/agregar_usuarios_colaboradores', estatusLogeado, controller.post_agregar_usuarios_colaboradores);
+
+router.post('/eliminar_usuarios_colaboradores', estatusLogeado, controller.post_eliminar_usuarios_colaboradores);
+
 router.post('/agregar_usuario', estatusLogeado, rol, controller.post_agregar_usuario);
+router.post('/cambiar_liderazgo', estatusLogeado, controller.post_cambiar_liderazgo);
 router.post('/:id/editar_usuario', estatusLogeado, rol, controller.post_editar_usuario);
 router.post('/:id_usuario/eliminarUsuario', estatusLogeado, rol, controller.post_eliminarUsuario);
 

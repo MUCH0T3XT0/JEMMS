@@ -1,6 +1,6 @@
 
 function muestraConfirmacion(objeto,id, num){
-    swal("¿Estas seguro de querer agregar dicha dicho/s riesgo/s al proyecto?", "Dicho/s riesgo/s se asociara/n en automatico a este riesgo",{
+    swal("¿Estas seguro de querer agregar dicha dicho/s riesgo/s al proyecto?", "Dicho/s riesgo/s se asociara/n en automatico a este proyecto",{
         className: "boxstyle",
 
         dangerMode: true,
