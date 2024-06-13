@@ -25,19 +25,24 @@ module.exports.get_home = async(req, res) => {
             });
             return;
         }
-
+        console.log("tamaño")
+        console.log(proyectos.length);
         for (i = 0; i < proyectos.length; i++) {
-            let num = proyectosActivos[i];
-            console.log(num);
+            
 
-            console.log(proyectos[i].estatus);
+            //console.log(proyectos[i].estatus);
             if (proyectos[i].estatus == true) {
                 proyectosActivos.push(proyectos[i]);
+
             } else {
                 proyectosInactivos.push(proyectos[i]);
-                console.log(proyectosInactivos);
+
             }
+            console.log("Se imprime activos")
+            //console.log(proyectosActivos);
+
         }
+        console.log(proyectosActivos);
 
         var perPage = 8;
         var pageActivos = req.query.pageActivos || 1;
@@ -72,7 +77,7 @@ module.exports.get_home = async(req, res) => {
             muestraProjInactivos.push(proyectosInactivos[i]);
             contin++;
         }
-            console.log("🚀 ~ module.exports.get_home=async ~ muestraProjInactivos:", muestraProjInactivos.length)
+        console.log("🚀 ~ module.exports.get_home=async ~ muestraProjInactivos:", muestraProjInactivos.length)
 
         res.status(201).render("home/home", {
             proyecto: proyectos,

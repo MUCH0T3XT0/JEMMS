@@ -83,7 +83,7 @@
                                 <h5 class="card-title"><%= proyectosActivos[i].nombre_proyecto %><br></h5>
                                 <p><%= proyectosActivos[i].descripcion %></p>
                                 <p>Departamento: <%= proyectosActivos[i].departamento %></p>
-                                <a href="/proyecto/<%= proyecto[i].id_proyecto%>/menu_proyecto" class="btn btn-primary" id="go">Ver más</a>
+                                <a href="/proyecto/<%= proyectosActivos[i].id_proyecto%>/menu_proyecto" class="btn btn-primary" id="go">Ver más</a>
                             </div>
                         </div>
                     </div>
@@ -173,7 +173,7 @@
                                 <h5 class="card-title"><%= proyectosInactivos[i].nombre_proyecto %><br></h5>
                                 <p><%= proyectosInactivos[i].descripcion %></p>
                                 <p>Departamento: <%= proyectosInactivos[i].departamento %></p>
-                                <a href="<%= proyecto[i].id_proyecto%>/menu_proyecto" class="btn btn-primary" id="go">Ver más</a>
+                                <a href="/proyecto/<%= proyectosInactivos[i].id_proyecto%>/menu_proyecto" class="btn btn-primary" id="go">Ver más</a>
                             </div>
                         </div>
                             </div>
@@ -202,7 +202,7 @@
                     <% if (i == currentInactivos) { %>
                         <li class="page-item active"><a class="page-link" href="#"><%= i %></a></li>
                     <% } else { %>
-                        <li class="page-item"><a href="/proyecto/home?pageInactivos<%= i %>" class="page-link" ><%= i %></a></li>
+                        <li class="page-item"><a href="/proyecto/home?pageInactivos=<%= i %>" class="page-link" ><%= i %></a></li>
                     <% } %>
                     <% if (i == Number(currentInactivos) + 4 && i < pagesInactivos) { %>
                         <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
@@ -212,7 +212,7 @@
                 <% if (currentInactivos == pagesInactivos) { %>
                     <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
                 <% } else { %>
-                    <li class="page-item"><a href="/proyecto/home?pageInactivos<%= pagesInactivos %>"  class="page-link" >Next</a></li>
+                    <li class="page-item"><a href="/proyecto/home?pageInactivos=<%= pagesInactivos %>"  class="page-link" >Next</a></li>
                 <% } %>
                 </ul>
             </nav>
