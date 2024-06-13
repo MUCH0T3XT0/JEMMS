@@ -7,7 +7,7 @@ const esLider = require("../utils/esLider.js");
 
 //GET
 //Home
-router.get('/home', estatusLogeado,controller.get_home);
+router.get('/home',controller.get_home);
 
 
 
