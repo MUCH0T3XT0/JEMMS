@@ -37,27 +37,31 @@
                     <% if(proyectosActivos[i].estatus == true){%>
                         <%flag = true%>
                         <div class="col">
-                            <% if(termometro[i].riesgo_total <= 0){ %>
-                            <div class="card">
-                            <img src="./none_risk.png" class="card-img-top" alt="Imágen de ejemplo">
-                            <p>Nivel de riesgo <span style="color: gray; font-weight: bold;">Nulo</span></p>
-                            
-                            <%} else if(termometro[i].riesgo_total < 10){ %>
-                            <div class="card">
-                            <img src="./low_risk.png" class="card-img-top" alt="Imágen de ejemplo">
-                            <p>Nivel de riesgo <span style="color: #28a213; font-weight: bold;">Bajo</span></p>
-                            
-                            <%} else if(termometro[i].riesgo_total <= 20){ %>
-                            <div class="card">
-                            <img src="./medium_risk.png" class="card-img-top" alt="Imágen de ejemplo">
-                            <p>Nivel de riesgo <span style="color: #bfbf1b; font-weight: bold;">Medio</span></p>
-                            
-                            <%} else { %>
-                            <div class="card">
-                            <img src="./high_risk.png" class="card-img-top" alt="Imágen de ejemplo">
-                            <p>Nivel de riesgo <span style="color: #d52b15; font-weight: bold;">Alto</span></p>
-                            
-                            <% } %>
+                            <%for(var j = 0; j < termoActivos.length; j++){%>
+                                <%if(termoActivos[j].id_proyecto == proyectosActivos[i].id_proyecto){%>
+                                    <% if(termoActivos[j].riesgo_total <= 0){ %>
+                                        <div class="card">
+                                    <img src="./none_risk.png" class="card-img-top" alt="Imágen de ejemplo">
+                                    <p>Nivel de riesgo <span style="color: gray; font-weight: bold;">Nulo</span></p>
+                                    
+                                    <%} else if(termoActivos[j].riesgo_total < 10){ %>
+                                    <div class="card">
+                                    <img src="./low_risk.png" class="card-img-top" alt="Imágen de ejemplo">
+                                    <p>Nivel de riesgo <span style="color: #28a213; font-weight: bold;">Bajo</span></p>
+                                    
+                                    <%} else if(termoActivos[j].riesgo_total <= 20){ %>
+                                    <div class="card">
+                                    <img src="./medium_risk.png" class="card-img-top" alt="Imágen de ejemplo">
+                                    <p>Nivel de riesgo <span style="color: #bfbf1b; font-weight: bold;">Medio</span></p>
+                                    
+                                    <%} else { %>
+                                    <div class="card">
+                                    <img src="./high_risk.png" class="card-img-top" alt="Imágen de ejemplo">
+                                    <p>Nivel de riesgo <span style="color: #d52b15; font-weight: bold;">Alto</span></p>
+                                    <% } %>
+                                <% } %>
+                            <% } %>    
+
                             <div class="card-body">
                                 <h5 class="card-title"><%= proyectosActivos[i].nombre_proyecto %><br></h5>
                                 <p><%= proyectosActivos[i].descripcion %></p>
@@ -66,7 +70,7 @@
                             </div>
                         </div>
                     </div>
-                        <%}%>
+                    <% } %>
                         
                 <% } %>
         </div>
@@ -127,27 +131,30 @@
                     <% if(proyectosInactivos[i].estatus == false){%>
                         <%flag = true%>
                         <div class="col">
-                            <% if(termometro[i].riesgo_total <= 0){ %>
-                            <div class="card">
-                            <img src="./none_risk.png" class="card-img-top" alt="Imágen de ejemplo">
-                            <p>Nivel de riesgo <span style="color: gray; font-weight: bold;">Nulo</span></p>
-                            
-                            <%} else if(termometro[i].riesgo_total < 10){ %>
-                            <div class="card">
-                            <img src="./low_risk.png" class="card-img-top" alt="Imágen de ejemplo">
-                            <p>Nivel de riesgo <span style="color: #28a213; font-weight: bold;">Bajo</span></p>
-                            
-                            <%} else if(termometro[i].riesgo_total < 20){ %>
-                            <div class="card">
-                            <img src="./medium_risk.png" class="card-img-top" alt="Imágen de ejemplo">
-                            <p>Nivel de riesgo <span style="color: #bfbf1b; font-weight: bold;">Medio</span></p>
-                            
-                            <%} else { %>
-                            <div class="card">
-                            <img src="./high_risk.png" class="card-img-top" alt="Imágen de ejemplo">
-                            <p>Nivel de riesgo <span style="color: #d52b15; font-weight: bold;">Alto</span></p>
-                            
-                            <% } %>
+                            <%for(var j = 0; j < termoInactivos.length; j++){%>
+                                <%if(termoInactivos[j].id_proyecto == proyectosInactivos[i].id_proyecto){%>
+                                    <% if(termoInactivos[j].riesgo_total <= 0){ %>
+                                        <div class="card">
+                                    <img src="./none_risk.png" class="card-img-top" alt="Imágen de ejemplo">
+                                    <p>Nivel de riesgo <span style="color: gray; font-weight: bold;">Nulo</span></p>
+                                    
+                                    <%} else if(termoInactivos[j].riesgo_total < 10){ %>
+                                    <div class="card">
+                                    <img src="./low_risk.png" class="card-img-top" alt="Imágen de ejemplo">
+                                    <p>Nivel de riesgo <span style="color: #28a213; font-weight: bold;">Bajo</span></p>
+                                    
+                                    <%} else if(termoInactivos[j].riesgo_total <= 20){ %>
+                                    <div class="card">
+                                    <img src="./medium_risk.png" class="card-img-top" alt="Imágen de ejemplo">
+                                    <p>Nivel de riesgo <span style="color: #bfbf1b; font-weight: bold;">Medio</span></p>
+                                    
+                                    <%} else { %>
+                                    <div class="card">
+                                    <img src="./high_risk.png" class="card-img-top" alt="Imágen de ejemplo">
+                                    <p>Nivel de riesgo <span style="color: #d52b15; font-weight: bold;">Alto</span></p>
+                                    <% } %>
+                                <% } %>
+                            <% } %>    
                             <div class="card-body">
                                 <h5 class="card-title"><%= proyectosInactivos[i].nombre_proyecto %><br></h5>
                                 <p><%= proyectosInactivos[i].descripcion %></p>

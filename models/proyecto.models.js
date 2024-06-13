@@ -105,10 +105,10 @@ exports.Proyecto = class {
             throw error;
         }
     }
-    static async informacionNumericaG(){
+    static async obtenerCantidadDeImpacto(estatus){
         try{
             const connexion = await db();
-            const resultado = await connexion.execute('SELECT p.id_proyecto AS id_proyecto, IFNULL(SUM(r.impacto), 0) AS riesgo_total FROM proyecto p LEFT JOIN riesgo r ON p.id_proyecto = r.id_proyecto GROUP BY p.id_proyecto ORDER BY p.f_creacion DESC;');
+            const resultado = await connexion.execute('SELECT p.id_proyecto AS id_proyecto, IFNULL(SUM(r.impacto), 0) AS riesgo_total FROM proyecto p LEFT JOIN riesgo r ON p.id_proyecto = r.id_proyecto WHERE estatus = ? GROUP BY p.id_proyecto ORDER BY p.f_creacion DESC;', [estatus]);
             console.log(resultado);
 
             await connexion.release();

@@ -8,8 +8,9 @@ module.exports.get_home = async(req, res) => {
     try {
         console.log("Recuperando proyectos");
         const proyectos = await model.Proyecto.extraeProyectos();
-        const termo = await model.Proyecto.informacionNumericaG();
-        console.log(termo);
+        const termoActivos = await model.Proyecto.obtenerCantidadDeImpacto(1);
+        const termoInactivos = await model.Proyecto.obtenerCantidadDeImpacto(0);
+   
         const rol = req.session.rol;
 
         let proyectosActivos = [];
@@ -25,12 +26,8 @@ module.exports.get_home = async(req, res) => {
             });
             return;
         }
-        console.log("tamaño")
-        console.log(proyectos.length);
+        
         for (i = 0; i < proyectos.length; i++) {
-            
-
-            //console.log(proyectos[i].estatus);
             if (proyectos[i].estatus == true) {
                 proyectosActivos.push(proyectos[i]);
 
@@ -38,9 +35,6 @@ module.exports.get_home = async(req, res) => {
                 proyectosInactivos.push(proyectos[i]);
 
             }
-            console.log("Se imprime activos")
-            //console.log(proyectosActivos);
-
         }
         console.log(proyectosActivos);
 
@@ -77,11 +71,11 @@ module.exports.get_home = async(req, res) => {
             muestraProjInactivos.push(proyectosInactivos[i]);
             contin++;
         }
-        console.log("🚀 ~ module.exports.get_home=async ~ muestraProjInactivos:", muestraProjInactivos.length)
 
         res.status(201).render("home/home", {
             proyecto: proyectos,
-            termometro: termo,
+            termoActivos: termoActivos,
+            termoInactivos: termoInactivos,
             error: false,
             rol: rol,
             currentActivos: pageActivos,
