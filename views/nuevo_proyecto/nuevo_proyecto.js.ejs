@@ -12,7 +12,9 @@
                 contenido.style.display = "none";
             }
     }
+</script>
 
+<script>
     function toggleContentUsuarios() {
         var contenido = document.getElementById("usuarios");
         var boton = document.getElementById("boton_lider");
@@ -26,14 +28,60 @@
             contenido.style.display = "none";
         }
     }
+</script>
 
-    var textarea = document.getElementById('descripcion');
-    var contadorCaracteres = document.getElementById('contadorCaracteres');
-    textarea.addEventListener('input', function() {
-        contadorCaracteres.textContent = textarea.value.length + '/500';
-        if (textarea.value.length > 500) {
-            textarea.value = textarea.value.slice(0, 500);
-            contadorCaracteres.textContent = '500/500';
-        }
-    });
+<script>
+    (function() {
+        var textarea = document.getElementById('descripcion');
+        var contadorCaracteres = document.getElementById('contadorCaracteres');
+        textarea.addEventListener('input', function() {
+            contadorCaracteres.textContent = textarea.value.length + '/500';
+            if (textarea.value.length > 500) {
+                textarea.value = textarea.value.slice(0, 500);
+                contadorCaracteres.textContent = '500/500';
+            }
+        });
+    })();
+</script>
+
+<script>
+    (function() {
+        var textarea = document.getElementById('nombre_proyecto');
+        var contadorCaracteres = document.getElementById('contadorNombre');
+        textarea.addEventListener('input', function() {
+            contadorCaracteres.textContent = textarea.value.length + '/30';
+            if (textarea.value.length > 30) {
+                textarea.value = textarea.value.slice(0, 30);
+                contadorCaracteres.textContent = '30/30';
+            }
+        });
+    })();
+</script>
+
+<script>
+    (function() {
+        var textarea = document.getElementById('empresa');
+        var contadorCaracteres = document.getElementById('contadorEmpresa');
+        textarea.addEventListener('input', function() {
+            contadorCaracteres.textContent = textarea.value.length + '/15';
+            if (textarea.value.length > 15) {
+                textarea.value = textarea.value.slice(0, 15);
+                contadorCaracteres.textContent = '15/15';
+            }
+        });
+    })();
+</script>
+
+<script>
+    (function() {
+        var textarea = document.getElementById('encargado');
+        var contadorCaracteres = document.getElementById('contadorEncargado');
+        textarea.addEventListener('input', function() {
+            contadorCaracteres.textContent = textarea.value.length + '/30';
+            if (textarea.value.length > 30) {
+                textarea.value = textarea.value.slice(0, 30);
+                contadorCaracteres.textContent = '30/30';
+            }
+        });
+    })();
 </script>

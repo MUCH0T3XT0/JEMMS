@@ -2,26 +2,30 @@
     (function() {
         var textarea = document.getElementById('descripcion');
         var contadorCaracteres = document.getElementById('contadorDesc');
-        textarea.addEventListener('input', function() {
+        function actualizarContador(){
             contadorCaracteres.textContent = textarea.value.length + '/65';
             if (textarea.value.length > 65) {
                 textarea.value = textarea.value.slice(0, 65);
                 contadorCaracteres.textContent = '65/65';
             }
-        });
+        }
+        textarea.addEventListener('input', actualizarContador);
+        textarea.addEventListener('change', actualizarContador());
     })();
-</script>
+    </script>
 
 <script>
     (function() {
         var textarea = document.getElementById('estrategia');
         var contadorCaracteres = document.getElementById('contadorEstra');
-        textarea.addEventListener('input', function() {
+        function actualizarContador(){
             contadorCaracteres.textContent = textarea.value.length + '/65';
             if (textarea.value.length > 65) {
                 textarea.value = textarea.value.slice(0, 65);
                 contadorCaracteres.textContent = '65/65';
             }
-        });
+        }
+        textarea.addEventListener('input', actualizarContador);
+        textarea.addEventListener('change', actualizarContador());
     })();
 </script>

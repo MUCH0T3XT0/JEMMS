@@ -49,6 +49,7 @@
                         <td>
                             <div class="mb-3">
                                 <input type="text" class="form-control" id="descripcion" name= "descripcion"placeholder="Aqui va descripcion del riesgo">
+                                <span id="contadorDesc">0/65</span>
                             </div>
                         </td>
                         <td>
@@ -80,6 +81,7 @@
                         <td>
                             <div class="mb-3">
                                 <input type="text" class="form-control" id="estrategia" name="estrategia" placeholder="Aqui va descripcion de la estrategia">
+                                <span id="contadorEstra">0/65</span>
                             </div>
                         </td>
                     </tr>
@@ -113,4 +115,5 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/gridjs/dist/gridjs.umd.js"></script>
 <script src="/proyecto/agregar_riesgo.js"></script>
+<%- include('nuevo_riesgo.js.ejs')%>
 </html>
