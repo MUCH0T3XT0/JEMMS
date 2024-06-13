@@ -39,17 +39,17 @@ window.addEventListener('load', function() {
         },//Se agregó la modificación de estilos en la tabla 
         style: {
             table: {
-              border: '3px solid #ccc'
-            },
-            th: {
-              'background-color': 'rgba(0, 0, 0, 0.1)',
-              color: '#000',
-              'border-bottom': '3px solid #ccc',
-              'text-align': 'center'
-            }
-            /*td: {
-              'text-align': 'center'
-            }*/
+                border: '3px solid rgb(15, 28, 167)'
+                },
+                th: {
+                'background-color': 'rgba(15, 28, 167, 0.345)',
+                color: '#000',
+                'border-bottom': '3px solid rgb(15, 28, 167)',
+                'text-align': 'center'
+                }
+                /*td: {
+                'text-align': 'center'
+                }*/            
           }        
     }).render(wrapper);
 
@@ -123,18 +123,18 @@ window.addEventListener('load', function() {
             },//Se agregó la opción de darle estilo a la tabla
             style: {
                 table: {
-                border: '3px solid #ccc'
-                },
-                th: {
-                'background-color': 'rgba(0, 0, 0, 0.1)',
-                color: '#000',
-                'border-bottom': '3px solid #ccc',
-                'text-align': 'center'
+                    border: '3px solid rgb(15, 28, 167)'
+                    },
+                    th: {
+                    'background-color': 'rgba(15, 28, 167, 0.345)',
+                    color: '#000',
+                    'border-bottom': '3px solid rgb(15, 28, 167)',
+                    'text-align': 'center'
+                    }
+                    /*td: {
+                    'text-align': 'center'
+                    }*/
                 }
-                /*td: {
-                'text-align': 'center'
-                }*/
-            }
         }).render(wrapper1);
     }else{
         console.log("mortales");

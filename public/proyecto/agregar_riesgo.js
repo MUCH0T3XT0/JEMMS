@@ -38,6 +38,37 @@ window.addEventListener('load', function() {
     const wrapper = document.getElementById('tablaMostar_Riesgos_Globales');
     const variable = wrapper.getAttribute('value');
 
+    //En lugar de imprimir el número entero, muestra la descripción del valor numérico de categoría
+    const categoriaMap = {
+        1: 'Alcance',
+        2: 'Tiempo',
+        3: 'Calidad',
+        4: 'Costo',
+        5: 'Recursos'
+    };
+
+    //Ya definidas las categorías dependinedo del número les asginamos el color
+    const categoriaColorMap = {
+        'Alcance': '#4ed0d7',
+        'Tiempo': '#4e80d7',
+        'Calidad': 'orange',
+        'Costo': '#4ef73c',
+        'Recursos': '#ffdd1f'
+    };
+
+    //En lugar de imprimir el número entero, muestra la descripción del valor numérico de impacto
+    const impactoMap = {
+        1: 'Bajo',
+        2: 'Medio',
+        3: 'Alto',
+    };
+    
+    //En lugar de imprimir el número entero, muestra la descripción del valor numérico de probabilidad
+    const probabilidadMap = {
+        1: 'Baja',
+        2: 'Media',
+        3: 'Alta',
+    };
         gridTable = new gridjs.Grid({
             columns: [
                 {
@@ -51,7 +82,12 @@ window.addEventListener('load', function() {
                 },
                 {
                     id: 'categoria',
-                    name: 'Categoria de riesgo'
+                    name: 'Categoría',
+                    formatter: (cell) => {    //Se mandan llamar las funciones para mostrar la descripción con color del riesgo
+                        const category = categoriaMap[cell];
+                        const color = categoriaColorMap[category];
+                        return gridjs.html(`<span style="color: ${color};">${category}</span>`);
+                    }
                 },
                 {
                     id: 'impacto',
@@ -70,16 +106,30 @@ window.addEventListener('load', function() {
         search: true,
         sort: true,
         server:{
-            url: "/proyecto/${variable}/agregar_riesgos",
-            then: data => data.riesgo.map(riesgo => [
-                riesgo.id_riesgo,
+            url: `/proyecto/${variable}/agregar_riesgos`,
+            then: data => data.riesgo.map(riesgo => [  
+                riesgo.id_riesgo, 
                 riesgo.description,
                 riesgo.categoria,
-                riesgo.impacto,
-                riesgo.probabilidad,
+                impactoMap[riesgo.impacto], //Usar el objeto de mapeo de impacto dependiendo del número definido en la función
+                probabilidadMap[riesgo.probabilidad], //Usar el objeto de mapeo de probabilidad dependiendo del número definido en la función
                 riesgo.estrategia_m,
             ])
-        }
+        },
+        style: {
+            table: {
+                border: '3px solid rgb(15, 28, 167)'
+                },
+                th: {
+                'background-color': 'rgba(15, 28, 167, 0.345)',
+                color: '#000',
+                'border-bottom': '3px solid rgb(15, 28, 167)',
+                'text-align': 'center'
+                }
+                /*td: {
+                'text-align': 'center'
+                }*/
+            }
     }).render(wrapper);
 
     const selectedItems = [];

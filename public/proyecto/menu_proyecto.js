@@ -3,7 +3,7 @@ window.addEventListener('load', function() {
     const wrapper = document.getElementById('tablaMostar_lider');
     const wrapper1 = document.getElementById('tablaMostar_colaboradores');
     const wrapper2 = document.getElementById('tablaMostar_colaboradores1');
-    variable = wrapper.getAttribute('data-value1');
+    const variable = wrapper.getAttribute('data-value1');
     liderazgo = (wrapper.getAttribute('data-value2')=="true")? true:false;
     rol = (wrapper.getAttribute('data-value3')=="true")? true: false;
 
@@ -26,29 +26,31 @@ window.addEventListener('load', function() {
                     name: 'Apellido Paterno'
                 },
             ],
-        server:{
-            url: "/usuario/"+variable+"/mostrar_usuarios_lideres_por_proyecto",
-            then: data => data.usuario1.map(usuario => [
-                usuario.nombre_proyecto,
-                usuario.id_usuario,
-                usuario.nombres,
-                usuario.apellido_p
-            ])
-        },//Se agregó la modificación de estilos en la tabla 
+            sort: true,
+            server:{
+                url: `/usuario/${variable}/mostrar_usuarios_lideres_por_proyecto`,
+                then: data => data.usuario1.map(usuario => [
+                    usuario.nombre_proyecto,
+                    usuario.id_usuario,
+                    usuario.nombres,
+                    usuario.apellido_p
+                ])
+            },//Se agregó la modificación de estilos en la tabla 
         style: {
             table: {
-              border: '3px solid #ccc'
+              border: '3px solid rgb(15, 28, 167)'
             },
             th: {
-              'background-color': 'rgba(0, 0, 0, 0.1)',
-              color: '#000',
-              'border-bottom': '3px solid #ccc',
-              'text-align': 'center'
+            'background-color': 'rgba(15, 28, 167, 0.345)',
+            color: '#000',
+            'border-bottom': '3px solid rgb(15, 28, 167)',
+            'text-align': 'center'
             },
             td: {
-              'text-align': 'center'
+                'background-color': 'white',
+                'text-align': 'center'            
             }
-          }        
+        }        
     }).render(wrapper);
     
     gridTable1 = new gridjs.Grid({
@@ -159,7 +161,7 @@ window.addEventListener('load', function() {
             },
             {//Se agregó el botón de agregar colaborador 
                 id: 'liderar',
-                name: "",
+                name: "Asignar como Líder",
                 sort: false,
                 formatter: (_, row) => {
                     return liderazgo || rol ? gridjs.h('div', { className: 'center-content' }, 
@@ -167,13 +169,13 @@ window.addEventListener('load', function() {
                             className: 'btn btn-info',
                             onClick: () => { muestraLider(row.cells[0].data);
                             }
-                        }, 'Asignar como lider')
+                        }, 'Asignar')
                     ): '';
                 }
             },
             {//Se agregó el botón de agregar colaborador 
                 id: 'expulsar',
-                name: "",
+                name: "Expulsar del Proyecto",
                 sort: false,
                 formatter: (_, row) => {
                     return liderazgo || rol ? gridjs.h('div', { className: 'center-content' }, 
@@ -181,7 +183,7 @@ window.addEventListener('load', function() {
                             className: 'btn btn-danger',
                             onClick: () => { muestraElimina(row.cells[0].data);
                             }
-                        }, 'Expulsar del proyecto')
+                        }, 'Expulsar')
                     ): '';
                 }
             }
@@ -201,14 +203,18 @@ window.addEventListener('load', function() {
         },//Se agregó la opción de darle estilo a la tabla
         style: {
             table: {
-            border: '3px solid #ccc'
-            },
-            th: {
-            'background-color': 'rgba(0, 0, 0, 0.1)',
-            color: '#000',
-            'border-bottom': '3px solid #ccc',
-            'text-align': 'center'
-            }
+                border: '3px solid rgb(15, 28, 167)'
+              },
+              th: {
+              'background-color': 'rgba(15, 28, 167, 0.345)',
+              color: '#000',
+              'border-bottom': '3px solid rgb(15, 28, 167)',
+              'text-align': 'center'
+              },
+              td: {
+                  'background-color': 'white',
+                  'text-align': 'center'            
+              }
         },
         language: {
             search: {
