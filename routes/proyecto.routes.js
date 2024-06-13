@@ -8,9 +8,13 @@ const esLider = require("../utils/esLider.js");
 //GET
 //Home
 router.get('/home', estatusLogeado,controller.get_home);
+
+
+
+
 //Proyectos
 router.get('/nuevo_proyecto', estatusLogeado, rol, controller.get_nuevo_proyecto);
-router.get('/:id_proyecto/menu_proyecto', estatusLogeado, controller.get_proyecto); 
+router.get('/:id_proyecto/menu_proyecto', controller.get_proyecto); 
 router.get('/:id_proyecto/info_proyecto', estatusLogeado, controller.get_info_proyecto);
 router.get('/:id_proyecto/editar_proyecto', estatusLogeado, esLider, controller.get_editar_proyecto);
 

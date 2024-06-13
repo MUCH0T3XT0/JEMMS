@@ -2,35 +2,95 @@ const model = require("../models/proyecto.models.js");
 const modelU = require("../models/usuario.models.js")
 const moment = require("moment");
 
-module.exports.get_home = async(req,res) =>{
-    try{
+
+// Controlador:
+module.exports.get_home = async(req, res) => {
+    try {
         console.log("Recuperando proyectos");
         const proyectos = await model.Proyecto.extraeProyectos();
         const termo = await model.Proyecto.informacionNumericaG();
         console.log(termo);
         const rol = req.session.rol;
 
-        if(proyectos.length < 1){
-            
-            res.status(400).render("home/home",{
+        let proyectosActivos = [];
+        let proyectosInactivos = [];
+
+        if (proyectos.length < 1) {
+            res.status(400).render("home/home", {
                 error: true,
-                rol: rol
+                rol: rol,
+                current: req.query.page || 1,
+                pages: pagesActivos,
+                pagess: pageInactivos
             });
             return;
         }
 
-        res.status(201).render("home/home",{
+        for (i = 0; i < proyectos.length; i++) {
+            let num = proyectosActivos[i];
+            console.log(num);
+
+            console.log(proyectos[i].estatus);
+            if (proyectos[i].estatus == true) {
+                proyectosActivos.push(proyectos[i]);
+            } else {
+                proyectosInactivos.push(proyectos[i]);
+                console.log(proyectosInactivos);
+            }
+        }
+
+        var perPage = 8;
+        var pageActivos = req.query.pageActivos || 1;
+        var pageInactivos = req.query.pageInactivos || 1;
+
+        let skipActivos = ((perPage * pageActivos) - perPage);
+        let skipInactivos = ((perPage * pageInactivos) - perPage);
+
+        let totalProyectosActivos = proyectosActivos.length;
+        let totalProyectosInactivos = proyectosInactivos.length;
+
+        let pagesActivos = Math.ceil(totalProyectosActivos / perPage);
+        let pagesInactivos = Math.ceil(totalProyectosInactivos / perPage);
+
+        let muestraProjActivos = [];
+        let muestraProjInactivos = [];
+        var contac=0;
+        var contin=0;
+
+        for(i=skipActivos; i<proyectosActivos.length; i++){
+            if (contac==8){
+                break;
+            }
+            muestraProjActivos.push(proyectosActivos[i]);
+            contac++;
+        }
+
+        for(i=skipInactivos; i<proyectosInactivos.length; i++){
+            if (contin==8){
+                break;
+            }
+            muestraProjInactivos.push(proyectosInactivos[i]);
+            contin++;
+        }
+            console.log("🚀 ~ module.exports.get_home=async ~ muestraProjInactivos:", muestraProjInactivos.length)
+
+        res.status(201).render("home/home", {
             proyecto: proyectos,
             termometro: termo,
             error: false,
-            rol: rol
+            rol: rol,
+            currentActivos: pageActivos,
+            pagesActivos: pagesActivos,
+            currentInactivos: pageInactivos,
+            pagesInactivos: pagesInactivos,
+            proyectosActivos: muestraProjActivos,
+            proyectosInactivos: muestraProjInactivos
         });
-        
-    }catch(error){
+
+    } catch (error) {
         console.log(error);
         res.status(400).redirect("/proyecto/home");
     }
-    
 }
 
 module.exports.get_nuevo_proyecto = async(req,res) =>{
