@@ -178,19 +178,19 @@ window.addEventListener('load', function() {
                 ])
             },//Se agregó la opción de darle estilo a la tabla
             style: {
-                table: {
-                  border: '3px solid #ccc'
+            table: {
+                border: '3px solid rgb(15, 28, 167)'
                 },
                 th: {
-                  'background-color': 'rgba(0, 0, 0, 0.1)',
-                  color: '#000',
-                  'border-bottom': '3px solid #ccc',
-                  'text-align': 'center'
+                'background-color': 'rgba(15, 28, 167, 0.345)',
+                color: '#000',
+                'border-bottom': '3px solid rgb(15, 28, 167)',
+                'text-align': 'center'
                 }
                 /*td: {
-                  'text-align': 'center'
+                'text-align': 'center'
                 }*/
-              }
+            }
         }).render(wrapper1);
     }
 });
