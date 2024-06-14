@@ -83,25 +83,4 @@
         textarea.addEventListener('input', actualizarContador);
     })();
 
-    function muestraAlerta(){
-        let id_proyecto = document.getElementById('cambiarEstatus_boton').getAttribute('data-id');
-
-        swal("La contraseña cambiará", 
-                 "¿Seguro que quieres continuar?", 
-                 "warning", {
-                dangerMode: true,
-                buttons: true,
-                closeOnClickOutside: false,
-            })
-        .then((borrar)=>{
-            if (borrar) {
-                cambiarEstatus(id_proyecto);
-            }
-        })
-        ;
-    }
-
-    
-    
-
 </script>

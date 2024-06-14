@@ -266,43 +266,29 @@ module.exports.get_editar_usuario = async(req,res) =>{
 module.exports.post_editar_usuario = async(req, res) => {
     try {
         //Se guarda la info del body en constantes
-        const nombrevalido = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/;
+        
+        const opcion = req.body.opcion;
         const id = req.params.id;
         const nombre = req.body.nombre;
         const apellido_p = req.body.apellido_p;
         const apellido_m = req.body.apellido_m;
-        const correo = req.body.correo;
         const contrasena = req.body.contrasena;
-        const rol = req.body.acceso;
+        const rol = req.body.rol;
         
-        if(nombre == ''||apellido_p == ''||correo == ''){
-            res.status(400).redirect(`/usuario/${id}/editar_usuario?valido=false`);
-            return;
-        }
-
-        if(!nombrevalido.test(nombre)||!nombrevalido.test(apellido_p)){
-            res.status(403).redirect(`/usuario/${id}/editar_usuario?nombre=false`);
-            return;
-        }
-
-        if(apellido_m && !nombrevalido.test(apellido_m)){
-            res.status(403).redirect(`/usuario/${id}/editar_usuario?nombre=false`);
-            return;
-        }
         
-        if(!contrasena == ''){
+        if(opcion){
             //Se crea el constructor
-            const usuario = new model.Usuario(id, correo, nombre, apellido_m, apellido_p, contrasena, rol);
+            const usuario = new model.Usuario(id, null, nombre, apellido_m, apellido_p, contrasena, rol);
             //Se edita el usuario en la BD
             const editado = await usuario.editar_usuario();
         }else{
             //Se crea el constructor
-            const usuario = new model.Usuario(id, correo, nombre, apellido_m, apellido_p, contrasena, rol);
+            const usuario = new model.Usuario(id, null, nombre, apellido_m, apellido_p, contrasena, rol);
             //Se edita el usuario en la BD
             const editado = await usuario.editar_usuario_nocon();
         }
-    
-        res.redirect("/usuario/mostrar_usuarios");
+        
+        res.status(201).json({code: 201, msg: "Ok"});
     
     } catch (error) {
         console.error(error);

@@ -9,9 +9,6 @@ const esLider = require("../utils/esLider.js");
 //Home
 router.get('/home',controller.get_home);
 
-
-
-
 //Proyectos
 router.get('/nuevo_proyecto', estatusLogeado, rol, controller.get_nuevo_proyecto);
 router.get('/:id_proyecto/menu_proyecto', estatusLogeado, controller.get_proyecto); 
@@ -24,6 +21,8 @@ router.get('/:id_proyecto/mostrar_riesgos', estatusLogeado, controller.get_mostr
 router.get('/:id_proyecto/nuevo_riesgo', estatusLogeado, esLider, controller.get_nuevo_riesgo);
 router.get('/:id/mostrar_tabla_riesgos', controller.get_mostrar_tabla_riesgos); //Se crea la ruta para mostrar la tabla de riesgos
 router.get('/:id_proyecto/agregar_riesgos', controller.get_agregar_riesgos);
+
+
 
 //POST
 //Riesgos
