@@ -74,7 +74,7 @@ boton_enviar.addEventListener('click', function(event){
         let r_descripcion = /^(\w|\.|%|-|\$|@||ñ|á|é|í|ó|ú|\s){1,500}$/.test(descripcion.value);
 
         //LA VERIFICACION DE TODOS LOS INPUTS FUE CORRECTA
-        if(r_proyecto && r_empresa && r_empresa && r_presupuesto && r_descripcion && lider_proyecto){
+        if(r_proyecto && r_empresa && r_encargado && r_presupuesto && r_descripcion && lider_proyecto){
             muestraConfirmacion(selectedItems, lider_proyecto, nombre_proyecto.value, empresa.value, departamento.value, moment(f_creacion.value, "DD-MM-YYYY").format(moment.HTML5_FMT.DATE), moment(f_fin.value,  "DD-MM-YYYY").format(moment.HTML5_FMT.DATE), encargado.value, presupuesto.value, descripcion.value);
 
         }else{
@@ -258,7 +258,18 @@ window.addEventListener('load', function() {
                 riesgo.probabilidad,
                 riesgo.estrategia_m,
             ])
-        }
+        },
+        style: {
+            table: {
+                border: '3px solid rgb(15, 28, 167)'
+                },
+                th: {
+                'background-color': 'rgba(15, 28, 167, 0.345)',
+                color: '#000',
+                'border-bottom': '3px solid rgb(15, 28, 167)',
+                'text-align': 'center'
+                }
+            }
     }).render(wrapper);
     wrapper.addEventListener('change', function(event) {
         if (event.target.classList.contains('select-row')) {
