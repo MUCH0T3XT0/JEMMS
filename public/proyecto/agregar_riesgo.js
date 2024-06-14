@@ -1,7 +1,9 @@
 
 function muestraConfirmacion(objeto,id, num){
-    swal("¿Estas seguro de querer agregar dicha dicho/s riesgo/s al proyecto?", "Dicho/s riesgo/s se asociara/n en automatico a este proyecto",{
+    swal("¿Estas seguro de querer agregar dicho(s) riesgo(s) al proyecto?", "Dicho(s) riesgo(s) se asociará(n) en automatico a este proyecto",{
         className: "boxstyle",
+
+        icon: "warning",
 
         dangerMode: true,
         
@@ -25,9 +27,8 @@ function muestraConfirmacion(objeto,id, num){
     ;
 }
 function muestraAlerta(alerta, icono){
-    swal("Alerta", 
-        alerta, 
-        icono, {
+    swal(alerta,  {
+        icon: icono,
         dangerMode: true,
         buttons: {New: {text: "Aceptar"}},
         closeOnClickOutside: false,
