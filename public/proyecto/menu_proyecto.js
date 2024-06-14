@@ -497,7 +497,7 @@ async function cambiarEstatus(id_proyecto){
 
                 visible: true,
 
-                className: "buttonstyle",
+                className: "todoBien",
                 }
             }
         }
@@ -604,7 +604,7 @@ async function eliminaProyecto(id_proyecto){
 
                 visible: true,
 
-                className: "buttonstyle",
+                className: "todoBien",
                 }
             }
         }
