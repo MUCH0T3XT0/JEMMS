@@ -71,8 +71,20 @@ async function verificacion(nombre, apellido_p, apellido_m, contrasena, rol){
                         window.location.href = "/usuario/mostrar_usuarios";
                     }
                 });
+            }else{
+                swal("¡Ha ocurrido un error en la base de datos!",{
+                    icon: "error",
+                    buttons: {
+                        New: {
+                        text: "Aceptar",
+        
+                        visible: true,
+        
+                        className: "buttonstyle"
+                        }
+                    }
+                })
             }
-           
         }else{
             const response = await fetch(url, {
                 method: 'POST',
@@ -102,6 +114,19 @@ async function verificacion(nombre, apellido_p, apellido_m, contrasena, rol){
                         window.location.href = "/usuario/mostrar_usuarios";
                     }
                 });
+            }else{
+                swal("¡Ha ocurrido un error en la base de datos!",{
+                    icon: "error",
+                    buttons: {
+                        New: {
+                        text: "Aceptar",
+        
+                        visible: true,
+        
+                        className: "buttonstyle"
+                        }
+                    }
+                })
             }
         }
     }
