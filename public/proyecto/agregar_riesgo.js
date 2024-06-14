@@ -31,12 +31,15 @@ function muestraAlerta(alerta, icono){
         dangerMode: true,
         buttons: {New: {text: "Aceptar"}},
         closeOnClickOutside: false,
-        timer: 5000,
-    });
+    })
+    ;
 }
 window.addEventListener('load', function() {
     const wrapper = document.getElementById('tablaMostar_Riesgos_Globales');
     const variable = wrapper.getAttribute('value');
+    const selectedItems = [];
+    const newItem = [];
+    var numselectedItems= 0;
 
         gridTable = new gridjs.Grid({
             columns: [
@@ -82,10 +85,6 @@ window.addEventListener('load', function() {
         }
     }).render(wrapper);
 
-    const selectedItems = [];
-    const newItem = [];
-    var numselectedItems= 0;
-
     wrapper.addEventListener('change', function(event) {
         if (event.target.classList.contains('select-row')) {
             const checkbox = event.target;
@@ -113,13 +112,17 @@ window.addEventListener('load', function() {
     const Buton2 = document.getElementById('CrearRiesgoBoton');
     
     Buton1.addEventListener('click', function(event) {
-        event.preventDefault();
         console.log(selectedItems);
         console.log(typeof(selectedItems[0].D_categoria));
         var mensaje= "Se agregara el siguiente numero de riesgos al proyecto" + numselectedItems;
         console.log(mensaje);
-        muestraAlerta(mensaje, "warning");
-        muestraConfirmacion(selectedItems, variable, numselectedItems);
+        if (numselectedItems<=0){
+
+        }
+        else{
+            muestraAlerta(mensaje, "warning");
+            muestraConfirmacion(selectedItems, variable, numselectedItems);
+        }
         
     });
     Buton2.addEventListener('click', function(event) {
@@ -172,8 +175,6 @@ async function FuncionAgregar(selectedItems, variable){
             console.error('Error:', error);
             muestraAlerta('Hubo un error al agregar el/los riesgo(s).', "warning");
         });
-
-        console.log(response);
 
     } else {
         muestraAlerta('Por favor, selecciona al menos un riesgo.', "warning");

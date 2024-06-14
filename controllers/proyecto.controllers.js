@@ -266,13 +266,17 @@ module.exports.post_agregar_riesgos = async (req, res) => {
         console.log("Agregando un riesgo (Riesgo especifico)");
 
         const selectedItems = req.body.selectedItems; // Obtener los riesgos seleccionados del cuerpo de la solicitud
-        const id_proyecto = req.params.id_proyecto;
+        let id_proyecto = req.params.id_proyecto;
         console.log(req.body);
 
         if (!Array.isArray(selectedItems) || selectedItems.length == 0) {
             throw new Error("No se han proporcionado riesgos para agregar");
         }
-
+        if (id_proyecto=='-1'){
+            const ultimo_proyecto= await model.Proyecto.ultimoProyecto();
+            id_proyecto= ultimo_proyecto[0].id_proyecto;
+            console.log(id_proyecto);
+        }
         for (const item of selectedItems) {
             console.log(item);
             const { D_categoria, D_impacto, D_probabilidad, D_estrategia, D_description } = item;
@@ -296,11 +300,11 @@ module.exports.post_nuevo_riesgo = async(req,res) =>{
         const riesgoP = await model.Riesgo.agregarRiesgos(req.params.id_proyecto, req.body.categoria, req.body.impacto, req.body.probabilidad, req.body.estrategia, req.body.descripcion);
     
         console.log(riesgoP);
-        alert("Riesgo creado y agregado al proyecto exitosamente");
+        console.log("Riesgo creado y agregado al proyecto exitosamente");
         res.status(201).render("nuevo_riesgo/nuevo_riesgo", { id_proyecto: req.params.id_proyecto});
     }catch(error){
         console.log(error);
-        alert("Error al agregar el riesgo");
+        console.log("Error al agregar el riesgo");
         res.status(500).render("nuevo_riesgo/nuevo_riesgo", { id_proyecto: req.params.id_proyecto});
     }
 }

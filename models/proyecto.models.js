@@ -210,7 +210,18 @@ exports.Proyecto = class {
             throw error;
         }
     }
+    static async ultimoProyecto(){
+        try{
+            const connexion = await db();
 
+            const resultado = await connexion.execute('SELECT id_proyecto FROM proyecto ORDER BY id_proyecto DESC LIMIT 1;');
+            
+            await connexion.release();
+            return resultado;
+        }catch(error){
+            throw error;
+        }
+    }
     static async idLider(id_proyecto){
         try{
             const connexion = await db();
