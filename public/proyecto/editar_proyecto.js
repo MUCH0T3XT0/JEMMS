@@ -27,6 +27,8 @@ boton_guardar.addEventListener('click', function(event){
     let msg_f_creacion = document.getElementById('msg_f_creacion');
     let msg_f_fin = document.getElementById('msg_f_fin');
 
+    let vacio = document.getElementById('vacio');
+
     
     msg_nombre_proyecto.style.display = "none";
     msg_empresa.style.display = "none";
@@ -35,6 +37,7 @@ boton_guardar.addEventListener('click', function(event){
     msg_descripcion.style.display = "none";
     msg_f_creacion.style.display = "none";
     msg_f_fin.style.display = "none";
+    vacio.style.display = "none";
 
 
     const inicio = moment(f_creacion.value, "DD/MM/YYYY").toDate();
@@ -44,7 +47,7 @@ boton_guardar.addEventListener('click', function(event){
 
     //CAMPOS VACIOS
     if(!nombre_proyecto.value || !empresa.value || !f_creacion.value || !f_fin.value || !encargado.value || !presupuesto.value || !descripcion.value){
-        msg.textContent = "Llene todos los campos";
+        vacio.style.display = "block";
 
     //LA FECHA DE FIN ES PASADO A LA FECHA ACTUAL DE LA CREACION DEL PROYECTO
     }else if(moment(fin).isBefore(hoy)){
@@ -123,11 +126,35 @@ async function editar_proyecto(id_proyecto, nombre_proyecto, empresa, f_inicio, 
     })
 
     //console.log(response.ok);
-
     if(response.ok){
-        console.log("si");
-        window.location.href = "/proyecto/"+id_proyecto+"/info_proyecto";
+        swal("Se ha editado la información el proyecto", "Volveras a la pantalla anterior",{
+            icon: "success",
+            buttons: {
+                New: {
+                text: "Aceptar",
+
+                visible: true,
+
+                className: "buttonstyle",
+                }
+            }
+        }
+        ).then((borrar)=>{
+            window.location.href = "/proyecto/"+id_proyecto+"/info_proyecto";
+        })
+        
     }else{
-        msg.textContent = "Error en la BD";
+        swal("¡Ha ocurrido un error en la base de datos!",{
+            icon: "error",
+            buttons: {
+                New: {
+                text: "Aceptar",
+
+                visible: true,
+
+                className: "buttonstyle"
+                }
+            }
+        })
     }
 };

@@ -272,6 +272,8 @@ async function eliminaUsuario(id_usuario){
         
     }else{
         swal("¡El Usuario seleccionado es lider de un proyecto!", "Cambia el lider del proyecto al cual el usuario está asociado", {
+            icon: "error",
+            
             className: "boxstyle",
     
             dangerMode: true,
