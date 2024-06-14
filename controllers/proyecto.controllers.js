@@ -21,8 +21,8 @@ module.exports.get_home = async(req, res) => {
                 error: true,
                 rol: rol,
                 current: req.query.page || 1,
-                pages: pagesActivos,
-                pagess: pageInactivos
+                pages: false,
+                pagess: false
             });
             return;
         }
@@ -72,11 +72,21 @@ module.exports.get_home = async(req, res) => {
             contin++;
         }
 
+        let pages = true;
+        let pagess = true;
+        if(muestraProjActivos.length < 1){
+            pages = false
+        }else if(muestraProjInactivos.length < 1){
+            pagess = false;
+        }
+
         res.status(201).render("home/home", {
             proyecto: proyectos,
             termoActivos: termoActivos,
             termoInactivos: termoInactivos,
             error: false,
+            pages: pages,
+            pagess: pagess,
             rol: rol,
             currentActivos: pageActivos,
             pagesActivos: pagesActivos,
