@@ -32,7 +32,7 @@
     </style>
     <%- include('./../barra_principal.ejs')%>
     <div id="id_usuario" data-value="<%=id_usuario%>"></div>
-    <div id="id_actual" data-value="<%=id_actual%>" onclick=verificacion()></div>
+    <div id="id_actual" data-value="<%=id_actual%>"></div>
     <nav class="boton" aria-label="Page navigation example">
         <ul class="pagination">
             <li class="page-item">
@@ -84,7 +84,7 @@
             <div class="mb-3 row">
                 <label for="correo" class="col-sm-2 col-form-label">Correo</label>
                 <div class="col-sm-10">
-                <input type="text" class="form-control" id="correo" name = "correo" value = "<%= usuario[0].correo %>" readonly>
+                    <input type="text" class="form-control" id="correo" name = "correo" value = "<%= usuario[0].correo %>" readonly>
                 </div>
             </div>
             <div class="mb-3 row">
@@ -110,12 +110,6 @@
             </div>
             <div id="vacio" style="display: none;">
                 <p style="color: red; text-align: right;">Campos vacíos, por favor llenalos todos para continuar</p>
-            </div>
-
-            <div class="offset-md-2 g-5" >
-                <% if (!nombre){%>
-                    <h4 style="color: red;">Nombre o apellido inválido, no introduzca números o símbolos</h4>
-                <%}%>
             </div>
         </form>
     </div>

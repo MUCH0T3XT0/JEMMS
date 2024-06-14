@@ -187,28 +187,7 @@ module.exports.post_agregar_usuario = async(req, res) => {
         const apellido_m = req.body.apellido_m;
         const correo = req.body.correo;
         const contrasena = req.body.contrasena;
-        const rol = req.body.acceso;
-
-        if(nombre == ''||apellido_p == ''||correo == ''|| contrasena == ''){
-            res.status(400).redirect("/usuario/agregar_usuario?valido=false");
-            return;
-        }
-
-        const correovalido = /(\w|\.)+@appix\.mx/;
-        if(!correovalido.test(correo)){
-            res.status(403).redirect("/usuario/agregar_usuario?correov=false");
-            return;
-        }
-
-        if(!nombrevalido.test(nombre)||!nombrevalido.test(apellido_p)){
-            res.status(403).redirect("/usuario/agregar_usuario?nombre=false");
-            return;
-        }
-
-        if(apellido_m && !nombrevalido.test(apellido_m)){
-            res.status(403).redirect("/usuario/agregar_usuario?nombre=false");
-            return;
-        }
+        const rol = req.body.rol;
 
         const usuario = new model.Usuario(null, correo, nombre, apellido_m, apellido_p, contrasena, rol);
 
@@ -219,19 +198,16 @@ module.exports.post_agregar_usuario = async(req, res) => {
 
             const usuarionuevo = await usuario.guardar_usuario();
 
-            res.status(201).redirect("/usuario/mostrar_usuarios",{
-                code:201,
-                msg: "Ok"
-            });
+            res.status(201).json({code: 201, msg: "Ok"});
         }else{
-            res.status(400).redirect("/usuario/mostrar_usuarios");
+            res.status(400).json({code: 400, msg: "Usuario ya existente"});
         }
 
         
 
     } catch (error) {
         console.error(error);
-        res.status(500).redirect("/usuario/mostrar_usuarios?code:500&msg=Error+registando+usuario"); // Idealmente se crea una plantilla de errores genérica
+        res.status(500).json({code: 400, msg: "Error en la BD"});// Idealmente se crea una plantilla de errores genérica
     }
 }
 
@@ -292,7 +268,7 @@ module.exports.post_editar_usuario = async(req, res) => {
     
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Error editando usuario" }); // Idealmente se crea una plantilla de errores genérica
+        res.status(500).json({code: 500, message: "Error editando usuario" }); // Idealmente se crea una plantilla de errores genérica
     }
 }
 module.exports.post_agregar_usuarios_colaboradores = async(req, res) =>{
