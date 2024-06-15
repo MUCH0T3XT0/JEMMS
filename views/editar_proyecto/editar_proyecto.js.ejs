@@ -1,0 +1,63 @@
+<script>
+    (function() {
+        var textarea = document.getElementById('descripcion');
+        var contadorCaracteres = document.getElementById('contadorCaracteres');
+        function actualizarContador(){
+            contadorCaracteres.textContent = textarea.value.length + '/500';
+            if (textarea.value.length > 500) {
+                textarea.value = textarea.value.slice(0, 500);
+                contadorCaracteres.textContent = '500/500';
+            }
+        }
+        textarea.addEventListener('input', actualizarContador);
+        textarea.addEventListener('change', actualizarContador());
+    })();
+    </script>
+
+<script>
+    (function() {
+        var textarea = document.getElementById('nombre_proyecto');
+        var contadorCaracteres = document.getElementById('contadorNombre');
+        function actualizarContador(){
+            contadorCaracteres.textContent = textarea.value.length + '/30';
+            if (textarea.value.length > 30) {
+                textarea.value = textarea.value.slice(0, 30);
+                contadorCaracteres.textContent = '30/30';
+            }
+        }
+        textarea.addEventListener('input', actualizarContador);
+        textarea.addEventListener('change', actualizarContador());
+    })();
+</script>
+    
+<script>
+    (function() {
+        var textarea = document.getElementById('encargado');
+        var contadorCaracteres = document.getElementById('contadorEncargado');
+        function actualizarContador(){
+            contadorCaracteres.textContent = textarea.value.length + '/30';
+            if (textarea.value.length > 30) {
+                textarea.value = textarea.value.slice(0, 30);
+                contadorCaracteres.textContent = '30/30';
+            }
+        }
+        textarea.addEventListener('input', actualizarContador);
+        textarea.addEventListener('change', actualizarContador());
+    })();
+</script>
+
+<script>
+    (function() {
+        var textarea = document.getElementById('empresa');
+        var contadorCaracteres = document.getElementById('contadorEmpresa');
+        function actualizarContador(){
+            contadorCaracteres.textContent = textarea.value.length + '/15';
+            if (textarea.value.length > 15) {
+                textarea.value = textarea.value.slice(0, 15);
+                contadorCaracteres.textContent = '15/15';
+            }
+        }
+        textarea.addEventListener('change', actualizarContador());
+        textarea.addEventListener('input', actualizarContador);
+    })();
+</script>

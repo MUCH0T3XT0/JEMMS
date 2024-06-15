@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear nuevo proyecto</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
+</head>
+<body>
+    <style>
+        .buttonstyle {
+            color: white;
+            background-color: green;
+        }     
+        .form-check-input {
+            border: 1px solid #000000;
+            border-radius: 4px;
+            padding: 0.5rem;
+        }
+        .form-control {
+            border: 1px solid #000000;
+        }
+        .table-responsive{
+            border: 1px solid #000000;
+        }
+        .align-middle{
+            border: 1px solid #000000;
+        }
+        .form-select {
+            width: 130px; /* Cambia este valor según tu preferencia */
+        }
+        
+        .padding{
+            padding: 10%;
+        }
+
+    </style>
+    <%- include('./../barra_principal.ejs')%>
+    <%- include('./../style.ejs') %>
+    <nav class="boton" aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+            <a class="page-link" style="background-color: rgb(49,108,244); color:white" href="/proyecto/home" aria-label="Previous"> <span aria-hidden="true">&laquo;</span>Regresar</a>
+        </ul>
+    </nav>
+    <div class="row justify-content-center mt-6">
+        <div class="col-md-2">
+            <div class="text-center">
+                <h3>Crear Nuevo Proyecto</h3>
+                <br>
+            </div>
+        </div>
+    </div>
+    <div class="container py-4">
+        <form class=" row g-3" action="/proyecto/nuevo_proyecto" method="post">
+            <div class="mb-3 row">
+                <label for="inputNombre" class="col-sm-2 col-form-label">Nombre de proyecto</label>
+                <div class="col-sm-10">
+                    <input name = "nombre_proyecto" type=" text" class="form-control" id="nombre_proyecto">
+                    <span id="contadorNombre">0/30</span>
+                    <div id="msg_nombre_proyecto" style="display: none;">
+                        <p style="color: red;">Nombre de proyecto incorrecto</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="inputCliente" class="col-sm-2 col-form-label">Nombre de empresa</label>
+                <div class="col-sm-10">
+                    <input name = "empresa" type=" text" class="form-control" id="empresa">
+                    <span id="contadorEmpresa">0/15</span>
+                    <div id="msg_empresa" style="display: none;">
+                        <p style="color: red;">Nombre de empresa incorrecto</p>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="inputCliente" class="col-sm-2 col-form-label">Departamento</label>
+                <div class="col-sm-10">
+                    <select id="departamento" >
+                        <%for (var i = 0; i < departamentos.length; i++){%>
+                            <option value="<%=departamentos[i].nombre%>"><%=departamentos[i].nombre%></option>
+                        <%}%>
+                    </select>
+                  <!--<input name = "departamento" type=" text" class="form-control" >-->
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label  for="inputStartDate" class="col-sm-2 col-form-label">Fecha de inicio</label>
+                <div class="col-sm-10">
+                    <input name = "f_creacion" type="text" class="form-control" id="f_creacion" placeholder="Selecciona una fecha de inicio">
+                    <div id="msg_f_fin" style="display: none;">
+                        <p style="color: red;">La fecha de inicio no puede ser posterior a la fecha de fin. Introduzca una fecha de inicio y fin coherentes</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="inputEndDate" class="col-sm-2 col-form-label">Fecha de final</label>
+                <div class="col-sm-10">
+                    <input name = "f_fin" type="text" class="form-control" id="f_fin" placeholder="Selecciona una fecha de fin">
+                    <div id="msg_f_creacion" style="display: none;">
+                        <p style="color: red;">Introduza una fecha de termino posterior al dia de hoy</p>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label  for="inputEncargado" class="col-sm-2 col-form-label">Encargado</label>
+                <div class="col-sm-10">
+                    <input name = "encargado" type="text" class="form-control" id="encargado">
+                    <span id="contadorEncargado">0/30</span>
+                    <div id="msg_encargado" style="display: none;">
+                        <p style="color: red;">Nombre del encargado incorrecto</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="inputPresupuesto" class="col-sm-2 col-form-label">Presupuesto</label>
+                <div class="col-sm-10">
+                    <input name = "presupuesto" type="text" class="form-control" id="presupuesto">
+                    <div id="msg_presupuesto" style="display: none;">
+                        <p style="color: red;">Presupuesto incorrecto. Introduza solo digitos</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="inputPresupuesto" class="col-sm-2 col-form-label">Descripcion de proyecto</label>
+                <div class="col-sm-10">
+                    <textarea name = "descripcion" class="form-control" id="descripcion" rows="4"></textarea>
+                    <span id="contadorCaracteres">0/500</span>
+                    <div id="msg_descripcion" style="display: none;">
+                        <p style="color: red;">Descripcion incorrecta</p>
+                    </div>
+                </div>
+            </div>
+            <div class="form-check">
+                <div class="text-end">
+                    <button id="boton-enviar" type="button" class="btn btn-primary mb-3">Enviar</button>
+                </div>
+            </div>
+            <div class="row justify-content-center mb-3">
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <h4 id="msg" style="color: red; background-color: #ffffff;"></h4>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="text-center">
+        <button id="boton_riesgos" class= "btn btn-primary" onclick="toggleContentRiesgos()">Añadir Riesgos</button>
+        <button id="boton_lider" class= "btn btn-primary" onclick="toggleContentUsuarios()">Añadir Lider</button>
+    </div>
+        
+    <div id="riesgos" style="display: none;" >
+        <br><br>
+        
+        <div class="espaciado">
+            <div class="text-center">
+                <h3>Añadir riesgos de algun proyecto anterior</h3>
+            </div>
+        </div>
+        <div class="container" id = "tablaMostar_Riesgos_Globales" value="1"></div>            
+        <br><br><br><br> 
+    </div>
+    
+    <div id="usuarios" style="display: none;">
+        <br><br>
+        <div class="row justify-content-center mt-6">
+            <div class="col-md-4">
+                <div class="text-center">
+                        <h3>Añadir Líder</h3>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="container">
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Correo</th>
+                            <th scope="col">Seleccionar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (var i = 0; i < usuarios.length; i++) { %>
+                            <tr>
+                                <td><%= usuarios[i].id_usuario %></td>
+                                <td><%= usuarios[i].nombres %></td>
+                                <td><%= usuarios[i].correo %></td>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" name= "check" type="radio" value="<%=usuarios[i].id_usuario%>" id="<%=usuarios[i].id_usuario%>">
+                                    </div>
+                                </td>
+                            </tr>
+                        <%}%>
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+    </div>
+
+    <br><br><br><br>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    
+    <script>
+        $(document).ready(function(){
+            $('#f_creacion').datepicker({
+                format: 'dd/mm/yyyy', 
+                autoclose: true 
+            });
+        });
+        $(document).ready(function(){
+            $('#f_fin').datepicker({
+                format: 'dd/mm/yyyy', 
+                autoclose: true 
+            });
+        });
+    </script>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/gridjs/dist/gridjs.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
+<script src="/proyecto/nuevo_proyecto.js"></script>
+<%- include('nuevo_proyecto.js.ejs')%>
+</html>

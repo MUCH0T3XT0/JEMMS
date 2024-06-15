@@ -1,0 +1,99 @@
+<style>
+    body {
+    background-image: url('/proyecto/FONDO_web_N-03.png');
+    background-size: cover; /* Cubrir todo el fondo */
+    background-position: center bottom 1rem; /* Centrar la imagen en la página */
+    background-attachment: fixed;
+}
+
+
+@property --progress{
+    syntax: '<number>';
+    initial-value: 0;
+    inherits: false;
+
+}
+
+h1 {
+    text-align: center;
+    min-height: 20vh;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.circular_progress {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    background: conic-gradient(
+        var(--clr) calc(var(--progress) * 3.6deg), #4f4f4f 0deg);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    animation: progressAnim 2s forwards;
+}
+
+.circular_progress::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 122px;
+    height: 122px;
+    background-color: #2e2e2e;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+
+}
+
+.circular_progress span{
+    font-size: 2rem;
+    color: #4e80d7;
+    z-index: 1;
+}
+
+.progress_label {
+    font-size: 1.5rem;
+    z-index: 1;
+}
+
+@keyframes progressAnim {
+    0%{
+        --progress: 0;
+    }
+    100%{
+        --progress: var(--value);
+    }
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: none; /* Asegura que no se apliquen bordes globalmente */
+    background: none; /* Elimina fondos globales si es necesario */
+}
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 980px; /* Ajustado para un mejor fit */
+    margin: 50px auto 0 auto; /* Ajustado el margen superior para subir el contenido */
+    padding: 0px;
+    background: transparent; /* Establece el fondo a transparente */
+    box-shadow: none; /* Elimina cualquier sombra */
+}
+
+</style>

@@ -1,0 +1,22 @@
+{
+  "name": "jemms",
+  "version": "1.0.0",
+  "description": "Repositorio para el trabajo en equipo de la materia de Construccion de Software",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "\"MIKE\"",
+  "license": "ISC",
+  "dependencies": {
+    "ajax": "^0.0.4",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "mariadb": "^3.3.1",
+    "moment": "^2.30.1",
+    "sweetalert": "^2.1.2"
+  }
+}

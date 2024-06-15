@@ -1,0 +1,101 @@
+<style>
+    body {
+    background-image: url('/proyecto/FONDO_web_N-03.png');
+    background-size: cover; 
+    background-position: center bottom; /* Centrar la imagen en la página */
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    }
+
+
+@property --progress{
+    syntax: '<number>';
+    initial-value: 0;
+    inherits: false;
+
+}
+
+h1 {
+    text-align: center;
+    min-height: 20vh;
+}
+
+.circular_progress {
+    position: relative;
+    width: 360px;
+    height: 360px;
+    background: conic-gradient(
+        var(--clr) calc(var(--progress) * 3.6deg), #4f4f4f 0deg);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    animation: progressAnim 2s forwards;
+}
+
+.circular_progress::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    height: 300px;
+    background-color: #2e2e2e;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+
+}
+
+.circular_progress span{
+    font-size: 2rem;
+    color: #4e80d7;
+    z-index: 1;
+}
+
+.progress_label {
+    font-size: 1.5rem;
+    z-index: 1;
+}
+
+@keyframes progressAnim {
+    0%{
+        --progress: 0;
+    }
+    100%{
+        --progress: var(--value);
+    }
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: none; /* Asegura que no se apliquen bordes globalmente */
+    background: none; /* Elimina fondos globales si es necesario */
+}
+
+#containerColaboradores{
+    padding-left: 5rem;
+}
+
+.status-text {
+    font-size: 24px; /* Ajusta este valor según tus necesidades */
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espacio entre los botones */
+}
+
+.header {
+    margin-bottom: 20px;
+}
+
+.risk-points {
+    font-weight: bold; /* Negrita para los puntos de riesgo */
+}
+
+</style>

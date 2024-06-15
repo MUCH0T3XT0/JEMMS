@@ -1,0 +1,143 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+body {
+    background-image: url('/proyecto/FONDO_web_N-03.png');
+    background-size: cover; /* Cubrir todo el fondo */
+    background-position: center bottom 1rem; /* Centrar la imagen en la página */
+    background-attachment: fixed;
+}
+
+.center-container{
+    margin: 0; /* Eliminar el margen predeterminado del navegador */
+    height: 100vh; /* Altura total de la ventana de visualización */
+    display: flex;
+    align-items: center; /* Centra verticalmente */
+    justify-content: center; /* Centra horizontalmente */
+}
+
+.boton{
+    font-size: 24px; /* Ajusta el tamaño del texto dentro del botón */
+    padding: 12px 24px; /* Aumenta el padding para hacer el botón físicamente más grande */
+    border-radius: 8px; /* Opcional: ajusta los bordes del botón para que sean más redondeados */
+}
+.mensaje{
+    text-align: center; /* Centra el texto horizontalmente */
+    margin-top: -1px; /* Ajusta según necesidades para espacio arriba */
+    font-size: 20px; /* Tamaño de la fuente, ajusta según necesidades */
+    margin-bottom: 20px;
+    color: black; /* Color del texto para 'Estado' */
+
+}
+.status-container {
+    text-align: center; /* Centra el texto horizontalmente */
+    margin-top: -10px; /* Ajusta según necesidades para espacio arriba */
+    margin-bottom: 20px;
+    font-size: 20px; /* Tamaño de la fuente, ajusta según necesidades */
+    color: black; /* Color del texto para 'Estado' */
+    font-weight: bold; /* Hace el texto 'ACTIVO' más grueso */
+    color: green; /* Color */
+}
+
+.status-label {
+    color: black; /* Color del texto para 'Estado' */
+}
+
+.status-value {
+    color: green; /* Color */
+    font-weight: bold; /* Hace el texto 'ACTIVO' más grueso */
+}
+
+*
+{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.circle-container{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #222;
+}
+
+.container{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 40;
+}
+.container .progress
+{
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    color: #fff;
+    background: #444 linear-gradient(to right, transparent 50%, var(--clr) 0);
+}
+
+.container .progress h3
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2.5em;
+    z-index: 1;
+    font-weight: 500;
+}
+
+.container .progress h3 span
+{
+    font-size: 0.65em;
+    font-weight: 400;
+}
+
+@keyframes anim{
+    100%{
+        stroke-dashoffset: 0;
+    }
+}
+
+.container .progress::before
+{
+    content: '';
+    display: block;
+    height: 100%;
+    margin-left: 50%;
+    transform-origin: left;
+    border-radius: 0 100% 100% 0/50%;
+}
+
+.container .progress::after{
+    content: '';
+    position: absolute;
+    inset: 10px;
+    border-radius: 50%;
+    background: #222;
+}
+
+.container .progress::before
+{
+    background: var(--clr);
+    transform: rotate(calc((var(--i) -50) * 0.01turn));
+}
+
+.button-container {
+    margin-right: -700px; /* Ajusta según la necesidad para mover los botones más a la derecha */
+    padding-right: 70px; /* Añade un poco de padding si es necesario */
+}
+
+.btn-cut {
+    margin-top: 20px; /* Espacio desde la parte superior o desde el último botón */
+    padding: 8px 12px; /* Padding reducido para un efecto más 'cortado' */
+    border-radius: 4px; /* Bordes menos redondeados para un corte más 'duro' */
+}
+
+
+</style>

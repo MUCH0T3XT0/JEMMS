@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riesgos existentes del Proyecto</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+
+    <style>
+      .buttonstyle {
+          color: white;
+          background-color: red;
+      }
+
+      .boxstyle {
+          background: white;
+      }
+  </style>
+</head>
+<body>
+  <%- include('mostrar_riesgos.style.ejs') %>
+  <%- include('./../barra_principal.ejs')%>
+  <nav class="boton" aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item">
+        <a class="page-link" style="background-color: rgb(49,108,244); color:white" href="/proyecto/<%=id_proyecto%>/menu_proyecto" aria-label="Previous"> <span aria-hidden="true">&laquo;</span>Regresar</a>
+    </ul>
+</nav>
+
+  <div class="row g-0 text-center">
+      <div class="col-sm-6 col-md-7">
+        <br>
+        <h3>Riesgos existentes del proyecto</h3><br>
+        <div class="container text-center">
+          <div class="row align-items-center">
+            <div class="col">
+              <div class="circular_progress" style="--clr: #4e80d7; --value:<%= Math.round(parseInt(tiempo[0].suma) /  total * 100)%> ">
+                <span><%= Math.round(parseInt(tiempo[0].suma) /  total * 100)%>%</span>
+                <span class="progress_label">Tiempo</span>
+              </div>
+            </div>
+            <div class="col">
+              <div class="circular_progress" style="--clr: #4ef73c; --value: <%= Math.round(parseInt(costo[0].suma) / total * 100)%>">
+                <span><%= Math.round(parseInt(costo[0].suma) / total * 100)%>%</span>
+                <span class="progress_label">Costo</span>
+              </div>
+            </div>
+            <div class="col">
+              <div class="circular_progress" style="--clr: orange; --value: <%= Math.round(parseInt(calidad[0].suma) / total * 100)%>">
+                <span><%= Math.round(parseInt(calidad[0].suma) / total * 100)%>%</span>
+                <span class="progress_label">Calidad</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container text-center">
+          <div class="row justify-content-center">
+            <div class="col">
+              <div class="circular_progress" style="--clr: #ffdd1f; --value: <%= Math.round(parseInt(recursos[0].suma) / total * 100)%>">
+                <span><%= Math.round(parseInt(recursos[0].suma) / total * 100)%>%</span>
+                <span class="progress_label">Recursos</span>
+              </div>
+            </div>
+            <div class="col">
+              <div class="circular_progress" style="--clr: #4ed0d7; --value: <%= Math.round(parseInt(alcance[0].suma) / total * 100)%>">
+                <span><%= Math.round(parseInt(alcance[0].suma) / total * 100)%>%</span>
+                <span class="progress_label">Alcance</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="col-6 col-md-4 center-content1">
+          <br><br><br>
+          <h2>Nivel de Riesgo</h2>
+            <% if(proyectoNum[0].total < 10){%>
+                <p style="color: #28a213; font-weight: bold; text-align: center;font-size: 4rem;">Bajo</p>
+           
+            <%} else if(proyectoNum[0].total >= 10 && proyectoNum[0].total <= 20){%>
+                <p style="color: #bfbf1b; font-weight: bold; text-align: center;font-size: 4rem;">Medio</p>
+
+            <%} else if(proyectoNum[0].total > 20){%>
+                <p style="color: #d52b15; font-weight: bold; text-align: center;font-size: 4rem;">Alto</p>
+            <%} else {%>
+                <p style="color: gray; font-weight: bold; text-align: center;font-size: 4rem;">Nulo</p>
+            <%}%>
+        </div>
+          
+        <div class="container" id="tablaMostar_riesgos"  value="<%= id_proyecto%>"></div>
+        <div id="idP" value="<%=id_proyecto%>"></div>
+        <div id="verificacion" value="<%=lider%>"></div>
+  </div>
+</body>
+<%- include('mostrar_riesgos.js.ejs')%>
+<script src="https://cdn.jsdelivr.net/npm/gridjs/dist/gridjs.umd.js"></script>
+<script src="/proyecto/mostrar_riesgos.js"></script>
+</html>

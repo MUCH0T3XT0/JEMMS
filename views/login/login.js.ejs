@@ -1,0 +1,11 @@
+<script>
+    const mostrarPassword = document.getElementById('mostrar');
+    const passwordInput = document.getElementById('inputPassword');
+    const correo = document.getElementById('correo');
+
+    mostrarPassword.addEventListener('click', () => {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        mostrarPassword.textContent = type === 'password' ? 'Mostrar' : 'Esconder';
+    });
+</script>

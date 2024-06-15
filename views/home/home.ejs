@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('./../head.ejs') %>
+        <%- include('./../style.ejs') %>
+        <title>Menú Principal Appix</title>
+        
+    </head>
+<body>
+    <%- include('./../barra_principal.ejs')%>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            
+        </div>
+        </div>
+        <% if(rol){%>
+            <a href="/proyecto/nuevo_proyecto" class="btn btn-primary" >Crear nuevo proyecto</a>
+        <%}%>
+    </nav>
+    <% if (error){%>
+        <br>
+        <br>
+        <div style="text-align: center;" >
+          <h2 style="color: gray;">No veo Proyectos recientes. Empecemos creando uno ;)</h2>
+        </div>
+    <%} else{%>
+        <div class="container">
+            <h1>Proyectos Activos</h1>
+        </div>
+        <%if(pages){%>
+        <div class="container py-4">
+            <div class="row row-cols-4 g-4">
+                <%var flag = false%>
+                <% for (var i = 0; i< proyectosActivos.length ; i++){ %>
+                    <% if(proyectosActivos[i].estatus == true){%>
+                        <%flag = true%>
+                        <div class="col">
+                            <%for(var j = 0; j < termoActivos.length; j++){%>
+                                <%if(termoActivos[j].id_proyecto == proyectosActivos[i].id_proyecto){%>
+                                    <% if(termoActivos[j].riesgo_total <= 0){ %>
+                                        <div class="card">
+                                    <img src="./none_risk.png" class="card-img-top" alt="Imágen de ejemplo">
+                                    <p>Nivel de riesgo <span style="color: gray; font-weight: bold;">Nulo</span></p>
+                                    
+                                    <%} else if(termoActivos[j].riesgo_total < 10){ %>
+                                    <div class="card">
+                                    <img src="./low_risk.png" class="card-img-top" alt="Imágen de ejemplo">
+                                    <p>Nivel de riesgo <span style="color: #28a213; font-weight: bold;">Bajo</span></p>
+                                    
+                                    <%} else if(termoActivos[j].riesgo_total <= 20){ %>
+                                    <div class="card">
+                                    <img src="./medium_risk.png" class="card-img-top" alt="Imágen de ejemplo">
+                                    <p>Nivel de riesgo <span style="color: #bfbf1b; font-weight: bold;">Medio</span></p>
+                                    
+                                    <%} else { %>
+                                    <div class="card">
+                                    <img src="./high_risk.png" class="card-img-top" alt="Imágen de ejemplo">
+                                    <p>Nivel de riesgo <span style="color: #d52b15; font-weight: bold;">Alto</span></p>
+                                    <% } %>
+                                <% } %>
+                            <% } %>    
+
+                            <div class="card-body">
+                                <h5 class="card-title"><%= proyectosActivos[i].nombre_proyecto %><br></h5>
+                                <p><%= proyectosActivos[i].descripcion %></p>
+                                <p>Departamento: <%= proyectosActivos[i].departamento %></p>
+                                <a href="/proyecto/<%= proyectosActivos[i].id_proyecto%>/menu_proyecto" class="btn btn-primary" id="go">Ver más</a>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+                        
+                <% } %>
+        </div>
+        
+       
+        <!--Paginacion proyectos activos-->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                
+              <% if (currentActivos == 1) { %>
+                <li class="page-item disabled" ><a class="page-link" href="#">Previous</a></li>
+            <% } else { %>
+                <li class="page-item"><a href="/proyecto/home?pageActivos=1" class="page-link" >Previous</a></li>
+            <% } %>
+
+            <% var i = (Number(currentActivos) > 5 ? Number(currentActivos) - 4 : 1) %>
+            <% if (i !== 1) { %>
+                <li class="page-item disabled "><a class="page-link" href="#">...</a></li>
+            <% } %>
+
+            <% for (; i <= (Number(currentActivos) + 4) && i <= pagesActivos; i++) { %>
+                <% if (i == currentActivos) { %>
+                    <li class="page-item active"><a class="page-link" href="#"><%= i %></a></li>
+                <% } else { %>
+                    <li class="page-item"><a href="/proyecto/home?pageActivos=<%= i %>" class="page-link" ><%= i %></a></li>
+                <% } %>
+                <% if (i == Number(currentActivos) + 4 && i < pagesActivos) { %>
+                    <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                <% } %>
+            <% } %>
+
+              <% if (currentActivos == pagesActivos) { %>
+                <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+            <% } else { %>
+                <li class="page-item"><a href="/proyecto/home?pageActivos=<%= pagesActivos%>"  class="page-link" >Next</a></li>
+            <% } %>
+            </ul>
+          </nav>
+
+        <!--Paginacion proyectos activos-->
+        </div>
+        <%}else{%>
+            <br>
+            <div style="text-align: center;" >
+                <h2 style="color: gray;">No veo Proyectos recientes. Empecemos creando uno ;)</h2>
+            </div>
+            <br>
+        <%}%>
+        <%if(pagess){%>
+
+        <div class="container">
+            <h1>Proyectos Pasados</h1>
+        </div>
+
+        <div class="container py-4">
+            <div class="row row-cols-4 g-4">
+                <%var flag = false%>
+                <% for (var i = 0; i< proyectosInactivos.length ; i++){ %>
+                    <% if(proyectosInactivos[i].estatus == false){%>
+                        <%flag = true%>
+                        <div class="col">
+                            <%for(var j = 0; j < termoInactivos.length; j++){%>
+                                <%if(termoInactivos[j].id_proyecto == proyectosInactivos[i].id_proyecto){%>
+                                    <% if(termoInactivos[j].riesgo_total <= 0){ %>
+                                        <div class="card">
+                                    <img src="./none_risk.png" class="card-img-top" alt="Imágen de ejemplo">
+                                    <p>Nivel de riesgo <span style="color: gray; font-weight: bold;">Nulo</span></p>
+                                    
+                                    <%} else if(termoInactivos[j].riesgo_total < 10){ %>
+                                    <div class="card">
+                                    <img src="./low_risk.png" class="card-img-top" alt="Imágen de ejemplo">
+                                    <p>Nivel de riesgo <span style="color: #28a213; font-weight: bold;">Bajo</span></p>
+                                    
+                                    <%} else if(termoInactivos[j].riesgo_total <= 20){ %>
+                                    <div class="card">
+                                    <img src="./medium_risk.png" class="card-img-top" alt="Imágen de ejemplo">
+                                    <p>Nivel de riesgo <span style="color: #bfbf1b; font-weight: bold;">Medio</span></p>
+                                    
+                                    <%} else { %>
+                                    <div class="card">
+                                    <img src="./high_risk.png" class="card-img-top" alt="Imágen de ejemplo">
+                                    <p>Nivel de riesgo <span style="color: #d52b15; font-weight: bold;">Alto</span></p>
+                                    <% } %>
+                                <% } %>
+                            <% } %>    
+                            <div class="card-body">
+                                <h5 class="card-title"><%= proyectosInactivos[i].nombre_proyecto %><br></h5>
+                                <p><%= proyectosInactivos[i].descripcion %></p>
+                                <p>Departamento: <%= proyectosInactivos[i].departamento %></p>
+                                <a href="/proyecto/<%= proyectosInactivos[i].id_proyecto%>/menu_proyecto" class="btn btn-primary" id="go">Ver más</a>
+                            </div>
+                        </div>
+                            </div>
+                    <%}%>
+                <% } %>
+            </div> 
+        </div>
+
+        <!--Paginacion proyectos inactivos-->
+        <div class="d-flex justify-content-center mt-4">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    
+                <% if (currentInactivos == 1) { %>
+                    <li class="page-item disabled" ><a class="page-link" href="#">Previous</a></li>
+                <% } else { %>
+                    <li class="page-item"><a href="/proyecto/home?pageInactivos=1" class="page-link" >Previous</a></li>
+                <% } %>
+
+                <% var i = (Number(currentInactivos) > 5 ? Number(currentInactivos) - 4 : 1) %>
+                <% if (i !== 1) { %>
+                    <li class="page-item disabled "><a class="page-link" href="#">...</a></li>
+                <% } %>
+
+                <% for (; i <= (Number(currentInactivos) + 4) && i <= pagesInactivos; i++) { %>
+                    <% if (i == currentInactivos) { %>
+                        <li class="page-item active"><a class="page-link" href="#"><%= i %></a></li>
+                    <% } else { %>
+                        <li class="page-item"><a href="/proyecto/home?pageInactivos=<%= i %>" class="page-link" ><%= i %></a></li>
+                    <% } %>
+                    <% if (i == Number(currentInactivos) + 4 && i < pagesInactivos) { %>
+                        <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                    <% } %>
+                <% } %>
+
+                <% if (currentInactivos == pagesInactivos) { %>
+                    <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                <% } else { %>
+                    <li class="page-item"><a href="/proyecto/home?pageInactivos=<%= pagesInactivos %>"  class="page-link" >Next</a></li>
+                <% } %>
+                </ul>
+            </nav>
+        </div>
+
+        <!--Paginacion proyectos inactivos-->
+        <%}else{%>
+            <br>
+            <div style="text-align: center;" >
+                <h2 style="color: gray;">Aun no hay proyectos concluidos</h2>
+            </div>
+            <br>
+        <%}%>
+    </div>
+    <%}%>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

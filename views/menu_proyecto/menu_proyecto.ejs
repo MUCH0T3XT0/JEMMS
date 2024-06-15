@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú del Proyecto</title>
+    <link href="https://cdn.jsdelivr.net/npm/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+    <%- include('./../head.ejs') %>
+    <%- include('./menu_proyectoEstilos.ejs') %>
+    
+    <style>
+        .buttonstyle {
+            color: white;
+            background-color: red;
+        }
+
+        .boxstyle {
+            background: white;
+        }
+
+        .todoBien {
+            color: white;
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+    <%- include('./../barra_principal.ejs')%>
+    <nav class="boton" aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+            <a class="page-link" style="background-color: rgb(49,108,244); color:white" href="/proyecto/home" aria-label="Previous"> <span aria-hidden="true">&laquo;</span>Regresar</a>
+        </ul>
+    </nav>
+    <div class="container mt-5">
+        
+        <div class="text-center">
+            <h2>Menú del <%=proyectoGeneral[0].nombre_proyecto%></h2>
+            <% if(proyectoGeneral[0].estatus == true){%>
+                <p class="status status-text">Estatus: <span style="color: #28a745; font-weight: bold;">Activo</span></p>
+            <%}else{%>
+                
+                <p class="status status-text">Estatus: <span style="color: #a72828; font-weight: bold;">Inactivo</span></p>
+            <%}%>
+        </div>
+        <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
+            <div class="info-container">
+                <div class="text-center my-3">
+                    <% if(proyectoGeneral[0].estatus == 1){ %>
+                        <div class="text-left my-3">
+                            <span>Finalización de proyecto en: <br> <p class="risk-points"><%= proyectoGeneral[0].duracion %> días</p></span>
+                            <span>Duracion del proyecto: </span><br> <p class="risk-points"><%= proyectoGeneral[0].diasTotales%> días</p>
+                        </div>
+                    <%}else{%>
+                        <div class="text-left my-3">
+                            <span>Finalización de proyecto en: <br> <p class="risk-points" style="color: #a72828; font-size: bold;">Terminado</p></span>
+                            <span>Duracion del proyecto: </span><br> <p class="risk-points" style="color: #a72828; font-size: bold;">Terminado</p>
+                        </div>
+                    <%}%>
+                    <div class="text-left">
+                        <p>Cantidad de riesgos: <br> <span class="risk-points"><%= proyectoRiesgo[0].cuenta %></span></p>
+                        <% if(proyectoNum[0].total < 10){%>
+                            <p>Nivel de Riesgo: <br> <span style="color: #28a213; font-weight: bold;">Bajo</span></p>
+                       
+                        <%} else if(proyectoNum[0].total >= 10 && proyectoNum[0].total <= 20){%>
+                            <p>Nivel de Riesgo: <br> <span style="color: #bfbf1b; font-weight: bold;">Medio</span></p>
+
+                        <%} else if(proyectoNum[0].total > 20){%>
+                            <p>Nivel de Riesgo: <br> <span style="color: #d52b15; font-weight: bold;">Alto</span></p>
+                        <%} else {%>
+                            <p>Nivel de Riesgo: <br> <span style="color: gray; font-weight: bold;">Nulo</span></p>
+                        <%}%>
+                    </div>
+                </div>
+            </div>
+            <div class="progress-container">
+                <% if(proyectoGeneral[0].estatus == 1){ %>
+                    <% if(proyectoNum[0].total < 10){%>
+                        <div class="circular_progress" style="--i:85; --clr: #43c617; --value:<%=100-(Math.round((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales))%> ">
+                            <span style="color: white; text-align: center;">Tiempo</span><br>
+                            <span style="color: white; text-align: center;">transcurrido</span>
+                            <span style="color: white;"><%=100-(Math.round((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales))%>%</span>
+                        </div>
+                    <%} else if(proyectoNum[0].total >= 10 && proyectoNum[0].total <= 20){%>
+                        <div class="circular_progress" style="--i:85; --clr: #d8b91b; --value:<%=100-(Math.round((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales))%> ">
+                            <span style="color: white; text-align: center;">Progreso</span>
+                            <span style="color: white;"><%=100-(Math.round((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales))%>%</span>
+                        </div>
+                    <%} else if(proyectoNum[0].total > 20){%>
+                        <div class="circular_progress" style="--i:85; --clr: #d8211b; --value:<%=100-(Math.round((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales))%> ">
+                            <span style="color: white; text-align: center;">Progreso</span>
+                            <span style="color: white;"><%=100-(Math.round((proyectoGeneral[0].duracion * 100) / proyectoGeneral[0].diasTotales))%>%</span>
+                        </div>
+                    <% } %>
+                <%}else{%>
+                    <div class="circular_progress" style="--i:85; --clr: gray; --value:100 ">
+                        <span style="color: white; text-align: center;">Terminado</span>
+                    </div>
+                <%}%>
+                
+            </div>
+            <div class="buttons flex-column">
+                <a href="/proyecto/<%= id_proyecto%>/info_proyecto" class="btn btn-primary">Información del Proyecto</a>
+                <a href="/proyecto/<%= id_proyecto%>/mostrar_riesgos" class="btn btn-primary">Reporte de Riesgos</a>
+                
+                <%if (rol || lider) {%>
+                    <a href="/proyecto/<%= id_proyecto%>/nuevo_riesgo" class="btn btn-primary">Agregar Riesgos</a>
+                    <% if(proyectoGeneral[0].estatus == 1){ %>
+                        <button class="btn btn-danger" id="cambiarEstatus_boton" onclick="muestraAlerta()" data-id="<%= id_proyecto %>">Cambiar estatus del proyecto</button>
+                    <%}else{%>
+                        <button class="btn btn-danger" id="eliminar_boton" onclick="muestraElimina()" data-id="<%= id_proyecto %>">Eliminar proyecto</button>
+                    <%}%>
+                <%}%>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="text-center">
+        <h2> Líder </h2>
+    </div>
+    <div class="container" id = "tablaMostar_lider" data-value1= "<%- id_proyecto%>" data-value2="<%- lider%>" data-value3="<%- rol%>"></div>
+    
+    <br>
+    <div class="container mt-5">
+        <div class="text-center">
+            <h2> Colaboradores </h2>
+        </div>
+    </div>
+    <div class="container" id = "tablaMostar_colaboradores"></div>
+    
+    
+    <div class="dropdown">
+    <div class="d-flex justify-content-left mt-4" id="containerColaboradores">
+        <%if (rol || lider) {%>
+        <button class="btn btn-warning mb-3 dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            Añadir Colaboradores
+            </button>
+        <%}%>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li><div class="container" id = "tablaMostar_colaboradores1"></div></li>
+            </ul>
+    </div>
+</div>
+    <br>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+    <script src="https://cdn.jsdelivr.net/npm/gridjs/dist/gridjs.umd.js"></script>
+    <script src="/proyecto/menu_proyecto.js"></script>
+</html>

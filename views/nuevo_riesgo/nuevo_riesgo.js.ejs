@@ -1,0 +1,27 @@
+<script>
+    (function() {
+        var textarea = document.getElementById('descripcion');
+        var contadorCaracteres = document.getElementById('contadorDesc');
+        textarea.addEventListener('input', function() {
+            contadorCaracteres.textContent = textarea.value.length + '/65';
+            if (textarea.value.length > 65) {
+                textarea.value = textarea.value.slice(0, 65);
+                contadorCaracteres.textContent = '65/65';
+            }
+        });
+    })();
+</script>
+
+<script>
+    (function() {
+        var textarea = document.getElementById('estrategia');
+        var contadorCaracteres = document.getElementById('contadorEstra');
+        textarea.addEventListener('input', function() {
+            contadorCaracteres.textContent = textarea.value.length + '/65';
+            if (textarea.value.length > 65) {
+                textarea.value = textarea.value.slice(0, 65);
+                contadorCaracteres.textContent = '65/65';
+            }
+        });
+    })();
+</script>

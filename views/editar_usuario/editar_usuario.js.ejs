@@ -1,0 +1,86 @@
+<script>
+    window.addEventListener('load', function(){
+        console.log("Hola");   
+        const id_usuario = document.getElementById('id_usuario').dataset.value;
+        const id_actual = document.getElementById('id_actual').dataset.value;
+
+
+        if(id_usuario==id_actual){
+            swal("Por seguiridad, no puedes editar tu propia informacion", {
+                icon: "error",
+
+                className: "boxstyle",
+
+                dangerMode: true,
+
+                buttons: {
+                    New: {
+                    text: "Aceptar",
+
+                    visible: true,
+                }
+                }
+            })
+            .then((borrar)=>{
+                window.location.href = '/usuario/mostrar_usuarios';
+            })
+                
+            
+        }
+        
+        
+    })
+
+
+
+    const mostrarPassword = document.getElementById('mostrar');
+    const passwordInput = document.getElementById('contrasena');
+    mostrarPassword.addEventListener('click', () => {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        mostrarPassword.textContent = type === 'password' ? 'Show' : 'Hide';
+    });
+
+    (function() {
+        var textarea = document.getElementById('nombre');
+        var contadorCaracteres = document.getElementById('contadorNombre');
+        function actualizarContador(){
+            contadorCaracteres.textContent = textarea.value.length + '/30';
+            if (textarea.value.length > 30) {
+                textarea.value = textarea.value.slice(0, 30);
+                contadorCaracteres.textContent = '30/30';
+            }
+        }
+        textarea.addEventListener('input', actualizarContador);
+        textarea.addEventListener('change', actualizarContador());
+    })();
+ 
+    (function() {
+        var textarea = document.getElementById('apellido_p');
+        var contadorCaracteres = document.getElementById('contadorApellido_p');
+        function actualizarContador(){
+            contadorCaracteres.textContent = textarea.value.length + '/15';
+            if (textarea.value.length > 15) {
+                textarea.value = textarea.value.slice(0, 15);
+                contadorCaracteres.textContent = '15/15';
+            }
+        }
+        textarea.addEventListener('input', actualizarContador);
+        textarea.addEventListener('change', actualizarContador());
+    })();
+
+    (function() {
+        var textarea = document.getElementById('apellido_m');
+        var contadorCaracteres = document.getElementById('contadorApellido_m');
+        function actualizarContador(){
+            contadorCaracteres.textContent = textarea.value.length + '/15';
+            if (textarea.value.length > 15) {
+                textarea.value = textarea.value.slice(0, 15);
+                contadorCaracteres.textContent = '15/15';
+            }
+        }
+        textarea.addEventListener('change', actualizarContador());
+        textarea.addEventListener('input', actualizarContador);
+    })();
+
+</script>

@@ -1,0 +1,65 @@
+<script>
+    const mostrarPassword = document.getElementById('mostrar');
+    const passwordInput = document.getElementById('contrasena');
+    mostrarPassword.addEventListener('click', () => {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        mostrarPassword.textContent = type === 'password' ? 'Show' : 'Hide';
+    });
+</script>
+
+<script>
+    (function() {
+        var textarea = document.getElementById('nombre');
+        var contadorCaracteres = document.getElementById('contadorNombre');
+        textarea.addEventListener('input', function() {
+            contadorCaracteres.textContent = textarea.value.length + '/30';
+            if (textarea.value.length > 30) {
+                textarea.value = textarea.value.slice(0, 30);
+                contadorCaracteres.textContent = '30/30';
+            }
+        });
+    })();
+    </script>
+
+    <script>
+    (function() {
+        var textarea = document.getElementById('apellido_p');
+        var contadorCaracteres = document.getElementById('contadorApellido_p');
+        textarea.addEventListener('input', function() {
+            contadorCaracteres.textContent = textarea.value.length + '/15';
+            if (textarea.value.length > 15) {
+                textarea.value = textarea.value.slice(0, 15);
+                contadorCaracteres.textContent = '15/15';
+            }
+        });
+    })();
+    </script>
+
+    <script>
+    (function() {
+        var textarea = document.getElementById('apellido_m');
+        var contadorCaracteres = document.getElementById('contadorApellido_m');
+        textarea.addEventListener('input', function() {
+            contadorCaracteres.textContent = textarea.value.length + '/15';
+            if (textarea.value.length > 15) {
+                textarea.value = textarea.value.slice(0, 15);
+                contadorCaracteres.textContent = '15/15';
+            }
+        });
+    })();
+    </script>
+
+    <script>
+    (function() {
+        var textarea = document.getElementById('correo');
+        var contadorCaracteres = document.getElementById('contadorCorreo');
+        textarea.addEventListener('input', function() {
+            contadorCaracteres.textContent = textarea.value.length + '/30';
+            if (textarea.value.length > 30) {
+                textarea.value = textarea.value.slice(0, 30);
+                contadorCaracteres.textContent = '30/30';
+            }
+        });
+    })();
+    </script>
